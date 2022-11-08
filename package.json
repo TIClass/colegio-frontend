@@ -6,9 +6,9 @@
   },
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js -p $PORT",
     "build": "next build",
-    "start": "next start -p $PORT",
+    "start": "node server.js -p $PORT",
     "lint": "next lint"
   },
   "dependencies": {
@@ -27,6 +27,7 @@
     "cookies-next": "^2.1.1",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.2",
+    "express": "^4.18.2",
     "html-react-parser": "^3.0.4",
     "moment": "^2.29.4",
     "mui-datatables": "^4.2.2",
@@ -43,6 +44,7 @@
     "rsuite": "^5.22.0",
     "rut.js": "^2.1.0",
     "sass": "^1.56.0",
+    "socket.io": "^4.5.3",
     "socket.io-client": "^4.5.3",
     "sweetalert2": "^11.6.7",
     "validator": "^13.7.0"
