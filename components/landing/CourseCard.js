@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import styles from '../../styles/Home.module.scss';
 import variables from '../../styles/variables.module.scss';
+import {Button} from 'react-bootstrap';
 
 function CourseCard(props) {
     const formatPrice = (value) => {
@@ -56,7 +57,7 @@ function CourseCard(props) {
                 </Col>
                 <Col md="3">
                 <Link href={`/cursos/${encodeURIComponent(props.pack_id)}/detalle`}>
-                  <a className={ 'btn float-right btn-red ' + styles["roundedbtn"]} style={{background: variables.tertiaryColor}}>Ver</a>
+                  <Button style={{background: variables.tertiaryColor}} className={ 'btn float-right btn-red ' + styles["roundedbtn"]} >Ver</Button>
                 </Link>
                 </Col>
               </Row>
