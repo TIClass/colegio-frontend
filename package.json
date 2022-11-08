@@ -19,6 +19,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.13",
     "@u-wave/react-vimeo": "^0.9.10",
     "axios": "^1.1.3",
