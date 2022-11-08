@@ -30,6 +30,7 @@
     "react-datepicker": "^4.8.0",
     "react-dom": "18.2.0",
     "react-moment": "^1.1.2",
+    "rsuite": "^5.22.0",
     "rut.js": "^2.1.0",
     "sass": "^1.56.0",
     "socket.io-client": "^4.5.3",
