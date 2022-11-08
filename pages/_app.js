@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }) {
   }
 
   function handleAuthenticationUser(event) {
-    const cookie_usertoken = getCookie('cookie-usertoken');
+    const cookie_usertoken = getCookie('cookie-usertoken');    
     const token = cookie_usertoken;
     const useToken = `Bearer ${token}`
 

@@ -21,6 +21,7 @@ function LadingLogin(props) {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [data, setData] = useState('');
   const [error, setError] = useState('');
 
   const userAuthentications = props.userAuthentications;
@@ -33,13 +34,12 @@ function LadingLogin(props) {
     setPassword(target.value)
   }
 
-  const logueo = () => {
-    const data = []
+  const logueo = () => {    
     let CLIENT_ID = `${process.env.CLIENT_ID}`;
     let CLIENT_SECRET = `${process.env.CLIENT_SECRET}`;
 
     let urlLogueo = `${process.env.API_URL}o/token/`;
-    var param_data = "username="+username.toLowerCase()+"&password="+password+"&grant_type=password"
+    var param_data = "username="+username.toLowerCase()+"&password="+password+"&grant_type=password"    
 
     axios.post(urlLogueo, param_data, {
       headers: {
@@ -48,14 +48,14 @@ function LadingLogin(props) {
           "Content-Type": "application/x-www-form-urlencoded"
       }
     })
-      .then(res => {
-        data = res.data
-        setCookie("cookie-usertoken", data.access_token);
+      .then(res => {        
+        setData(res.data)
+        setCookie("cookie-usertoken", res.data.access_token);
         Router.push('/mis-cursos')
 
       })
-      .catch(err => err => setError(err));
-  }
+      .catch(err => setError(err));
+  }  
 
   return (
     <div className="login-container">

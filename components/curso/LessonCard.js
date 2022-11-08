@@ -1,13 +1,11 @@
-import {Card, Row, Col, ButtonGroup,Badge} from 'react-bootstrap';
+import {Card, Row, Col, ButtonGroup,Badge,Button} from 'react-bootstrap';
 import styles from '../../styles/Home.module.scss';
 import variables from '../../styles/variables.module.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt, faClock, faFileVideo } from "@fortawesome/free-regular-svg-icons";
 import { faDownload, faTicket, faVideo } from '@fortawesome/free-solid-svg-icons';
 
-function LessonCard(props) {
-  console.log(props.files,"ll")
-  
+function LessonCard(props) {    
     return(
       <div>
         <Card className={'hand-click mb-4 ' + styles["shadow-md"] +' '+ styles["roundedbtn"]}>
@@ -76,14 +74,16 @@ function LessonCard(props) {
           }        
           </Card.Body>          
           {props.isLive ? 
-          <div>
+          <div>          
           <div className='text-white text-center' style={{background:variables.blueLightColor}}>
-            <FontAwesomeIcon
-              icon={faTicket}
-              className='me-1'
-              style={{ fontSize: 14,}}
-            /> Ticket de salida            
-          </div>
+            <a href={props.exit_ticket} target='_blank'>
+              <FontAwesomeIcon
+                icon={faTicket}
+                className='me-1'
+                style={{ fontSize: 14,}}
+              /> Ticket de salida            
+            </a>
+          </div>          
           <div className='text-white text-center' style={{background:variables.tertiaryColor}}>
             <FontAwesomeIcon
               icon={faVideo}

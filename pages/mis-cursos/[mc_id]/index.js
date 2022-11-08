@@ -165,7 +165,7 @@ export default function MyCourseDetail(props) {
       axiosCourseObj(urlTemas);
     }
     return date
-  }
+  }  
 
   const ExampleCustomInput = React.forwardRef(({ value, onClick }, ref) => (
     <FontAwesomeIcon
@@ -236,7 +236,7 @@ export default function MyCourseDetail(props) {
                   return(
                     <Col md="4" className='mt-2' key={index}>
                       <div className="m-2" onClick={()=>{attendence(item.id)}}>
-                        <LessonCard isLive={true} name={item.name} color={item?.subject_color_html} subject_name_abv={item?.subject_abv} files={item?.files}></LessonCard>
+                        <LessonCard isLive={true} name={item.name} exit_ticket={item.exit_ticket} color={item?.subject_color_html} subject_name_abv={item?.subject_abv} files={item?.files}></LessonCard>
                       </div>
                     </Col>
                   )
@@ -304,26 +304,28 @@ export default function MyCourseDetail(props) {
                     </div>
                   </div>
                   <Row>
+                    
                   {Temasobj?.results?.map((item,index) => {
                     if(item.streaming_datetime) {
                         return (
+                          <Col md="4" className='mt-4'>
                           <Link href={`/mis-cursos/${item.packcourse.id}/clase/${item.id}`} key={index}>
-                            <Col md="4" className='mt-4'>
+                            
                               <LessonCard is_time={true} date_time={item?.tema_data.streaming_datetime_format} bg="bg-green" color={item?.tema_data.color_html}
                                 name={item?.tema_data.name} subject_name_abv={item?.tema_data.subject_name_abv}
-                                />
-                            </Col>
+                                />                            
                           </Link>
+                          </Col>
                         )
                     } else {
                       return (
-                        <Link href={`/mis-cursos/${item.packcourse.id}/clase/${item.id}`} key={index}>
-                          <Col md="4" className='mt-4'>
+                        <Col md="4" className='mt-4'>
+                        <Link href={`/mis-cursos/${item.packcourse.id}/clase/${item.id}`} key={index}>                          
                             <LessonCard is_time={false} date_time={null} bg="bg-green" color={item?.tema_data.color_html}
                               name={item?.tema_data.name} subject_name_abv={item?.tema_data.subject_name_abv}
-                              />
-                          </Col>
+                              />                          
                         </Link>
+                        </Col>
                       )
                     }
                   })}
