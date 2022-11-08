@@ -11,7 +11,7 @@ const Footer = () => {
           <small className="d-block text-muted">
             Powered by
             <Link href="https://www.ticlass.com/">
-              <Image src="/logos/img/logo-ticlass.svg" alt="TIClass" width={'70px'} height={'50px'} className={'powered-logo-footer pt-4'} />
+              <Image src="/logos/img/logo-ticlass.svg" alt="TIClass" width={70} height={50} className={'powered-logo-footer pt-4'} />
             </Link>©2015-2023
           </small>
         </Col>

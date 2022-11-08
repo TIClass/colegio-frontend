@@ -1,0 +1,21 @@
+$primary-color: #2296ff;
+$secondary-color: #6135ff;
+$tertiary-color: #ed3b46;
+$white-color: #fff;
+$black-color: #333;
+$orange-color: #FF6724;
+$green-color: #0DBE38;
+$bg-blue-light: #2296FF;
+$bg-purple: #5F0DFC;
+
+:export {
+  primaryColor: $primary-color;
+  secondaryColor: $secondary-color;
+  tertiaryColor: $tertiary-color;
+  whiteColor: $white-color;
+  blackColor: $black-color;  
+  orangeColor: $orange-color;
+  greenColor: $green-color;
+  blueLightColor: $bg-blue-light;
+  purpleColor: $bg-purple;
+}
