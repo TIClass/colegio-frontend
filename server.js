@@ -56,8 +56,6 @@ io.on("connection", socket => {
 		messages.push(data);
 		io.emit("message.chat1", data);
 	});
-
-
 });
 
 nextApp.prepare().then(() => {
