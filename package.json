@@ -22,11 +22,14 @@
     "cookies-next": "^2.1.1",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.2",
+    "moment": "^2.29.4",
     "next": "13.0.2",
     "react": "18.2.0",
     "react-avatar": "^5.0.3",
     "react-bootstrap": "^2.6.0",
+    "react-datepicker": "^4.8.0",
     "react-dom": "18.2.0",
+    "react-moment": "^1.1.2",
     "sass": "^1.56.0"
   }
 }
