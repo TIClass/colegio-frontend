@@ -44,6 +44,7 @@ function FormStepUno(props) {
 
   const onSave = () => {
     props.setUserObj(profielJson)
+    props.setUserAuthentications(profielJson)
     axios.put(profielJson.url, profielJson, {headers: { Authorization: useToken }})
     .then(res => {
       Swal.fire({

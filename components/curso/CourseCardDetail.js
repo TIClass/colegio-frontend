@@ -5,35 +5,38 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
 function CourseCardDetail(props) {
+   const btnWhatsApp = (number, product_name) => {
+     let name = product_name.trim().replace(' ', '+')
+     let url = `https://api.whatsapp.com/send?phone=${number}&text=👋+Hola!,+necesito+más+información+del+curso+*${name}*,+me+puedes+ayudar?`;
+     window.open(url, '_blank');
+   }
     return(
       <div>
         <Card className={'mb-4 ' +styles["shadow-md"]+' '+styles["roundedbtn"]}>
-          <Card.Img variant="top" src="holder.js/100px180" />
+          <Card.Img variant="top" src={props.image} />
           <Card.Body className='body-card'>
-            <a>
-              <h4 style={{color:variables.primaryColor}}>{props.namePack}</h4>            
-              <p className='mb-0'>{props.desc}</p>   
-            </a>    
+            <h4 style={{color:variables.primaryColor}}>{props.namePack}</h4>
+            <p className='mb-0'>{props.desc}</p>
             <br></br>
 
-            <Button variant="warning" className={"text-white "+ styles['float-right']+' '+styles["roundedbtn"] }>
+            <Button variant="warning" className={"text-white "+ styles['float-right']+' '+styles["roundedbtn"] } onClick={e => btnWhatsApp(props?.sellerNumber.seller_number, props?.namePack)}>
             <FontAwesomeIcon
                 icon={faWhatsapp}
                 className='me-1'
                 style={{ fontSize: 14,}}
-              />  
+              />
               Obtener ayuda con un asesor
-            </Button>   
+            </Button>
             <br></br>
             <br></br>
             <hr></hr>
             <h6 className='pt-4'>Este curso incluye:</h6>
-            {props.packCourse?.map(packcourse => (                                         
-              <p key={packcourse.id}>{packcourse.course_data.include}</p>                            
-            ))}                 
+            {props.packCourse?.map(packcourse => (
+              <p key={packcourse.id}>{packcourse.course_data.include}</p>
+            ))}
           </Card.Body>
         </Card>
-        <style global jsx>{`           
+        <style global jsx>{`
         .btn-red {
           color: ${variables.whiteColor};
             a:hover{
@@ -41,7 +44,7 @@ function CourseCardDetail(props) {
             }
         }
       `}</style>
-      </div>     
+      </div>
     )
 }
 

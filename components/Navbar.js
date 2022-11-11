@@ -17,7 +17,6 @@ import axios from 'axios';
 
 const TNavbar = (props) => {
   const userAuthentications = props.userAuthentications;
-
   const logout = (e) => {
     let resp = null;
     let _token = getCookie('cookie-usertoken');
@@ -53,11 +52,11 @@ const TNavbar = (props) => {
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          {userAuthentications.results?
+          {userAuthentications?
             <Nav className='ms-auto d-flex align-items-center'>
             <Dropdown className='me-2'>
                 <Dropdown.Toggle variant="outline-success" bg="" id="dropdown-basic" className={styles["roundedbtn"]}>
-                {userAuthentications.results[0]?.first_name} {userAuthentications.results[0]?.last_name}
+                {userAuthentications?.first_name} {userAuthentications?.last_name}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                   <Dropdown.Item href="/mis-cursos">Mis cursos</Dropdown.Item>
@@ -67,11 +66,9 @@ const TNavbar = (props) => {
                 <Dropdown.Item onClick={logout}>Cerrar sesión</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            {userAuthentications.results?.map((item, index) =>
-              <Avatar name={item.first_name} size="30" key={index}
-                round={true}
-                src={item.avatar_url}/>
-            )}
+            <Avatar name={userAuthentications.first_name} size="30"
+              round={true}
+              src={userAuthentications.avatar_url}/>
             </Nav>
             :
             <Nav className='ms-auto'>

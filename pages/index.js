@@ -41,10 +41,6 @@ export default function Home(props) {
     axiosLandingObj(urlLanding);
     axiosCourseObj(urlCourses+`?proyect_name=${props.subdomain}`);
   }, [])
-
-  const landing_obj = LandingObj;
-  const courses_obj = CoursesObj;
-
   return (
     <div>
       <Head>
@@ -73,7 +69,7 @@ export default function Home(props) {
         <Row className='m-0'>
           <Col lg="7" xs="12">
             <Carousel variant="dark">
-            {landing_obj.proyect_landing_slides?.map(pls => (
+            {LandingObj.proyect_landing_slides?.map(pls => (
             <Carousel.Item key={pls.id}>
               <Carousel.Caption>
                 <h3 style={{color: variables.primaryColor}}>{pls.title}</h3>
@@ -93,7 +89,7 @@ export default function Home(props) {
         <Container>
           <h2 className="text-center">Cursos</h2>
           <Row>
-            {courses_obj.results?.map(pack => (
+            {CoursesObj.results?.map(pack => (
               <Col lg="4" md="6" sm="12" xs="12" key={pack.id}>
                 <CourseCard
                 is_price={true}
@@ -101,6 +97,7 @@ export default function Home(props) {
                 desc={pack.description}
                 subscription_set={pack.subscription_set}
                 pack_id={pack.id}
+                image={pack.image}
                 />
               </Col>
             ))}

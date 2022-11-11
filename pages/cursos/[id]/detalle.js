@@ -1,12 +1,12 @@
 import Head from 'next/head'
 import variables from '../../../styles/variables.module.scss';
 
-import { Container, Row, Col, } from 'react-bootstrap';   
+import { Container, Row, Col, } from 'react-bootstrap';
 import CardCustom from '../../../components/CardCustom';
 import BuyCard from '../../../components/curso/BuyCard';
 import CourseCardDetail from '../../../components/curso/CourseCardDetail';
 
-import axios from 'axios'; 
+import axios from 'axios';
 import { getCookie} from 'cookies-next';
 import { useEffect, useState} from 'react';
 
@@ -14,30 +14,30 @@ import { useRouter } from 'next/router'
 
 export default function CourseDetail(props) {
   props.onAuthenticationUser();
-  props.isInfoComplete();  
-  
+  props.isInfoComplete();
+
   const router = useRouter();
-  
-  const [CoursesObj, setCoursesObj] = useState([]);  
+
+  const [CoursesObj, setCoursesObj] = useState([]);
   const token = getCookie('cookie-usertoken');
   const useToken = token ? `Bearer ${token}` : `Token ${process.env.TOKEN_GENERIC_API}`
-  
+
   const axiosCourseObj= (url, id) => {
     axios.get(url, { headers: { Authorization: useToken } })
           .then(res => setCoursesObj(res.data))
           .catch(err => err)
   }
 
-  useEffect(() => {    
-    if (router.asPath !== router.route) {      
-      const { id } = router.query      
-      const urlCourses = `${process.env.API_URL}api/v1/ticourse/${id}`      
-      axiosCourseObj(urlCourses);          
+  useEffect(() => {
+    if (router.asPath !== router.route) {
+      const { id } = router.query
+      const urlCourses = `${process.env.API_URL}api/v1/ticourse/${id}`
+      axiosCourseObj(urlCourses);
     }
-  }, [router])  
-  
-  const courses_obj = CoursesObj;        
-  
+  }, [router])
+
+  const courses_obj = CoursesObj;
+
   return (
     <div>
       <Head>
@@ -64,38 +64,41 @@ export default function CourseDetail(props) {
       </Head>
       <section className='py-4'>
         <Container>
-          <Row> 
+          <Row>
             <Col md="8">
-              <CourseCardDetail 
-              namePack={courses_obj.name} 
+              <CourseCardDetail
+              namePack={courses_obj.name}
               desc={courses_obj.description}
-              packCourse={courses_obj.packcourse_set}               
+              image={courses_obj.image}
+              packCourse={courses_obj.packcourse_set}
+              sellerNumber={courses_obj.seller_number}
               />
             </Col>
             <Col md="4">
-              <BuyCard />
+              <BuyCard sellerNumber={courses_obj.seller_number}
+                namePack={courses_obj.name} subscriptionSet={courses_obj?.subscription_set} />
             </Col>
             <Col md="8" className='mb-4'>
-              <CardCustom color={variables.primaryColor} 
+              <CardCustom color={variables.primaryColor}
                 kind='learning'
-                title='Lo que aprenderás' 
-                packCourse={courses_obj.packcourse_set}     
-              />              
-            </Col>      
+                title='Lo que aprenderás'
+                packCourse={courses_obj.packcourse_set}
+              />
+            </Col>
             <Col md="8" className='mb-4'>
-              <CardCustom color={variables.primaryColor} 
+              <CardCustom color={variables.primaryColor}
                 kind='requirement'
                 title='Requisitos'
-                packCourse={courses_obj.packcourse_set}     
-               />              
-            </Col>               
+                packCourse={courses_obj.packcourse_set}
+               />
+            </Col>
             <Col md="8" className='mb-4'>
-              <CardCustom color={variables.primaryColor} 
+              <CardCustom color={variables.primaryColor}
                 kind='description'
-                title='Descripción' 
-                packCourse={courses_obj.packcourse_set}     
-              />              
-            </Col>   
+                title='Descripción'
+                packCourse={courses_obj.packcourse_set}
+              />
+            </Col>
           </Row>
         </Container>
       </section>

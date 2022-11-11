@@ -1,15 +1,13 @@
 import {Card, Row, Col} from 'react-bootstrap';
 import Link from 'next/link'
 
+import { formatPrice } from '../../methods/utils';
+
 import styles from '../../styles/Home.module.scss';
 import variables from '../../styles/variables.module.scss';
 import {Button} from 'react-bootstrap';
 
 function CourseCard(props) {
-    const formatPrice = (value) => {
-      var x = parseInt(value,10)
-      return '$'+Number((x).toFixed(1)).toLocaleString('es-CL')+'CLP';
-    }
 
     const urlDetail = (is_price) => {
       if (is_price) {
@@ -22,7 +20,7 @@ function CourseCard(props) {
     return(
       <div>
         <Card className={'hand-click mb-4 ' + styles["shadow-md"] +' '+ styles["roundedbtn"]}>
-          <Card.Img variant="top" src="holder.js/100px180" />
+          <Card.Img variant="top" src={props.image} />
           <Link href={urlDetail(props.is_price)}>
           <Card.Body className='body-card'>
             <h4 style={{color: props.is_price ? variables.primaryColor : variables.blackColor }}>
@@ -48,7 +46,7 @@ function CourseCard(props) {
                       </h5>
                     </div> :
                     <div className='d-flex align-items-center'>
-                      <span className={styles["font-italic"] +' '+ styles["offer"]}>{susc.price}</span>
+                      <span className={styles["font-italic"] +' '+ styles["offer"]}>{formatPrice(susc.price)}</span>
                       <h5 className={styles["font-italic"]} style={{color: variables.primaryColor}}>
                        {formatPrice(susc.offer_price)}
                       </h5>

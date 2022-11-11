@@ -16,7 +16,7 @@ import Router from 'next/router'
 
 export default function Profile(props) {
   props.onAuthenticationUser();
-  props.isInfoComplete();  
+  props.isInfoComplete();
 
   const [show, setShow] = useState(false);
 
@@ -94,7 +94,7 @@ export default function Profile(props) {
     .catch(err => err)
   }
 
-  getUser()  
+  getUser()
 
   return (
     <Container className='mt-4'>
@@ -115,23 +115,8 @@ export default function Profile(props) {
               <Col lg="4" md="12" sm="12" className='d-flex justify-content-center mb-2'>
               <Avatar name="avatar" size="250"
                 round={true}
+                src={profielJson.avatar_url}
                 />
-                <div>
-                  <Form.Group controlId="formFile" className="mb-3">
-                  <Form.Label>
-                  <FontAwesomeIcon
-                    icon={faCameraAlt}
-                    className='me-1'
-                    style={{ fontSize: 50,cursor:'pointer',color:'#828282', position:'absolute', top:'350px', left:'14.375rem'}}
-                    />
-                    </Form.Label>
-                    <Form.Control
-                    type="file"
-                    value={avatar}
-                    onChange={handleAvatar}
-                    style={{display:'none'}}/>
-                  </Form.Group>
-                </div>
               </Col>
               <Col lg="8" md="12" sm="12">
                 <Form>

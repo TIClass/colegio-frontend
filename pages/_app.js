@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }) {
   }
 
   function handleAuthenticationUser(event) {
-    const cookie_usertoken = getCookie('cookie-usertoken');    
+    const cookie_usertoken = getCookie('cookie-usertoken');
     const token = cookie_usertoken;
     const useToken = `Bearer ${token}`
 
@@ -50,10 +50,10 @@ function MyApp({ Component, pageProps }) {
                       // 'rut':res.data.results[0].rut
                     }
                     setCookie("user-info-basic", users);
-                    setUserAuthentications(res.data)
+                    setUserAuthentications(res.data.results[0])
                   })
                   .catch(err => {
-                      setUserAuthentications({results:null})
+                      setUserAuthentications(null)
                       deleteCookie('cookie-usertoken',);
                       deleteCookie('user-info-basic',);
                     }
@@ -66,7 +66,7 @@ function MyApp({ Component, pageProps }) {
 
   }
 
-  return (<Layout userAuthentications={userAuthentications}><Component {...pageProps} onAuthenticationUser={handleAuthenticationUser} userAuthentications={userAuthentications} isInfoComplete={isInfoComplete}/></Layout>);
+  return (<Layout userAuthentications={userAuthentications}><Component {...pageProps} onAuthenticationUser={handleAuthenticationUser} userAuthentications={userAuthentications} isInfoComplete={isInfoComplete} setUserAuthentications={setUserAuthentications}/></Layout>);
 }
 
 export default MyApp

@@ -34,12 +34,12 @@ function LadingLogin(props) {
     setPassword(target.value)
   }
 
-  const logueo = () => {    
+  const logueo = () => {
     let CLIENT_ID = `${process.env.CLIENT_ID}`;
     let CLIENT_SECRET = `${process.env.CLIENT_SECRET}`;
 
     let urlLogueo = `${process.env.API_URL}o/token/`;
-    var param_data = "username="+username.toLowerCase()+"&password="+password+"&grant_type=password"    
+    var param_data = "username="+username.toLowerCase()+"&password="+password+"&grant_type=password"
 
     axios.post(urlLogueo, param_data, {
       headers: {
@@ -48,14 +48,14 @@ function LadingLogin(props) {
           "Content-Type": "application/x-www-form-urlencoded"
       }
     })
-      .then(res => {        
+      .then(res => {
         setData(res.data)
         setCookie("cookie-usertoken", res.data.access_token);
         Router.push('/mis-cursos')
 
       })
       .catch(err => setError(err));
-  }  
+  }
 
   return (
     <div className="login-container">
@@ -138,7 +138,7 @@ function LadingLogin(props) {
                   onClick={logueo}
                   >Ingresar</Button>
                 </div>
-                <small className='text-center'>Powered by <a></a> ©2021</small>
+                <small className='text-center'>Powered by TIClass ©2023</small>
               </div>
             }
 

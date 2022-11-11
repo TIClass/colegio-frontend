@@ -1,6 +1,8 @@
 import { Container, Row, Col, Card, Alert, Button} from 'react-bootstrap';
 import styles from '../../../styles/Home.module.scss';
 import { Steps, Panel, Placeholder,  } from "rsuite";
+import 'rsuite/dist/rsuite.min.css';
+
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -10,6 +12,8 @@ import { getCookie} from 'cookies-next';
 import { useRouter } from 'next/router'
 import React from 'react';
 import Router from 'next/router'
+
+import {isAuthenticationUser} from '../../../methods/utils';
 
 import FormStepUno from '../../../components/register/steps/FormStepUno';
 import FormStepDos from '../../../components/register/steps/FormStepDos';
@@ -44,6 +48,9 @@ export default function Steps2(props) {
   useEffect(() => {
     const urlUser = `${process.env.API_URL}api/v1/user/`
     getUser(urlUser)
+    if (!token) {
+      Router.push('/accounts/login')
+    }
   }, [])
 
   const axiosUserInfo = (url) => {
@@ -98,7 +105,7 @@ export default function Steps2(props) {
               {stepNav(userObj?.is_parent)}
 
               {parseInt(step_id)-1 === 0 && loadedUserObj
-                ?<div><FormStepUno userObj={userObj} setUserObj={setUserObj} checkParent={checkParent} setCheckParent={setCheckParent}/></div>
+                ?<div><FormStepUno userObj={userObj} setUserObj={setUserObj} setUserAuthentications={props.setUserAuthentications} checkParent={checkParent} setCheckParent={setCheckParent}/></div>
                 :<div></div>
               }
               {parseInt(step_id)-1 === 1 && userObj.is_parent  && loadedUserObj
