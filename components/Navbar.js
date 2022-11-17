@@ -50,9 +50,12 @@ const TNavbar = (props) => {
             <Image src="/logos/img/logo-natiboo-by-ticlass.svg" alt="Colegio Natiboo" width={150} height={43} className={styles["logo-login"]+ ' logo-login'} />
           </Navbar.Brand>
         </Link>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        {userAuthentications?
+          <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+          : <div></div>
+        }
+        {userAuthentications?
         <Navbar.Collapse id="responsive-navbar-nav">
-          {userAuthentications?
             <Nav className='ms-auto d-flex align-items-center'>
             <Dropdown className='me-2'>
                 <Dropdown.Toggle variant="outline-success" bg="" id="dropdown-basic" className={styles["roundedbtn"]}>
@@ -70,14 +73,13 @@ const TNavbar = (props) => {
               round={true}
               src={userAuthentications.avatar_url}/>
             </Nav>
-            :
-            <Nav className='ms-auto'>
-              <Link href='/accounts/login'>
-                <Button variant="secondary" className={"m-1 "+styles["roundedbtn"]} style={{background: variables.secondaryColor}}>Iniciar sesión</Button>
-              </Link>
-            </Nav>
-          }
+
         </Navbar.Collapse>
+        :
+        <Link href='/accounts/login'>
+          <Button variant="secondary" className={"m-1 d-lg-none "+styles["roundedbtn"]} style={{background: variables.secondaryColor}}>Iniciar sesión</Button>
+        </Link>
+        }
       </Container>
 
       <style global jsx>{`
