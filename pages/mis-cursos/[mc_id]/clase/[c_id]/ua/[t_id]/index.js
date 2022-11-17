@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios';
 import IconResource from '../../../../../../../components/resources/IconResource';
 import Resource from '../../../../../../../components/resources/Resource';
+import Link from 'next/link';
 
 export const getServerSideProps = async ({ params, req,res }) => {
   return { props: {}}
@@ -20,13 +21,14 @@ export const getServerSideProps = async ({ params, req,res }) => {
 
 export default function Task(props) {
   props.onAuthenticationUser();
-  props.isInfoComplete();  
+  props.isInfoComplete();
 
   const router = useRouter();
 
   const [DataObj, setDataObj] = useState([]);
   const [ResourceId, setResourceId] = useState();
   const [SelectResource, setSelectResource] = useState();
+  const [arrayRouterID, setArrayRouterID] = useState([]);
   const token = getCookie('cookie-usertoken');
   const useToken = token ? `Bearer ${token}` : `Token ${process.env.TOKEN_GENERIC_API}`
 
@@ -47,6 +49,8 @@ export default function Task(props) {
     if (router.asPath !== router.route) {
       const { mc_id } = router.query
       const { c_id } = router.query
+      const array = [mc_id, c_id]
+      setArrayRouterID(array)
       const urlCourses = `${process.env.API_URL}api/v1/ticourse/my-courses/packcourse/${mc_id}/?coursetema_pk=${c_id}&info=True`
       axiosCourseObj(urlCourses);
     }
@@ -57,6 +61,8 @@ export default function Task(props) {
     const urlResourceId = `${process.env.API_URL}api/v1/ticlassapps/programs/resources/${id}/`
     axiosResourceId(urlResourceId)
   }
+
+  console.log(DataObj)
 
   return (
     <div>
@@ -76,7 +82,9 @@ export default function Task(props) {
               ))}
               </Col>
               <Col md="4" className='d-flex justify-content-end'>
-                <Button className={styles["roundedbtn"]}>Volver</Button>
+                <Link key={1} href={`/mis-cursos/${arrayRouterID[0]}/clase/${arrayRouterID[1]}`}>
+                  <Button variant="primary" className={styles["roundedbtn"]}>Volver</Button>
+                </Link>
               </Col>
             </Row>
           </Card.Header>
