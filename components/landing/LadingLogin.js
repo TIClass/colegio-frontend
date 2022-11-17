@@ -55,20 +55,20 @@ function LadingLogin(props) {
 
       })
       .catch(err => setError(err));
-  }
+  }  
 
   return (
     <div className="login-container">
       <Col lg={props.size} className="login m-0">
         <Card className={ props.shadow ? styles["shadow-lg"]+' '+styles["roundedbtn"] : styles["roundedbtn"]}
         style={{padding: "30px"}}>
-          {userAuthentications && userAuthentications.results?
+          {userAuthentications ?
             <Card.Body className="text-center">
-              {userAuthentications.results?.map((item, index) =>
-              <Avatar name={item.first_name} size="150" key={index}
+              
+              <Avatar name={userAuthentications.first_name} size="150" 
                 round={true}
-                src={item.avatar_url}/>
-            )}
+                src={userAuthentications.avatar_url}/>
+            
               <br></br>
               <br></br>
               <Link href="/mis-cursos">

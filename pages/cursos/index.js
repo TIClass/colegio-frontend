@@ -23,6 +23,8 @@ export default function Courses(props) {
   }, [])
       
   const courses_obj = CoursesObj;     
+
+  console.log(courses_obj,"popo")
   
   return (
     <div>
