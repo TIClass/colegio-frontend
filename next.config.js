@@ -13,6 +13,7 @@ const nextConfig = {
   	TOKEN_GENERIC_API: process.env.TOKEN_GENERIC_API || 'ed00f82cd64c7ed6f0f7d90116e01247fcaa3a6f',
     API_URL: process.env.API_URL || 'http://localhost:8000/',
   	SITE_URL: process.env.SITE_URL || 'https://www.ticlass.com',
+    COOKIE_SITE_URL: process.env.COOKIE_SITE_URL || '.ticlass.com',
   	SITE_NAME: process.env.SITE_NAME || 'TIClass.com',
   },
 }
