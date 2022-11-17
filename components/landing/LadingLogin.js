@@ -51,8 +51,11 @@ function LadingLogin(props) {
     })
       .then(res => {
         setData(res.data)
-        //setCookie("cookie-usertoken", res.data.access_token);
-        Cookies.set('cookie-usertoken', res.data.access_token, { domain: `${process.env.COOKIE_SITE_URL}` })
+        if (process.env.PRODUCTION) {
+            Cookies.set('cookie-usertoken', res.data.access_token, { domain: `${process.env.COOKIE_SITE_URL}` })
+        } else {
+            setCookie("cookie-usertoken", res.data.access_token);
+        }
         Router.push('/mis-cursos')
 
       })

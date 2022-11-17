@@ -15,6 +15,7 @@ const nextConfig = {
   	SITE_URL: process.env.SITE_URL || 'https://www.ticlass.com',
     COOKIE_SITE_URL: process.env.COOKIE_SITE_URL || '.ticlass.com',
   	SITE_NAME: process.env.SITE_NAME || 'TIClass.com',
+    PRODUCTION: process.env.PRODUCTION || false,
   },
 }
 
