@@ -12,6 +12,7 @@ const nextConfig = {
   	CLIENT_SECRET: process.env.CLIENT_SECRET || 'TJ2eJvovunI9rJDNCTm1OILRDlC4GNXuj1HZgx0grdkYzntTIMUz9NdyqcgT9i87WfFl3a7eOhqxrXc9dZBC4mVgYxg062hOIJMkhblSPM78dJ1TDnylrljlwiuSOdjn',
   	TOKEN_GENERIC_API: process.env.TOKEN_GENERIC_API || 'ed00f82cd64c7ed6f0f7d90116e01247fcaa3a6f',
     API_URL: process.env.API_URL || 'http://localhost:8000/',
+    API_SEO_URL: process.env.API_URL || 'http://127.0.0.1:8000/',
   	SITE_URL: process.env.SITE_URL || 'https://www.ticlass.com',
     COOKIE_SITE_URL: process.env.COOKIE_SITE_URL || '.ticlass.com',
   	SITE_NAME: process.env.SITE_NAME || 'TIClass.com',
