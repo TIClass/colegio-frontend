@@ -1,7 +1,7 @@
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 // import { faFileAlt, faNewspaper, faQuestion } from '@fortawesome/free-solid-svg-icons';
-
+import Markdown from 'markdown-to-jsx';
 import Nav from 'react-bootstrap/Nav';
 import Ratio from 'react-bootstrap/Ratio';
 import Spinner from 'react-bootstrap/Spinner';
@@ -36,7 +36,7 @@ export const getServerSideProps = async ({ params, req,res }) => {
 
 function LessonDetail(props) {
   props.onAuthenticationUser();
-  props.isInfoComplete();  
+  props.isInfoComplete();
 
   const router = useRouter();
   const socket = useSocket();
@@ -303,36 +303,36 @@ function LessonDetail(props) {
                         </div>
                         <Card.Body>
                           <Row>
-                            <Col md="6">
+                            <Col md="8">
                               <h4>{dataObj.tema_data?.name}</h4>
                             </Col>
-                            <Col md="6" className={'btn-group '+styles['float-right']}>
-                              {dataObj?.tema_data?.streaming?.files? 
-                                <Row className='p-0' style={{width:'100%;'}}>                                
+                            <Col md="12" className={'btn-group '+styles['float-right']}>
+                              {dataObj?.tema_data?.streaming?.files?
+                                <Row className='p-0' style={{width:'100%;'}}>
                                     <Col md="12" className='p-0 mb-1'>
                                       <div style={{ width:'100%'}} className='d-flex align-items-center justify-content-center'>
                                         {dataObj?.tema_data?.streaming?.files?.map((file, index) => {
                                           return(
-                                            <div key={index} className='m-2'>                                            
+                                            <div key={index} className='m-2'>
                                               <Button href={file.file_url} download
                                               className={ styles['roundedbtn']} bg="" style={{width:'100%;', background:'#00cac9;', border:'3px solid #fff;'}}>
                                                 <FontAwesomeIcon
                                                   icon={faDownload}
                                                   className='me-1'
                                                   style={{ fontSize: 14,}}
-                                                  /> {file.file_name}                                            
+                                                  /> {file.file_name}
                                               </Button>
-                                            </div>                                      
-                                          )                                      
+                                            </div>
+                                          )
                                         })
                                         }
                                       </div>
-                                    </Col>                           
-                                  </Row>  : <div></div>                      
-                                }                                                                                   
+                                    </Col>
+                                  </Row>  : <div></div>
+                                }
                             </Col>
                             <Col md="12">
-                              {dataObj?.tema_data?.exit_ticket ?                                   
+                              {dataObj?.tema_data?.exit_ticket ?
                                   <div style={{ width:'100%'}} className='d-flex justify-content-end m-2'>
                                     <Button className={ styles['roundedbtn']} href={dataObj.tema_data?.exit_ticket} target='_blank'
                                     variant="danger" style={{width:'100%;', border: '3px solid #fff;'}}>
@@ -345,13 +345,13 @@ function LessonDetail(props) {
                                     </Button>
                                   </div>
                                 : <div></div>
-                              } 
-                            </Col>  
+                              }
+                            </Col>
 
                             <Col md="12">
-                            <ol>
-                              <li>{dataObj.tema_data?.description}</li>                              
-                            </ol>
+                            {dataObj?.tema_data?.description ?
+                            <Markdown>{dataObj?.tema_data?.description}</Markdown>
+                            : <div></div>}
                             </Col>
                             <Col md="12" className='d-flex justify-content-between align-items-center'>
                               <ButtonGroup aria-label="Basic example">
