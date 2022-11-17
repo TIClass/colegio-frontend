@@ -10,9 +10,20 @@ import axios from 'axios';
 import { getCookie} from 'cookies-next';
 import { useEffect, useState} from 'react';
 
+function fetchFact(url, useToken) {
+    //Just a simple get request which gets back a fact in a JSON object
+    return axios
+        .get(url, { headers: { Authorization: useToken } })
+        .then((res) => {
+            return res.data;
+        })
+        .catch(err => err);
+}
+
 export const getServerSideProps = async ({ params, req,res }) => {
-  const locationParts = req.headers.host.split('.');
-  const subdomain = locationParts[0]
+    const locationParts = req.headers.host.split('.');
+    const subdomain = locationParts[0]
+
     return { props: {subdomain:subdomain}}
   }
 
@@ -20,6 +31,8 @@ export default function Home(props) {
   props.onAuthenticationUser();
   const [LandingObj, setLandingObj] = useState([]);
   const [CoursesObj, setCoursesObj] = useState([]);
+
+  const [seoObj, setSeoObj] = useState(null);
   const token = getCookie('cookie-usertoken');
   const useToken = token ? `Bearer ${token}` : `Token ${process.env.TOKEN_GENERIC_API}`
   //const useToken = `Token ${process.env.TOKEN_GENERIC_API}`
@@ -37,19 +50,32 @@ export default function Home(props) {
           .then(res => setCoursesObj(res.data))
           .catch(err => err)
   }
+
+
+  const seoDetail = async () => {
+    const useTokenSeo = `Token ${process.env.TOKEN_GENERIC_API}`
+    const urlSeo = `${process.env.API_URL}api/v1/ticourse/seo/?proyect_name=${props.subdomain}`
+    const promises = [fetchFact(urlSeo, useTokenSeo)]
+    const facts = await Promise.all(promises);
+    setSeoObj(facts[0])
+
+  }
+
   useEffect(() => {
+    seoDetail();
     axiosLandingObj(urlLanding);
     axiosCourseObj(urlCourses+`?proyect_name=${props.subdomain}`);
   }, [])
+  //console.log(seoObj)
   return (
     <div>
       <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-          <title>Home | Colegio</title>
-          <meta name="description" content="description de my Colegio" />
+          <title>{seoObj?.title} | {seoObj?.slogan}</title>
+          <meta name="description" content="{seoObj?.description}" />
           <meta property="og:site_name" content="Colegio.com" />
           <meta property="og:title" content="My Colegio" key="title" />
-          <meta property="og:description" content="description de my Colegio" />
+          <meta property="og:description" content="{seoObj?.description}" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://www.Colegio.com" />
           <meta property="og:image" content="img.jpeg" />
@@ -59,7 +85,7 @@ export default function Home(props) {
           <meta property="twitter:title" content="My Colegio" />
           <meta property="twitter:site" content="@Colegio" />
           <meta property="twitter:creator" content="@Colegio" />
-          <meta property="twitter:description" content="my Colegio" />
+          <meta property="twitter:description" content="{seoObj?.description}" />
           <meta property="twitter:image" content="img.jpeg" />
 
           <link rel="canonical" href="https://www.colegio.com/" />
