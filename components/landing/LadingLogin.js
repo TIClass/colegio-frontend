@@ -14,6 +14,7 @@ import {Row, Col, Card, InputGroup, Form, Button} from 'react-bootstrap';
 
 import { useEffect, useState} from 'react';
 import { setCookie, getCookie, deleteCookie } from 'cookies-next';
+import Cookies from 'js-cookie'
 import axios from 'axios';
 
 
@@ -50,6 +51,11 @@ function LadingLogin(props) {
     })
       .then(res => {
         setData(res.data)
+        // if (process.env.PRODUCTION) {
+        //     Cookies.set('cookie-usertoken', res.data.access_token, { domain: `${process.env.COOKIE_SITE_URL}` })
+        // } else {
+        //     setCookie("cookie-usertoken", res.data.access_token);
+        // }
         setCookie("cookie-usertoken", res.data.access_token);
         Router.push('/mis-cursos')
 

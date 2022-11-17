@@ -1,18 +1,24 @@
 import Head from 'next/head'
-import { Container, Row, Col} from 'react-bootstrap';  
+import { Container, Row, Col} from 'react-bootstrap';
 import { getCookie } from 'cookies-next';
 import { useEffect, useState} from 'react';
 import axios from 'axios';
 import CourseCard from '../../components/landing/CourseCard';
 
-export default function Courses(props) {  
-  props.onAuthenticationUser();
-  props.isInfoComplete();  
+export const getServerSideProps = async ({ params, req,res }) => {
+  const locationParts = req.headers.host.split('.');
+  const subdomain = locationParts[0]
+    return { props: {subdomain:subdomain}}
+  }
 
-  const [CoursesObj, setCoursesObj] = useState([]);  
+export default function Courses(props) {
+  props.onAuthenticationUser();
+  props.isInfoComplete();
+
+  const [CoursesObj, setCoursesObj] = useState([]);
   const token = getCookie('cookie-usertoken');
   const useToken = token ? `Bearer ${token}` : `Token ${process.env.TOKEN_GENERIC_API}`
-  const urlCourses = `${process.env.API_URL}api/v1/ticourse/`  
+  const urlCourses = `${process.env.API_URL}api/v1/ticourse/?proyect_name=${props.subdomain}`
   const axiosCourseObj= (url) => {
     axios.get(url, { headers: { Authorization: useToken } })
           .then(res => setCoursesObj(res.data))
@@ -21,11 +27,9 @@ export default function Courses(props) {
   useEffect(() => {
     axiosCourseObj(urlCourses);
   }, [])
-      
-  const courses_obj = CoursesObj;     
 
-  console.log(courses_obj,"popo")
-  
+  const courses_obj = CoursesObj;
+
   return (
     <div>
       <Head>
@@ -55,19 +59,19 @@ export default function Courses(props) {
           <Row className='pt-5'>
             <Col md="12">
               <h2 className='text-center'>Cursos</h2>
-            </Col>                 
-            {courses_obj.results?.map(pack => (                                         
-              <Col lg="4" md="6" sm="12" xs="12" key={pack.id}>                  
-              <CourseCard 
+            </Col>
+            {courses_obj.results?.map(pack => (
+              <Col lg="4" md="6" sm="12" xs="12" key={pack.id}>
+              <CourseCard
                 is_price={true}
                 name={pack.name}
                 desc={pack.description}
                 subscription_set={pack.subscription_set}
-                pack_id={pack.id} 
+                pack_id={pack.id}
                 />
-             </Col>                                                                                               
-            ))}                      
-          </Row>          
+             </Col>
+            ))}
+          </Row>
         </Container>
       </section>
     </div>

@@ -10,16 +10,55 @@ import axios from 'axios';
 import { getCookie} from 'cookies-next';
 import { useEffect, useState} from 'react';
 
+function fetchFactAxios(url, useToken) {
+    return axios
+        .get(url, { headers: { Authorization: useToken } })
+        .then((res) => {
+            return res.data;
+        })
+        .catch(err => err);
+}
+
+function fetchFact(url, useToken) {
+    return fetch(url, {
+            method: "GET",
+            headers: useToken,
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data)
+        });
+}
+
+
+
 export const getServerSideProps = async ({ params, req,res }) => {
-  const locationParts = req.headers.host.split('.');
-  const subdomain = locationParts[0]
-    return { props: {subdomain:subdomain}}
+      const locationParts = req.headers.host.split('.');
+      const subdomain = locationParts[0]
+
+      const useTokenSeoA = `Token ${process.env.TOKEN_GENERIC_API}`
+      const urlSeoA = `${process.env.API_SEO_URL}api/v1/ticourse/seo/?proyect_name=${subdomain}`
+      const customHeaders = {"Authorization": useTokenSeoA}
+      const options = {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': useTokenSeoA
+        }
+      }
+
+      const resSeo = await fetch(urlSeoA, options)
+      const dataSeo = await resSeo.json()
+      return { props: {subdomain:subdomain, dataSeo:dataSeo}}
   }
 
 export default function Home(props) {
   props.onAuthenticationUser();
   const [LandingObj, setLandingObj] = useState([]);
   const [CoursesObj, setCoursesObj] = useState([]);
+
+  const [seoObj, setSeoObj] = useState(null);
   const token = getCookie('cookie-usertoken');
   const useToken = token ? `Bearer ${token}` : `Token ${process.env.TOKEN_GENERIC_API}`
   //const useToken = `Token ${process.env.TOKEN_GENERIC_API}`
@@ -37,33 +76,35 @@ export default function Home(props) {
           .then(res => setCoursesObj(res.data))
           .catch(err => err)
   }
+
   useEffect(() => {
     axiosLandingObj(urlLanding);
     axiosCourseObj(urlCourses+`?proyect_name=${props.subdomain}`);
   }, [])
+  console.log(props.dataSeo)
   return (
     <div>
       <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-          <title>Home | Colegio</title>
-          <meta name="description" content="description de my Colegio" />
-          <meta property="og:site_name" content="Colegio.com" />
-          <meta property="og:title" content="My Colegio" key="title" />
-          <meta property="og:description" content="description de my Colegio" />
+          <title>{props.dataSeo.title} | {props.dataSeo.slogan}</title>
+          <meta name="description" content={props.dataSeo.description} />
+          <meta property="og:site_name" content={props.dataSeo.site} />
+          <meta property="og:title" content={props.dataSeo.title +' | '+ props.dataSeo.slogan} key="title" />
+          <meta property="og:description" content={props.dataSeo.description} />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://www.Colegio.com" />
-          <meta property="og:image" content="img.jpeg" />
+          <meta property="og:url" content={props.dataSeo.url}/>
+          <meta property="og:image" content={props.dataSeo.image}/>
 
           <meta property="fb:app_id" content="111111111" />
           <meta property="twitter:card" content="summary_large_image" />
-          <meta property="twitter:title" content="My Colegio" />
-          <meta property="twitter:site" content="@Colegio" />
-          <meta property="twitter:creator" content="@Colegio" />
-          <meta property="twitter:description" content="my Colegio" />
-          <meta property="twitter:image" content="img.jpeg" />
+          <meta property="twitter:title" content={props.dataSeo.title +' | '+ props.dataSeo.slogan} />
+          <meta property="twitter:site" content={'@'+props.dataSeo.title} />
+          <meta property="twitter:creator" content={'@ticlasscom'} />
+          <meta property="twitter:description" content={props.dataSeo.description} />
+          <meta property="twitter:image" content={props.dataSeo.image} />
 
-          <link rel="canonical" href="https://www.colegio.com/" />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="canonical" href={props.dataSeo.url} />
+          <link rel="icon" href={props.dataSeo.favicon} />
       </Head>
       <section id="myCarousel" className="landing-home slide p-0">
         <Row className='m-0'>

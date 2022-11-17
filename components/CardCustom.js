@@ -1,4 +1,5 @@
 
+import Markdown from 'markdown-to-jsx';
 import { Card } from 'react-bootstrap';
 import styles from '../styles/Home.module.scss';
 
@@ -10,13 +11,15 @@ function CardCustom(props) {
           <h4 style={{color: props.color}}>{props.title}</h4>
           {props.packCourse?.map(packcourse => (
             <div key={packcourse.id}>
-              <h6>En {packcourse.course_name}</h6>
               {props.kind == 'learning' ?
-              <p>{packcourse.course_data.learning}</p> : <div></div>}
+              <Markdown>{packcourse.course_data.learning}</Markdown>
+              : <div></div>}
               {props.kind == 'requirement' ?
-              <p>{packcourse.course_data.requirement}</p> : <div></div>}
+              <Markdown>{packcourse.course_data.requirement}</Markdown>
+              : <div></div>}
               {props.kind == 'description' ?
-                <p>{packcourse.course_data.description}</p> : <div></div>}
+              <Markdown>{packcourse.course_data.description}</Markdown>
+              : <div></div>}
             </div>
             ))}
         </Card.Body>

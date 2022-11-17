@@ -13,30 +13,30 @@ function BuyCard(props) {
     let url = `https://api.whatsapp.com/send?phone=${number}&text=👋+Hola!,+necesito+más+información+del+curso+*${name}*,+me+puedes+ayudar?`;
     window.open(url, '_blank');
   }
-    const showPrice = (item) => {
+    const showPrice = (item, index) => {
       if (item.price == '0.0000') {
         return (
-            <div>
+            <div key={index}>
               <div className="d-grid gap-2">
-                <Button size="lg" variant="danger" className={"text-white "+styles["roundedbtn"]} style={{width:'100%;'}}>Suscríbete Gratis</Button>
+                <Button size="lg" variant="danger" className={"text-white "+styles["roundedbtn"]}>Suscríbete Gratis</Button>
               </div>
             </div>)
       } else {
         if(item.offer_price == '0.0000') {
             return (
-                <div>
+                <div key={index}>
                 <h4 style={{color: variables.primaryColor}}>{formatPrice(item.price)}</h4>
                 <div className="d-grid gap-2">
-                  <Button size="lg" variant="danger" className={"text-white "+styles["roundedbtn"]} style={{width:'100%;'}}>Comprar ahora</Button>
+                  <Button size="lg" variant="danger" className={"text-white "+styles["roundedbtn"]}>Comprar ahora</Button>
                 </div>
                 </div>)
         } else {
           return (
-              <div>
+              <div key={index}>
               <span className={styles["offer"]}>{formatPrice(item.price)}</span>
               <h4 style={{color: variables.primaryColor}}>{formatPrice(item.offer_price)}</h4>
               <div className="d-grid gap-2">
-                <Button size="lg" variant="danger" className={"text-white "+styles["roundedbtn"]} style={{width:'100%;'}}>Comprar ahora</Button>
+                <Button size="lg" variant="danger" className={"text-white "+styles["roundedbtn"]}>Comprar ahora</Button>
               </div>
               </div>
               )
@@ -50,7 +50,7 @@ function BuyCard(props) {
         <Card className={'mb-4 ' + styles["shadow-md"] +' '+ styles["roundedbtn"]}>
           <Card.Body className='body-card'>
             {props?.subscriptionSet?.map((item, index) => {
-              return (showPrice(item))
+              return (showPrice(item, index))
 
 
             })}

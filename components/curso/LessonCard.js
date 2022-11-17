@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt, faClock, faFileVideo } from "@fortawesome/free-regular-svg-icons";
 import { faDownload, faTicket, faVideo } from '@fortawesome/free-solid-svg-icons';
 
-function LessonCard(props) {    
+function LessonCard(props) {
     return(
       <div>
         <Card className={'hand-click mb-4 ' + styles["shadow-md"] +' '+ styles["roundedbtn"]}>
@@ -16,7 +16,7 @@ function LessonCard(props) {
               <Badge bg="" style={{backgroundColor: props.color}} variant="dot"
             ><a>{props.subject_name_abv}</a></Badge></span> : <div></div>
                }
-            </ButtonGroup>            
+            </ButtonGroup>
           </div>
           <Card.Body className='mt-3 body-card'>
             <h4 style={{color: props.color}}>{props.name}</h4>
@@ -51,7 +51,7 @@ function LessonCard(props) {
                   </small>
                 </div>
               </Col>
-            </Row> : <div></div>            
+            </Row> : <div></div>
           }
           { props.isLive?
           <div>
@@ -63,27 +63,27 @@ function LessonCard(props) {
                   icon={faDownload}
                   className='me-1'
                   style={{ fontSize: 14,}}
-                  /> {item.file_name}   
-                  </a>                               
-                </div>                
-              )              
+                  /> {item.file_name}
+                  </a>
+                </div>
+              )
             })}
 
           </div>
         :<div></div>
-          }        
-          </Card.Body>          
-          {props.isLive ? 
-          <div>          
+          }
+          </Card.Body>
+          {props.isLive ?
+          <div>
           <div className='text-white text-center' style={{background:variables.blueLightColor}}>
             <a href={props.exit_ticket} target='_blank'>
               <FontAwesomeIcon
                 icon={faTicket}
                 className='me-1'
                 style={{ fontSize: 14,}}
-              /> Ticket de salida            
+              /> Ticket de salida
             </a>
-          </div>          
+          </div>
           <div className='text-white text-center' style={{background:variables.tertiaryColor}}>
             <FontAwesomeIcon
               icon={faVideo}
