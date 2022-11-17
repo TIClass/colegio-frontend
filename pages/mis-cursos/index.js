@@ -9,8 +9,7 @@ import Link from 'next/link'
 import Router from 'next/router'
 
 export default function MyCourses(props) {   
-  props.onAuthenticationUser();
-  props.isInfoComplete();  
+  props.onAuthenticationUser();  
    
   const [CoursesObj, setCoursesObj] = useState([]);  
   const token = getCookie('cookie-usertoken');    

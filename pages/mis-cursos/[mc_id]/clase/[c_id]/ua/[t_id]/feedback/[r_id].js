@@ -15,8 +15,7 @@ export const getServerSideProps = async ({ params, req,res }) => {
   }
 
 export default function Feddback(props) {
-  props.onAuthenticationUser();
-  props.isInfoComplete();  
+  props.onAuthenticationUser();  
   
   const router = useRouter();
   const token = getCookie('cookie-usertoken');

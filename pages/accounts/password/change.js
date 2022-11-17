@@ -11,8 +11,7 @@ import { setCookie, getCookie, deleteCookie } from 'cookies-next';
 import axios from 'axios';
 
 export default function ChangePassword(props) {  
-  props.onAuthenticationUser(); 
-  props.isInfoComplete();  
+  props.onAuthenticationUser();   
   
   const [show, setShow] = useState(false);
 

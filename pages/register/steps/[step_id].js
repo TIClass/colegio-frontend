@@ -134,7 +134,12 @@ export default function Steps2(props) {
               }
 
               {parseInt(step_id)-1 === 3 && !userObj.is_parent && loadedUserObj
-                ?<div>Gracias tu registro a finalizado</div>
+                ?<div className="text-center pt-4">
+                <h2>Muchas Gracias, <br/>Tu registro a finalizado</h2>
+                <Button className={"text-white btn-success "+styles["roundedbtn"]} onClick={isFinalized}>
+                  Ir a mis cursos
+                </Button>
+              </div>
                 :<div></div>
               }
 

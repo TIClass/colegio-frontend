@@ -28,8 +28,7 @@ export const getServerSideProps = async ({ params, req,res }) => {
 }
 
 export default function MyCourseDetail(props) {
-  props.onAuthenticationUser();
-  props.isInfoComplete();  
+  props.onAuthenticationUser();  
 
   const router = useRouter();
   const [Temasobj, setTemasObj] = useState(null);
@@ -309,8 +308,7 @@ export default function MyCourseDetail(props) {
                     if(item.streaming_datetime) {
                         return (
                           <Col md="4" className='mt-4'>
-                          <Link href={`/mis-cursos/${item.packcourse.id}/clase/${item.id}`} key={index}>
-                            
+                          <Link href={`/mis-cursos/${item.packcourse.id}/clase/${item.id}`} key={index}>                            
                               <LessonCard is_time={true} date_time={item?.tema_data.streaming_datetime_format} bg="bg-green" color={item?.tema_data.color_html}
                                 name={item?.tema_data.name} subject_name_abv={item?.tema_data.subject_name_abv}
                                 />                            

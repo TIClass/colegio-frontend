@@ -15,17 +15,19 @@ import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
   const [userAuthentications, setUserAuthentications] = useState('');
-  const isInfoComplete = () => {
-    const variable = userAuthentications?.results
+
+  const isInfoComplete = (user) => {
+    // const variable = userAuthentications?.results
+    const variable = user    
     if (variable) {
-      if (variable[0]?.info1_complete_colegio == false) {
-        Router.push('/register/steps/1')
+      if (variable.info1_complete_colegio == false) {        
+        return(Router.push('/register/steps/1'))        
       }
-      if (variable[0]?.info2_complete_colegio == false) {
-        Router.push('/register/steps/2')
+      if (variable.info2_complete_colegio == false) {
+        return(Router.push('/register/steps/2'))        
       }
-      if (variable[0]?.info3_complete_colegio == false) {
-        Router.push('/register/steps/3')
+      if (variable.info3_complete_colegio == false) {
+        return(Router.push('/register/steps/3'))        
       }
     }
   }
@@ -50,7 +52,8 @@ function MyApp({ Component, pageProps }) {
                       // 'rut':res.data.results[0].rut
                     }
                     setCookie("user-info-basic", users);
-                    setUserAuthentications(res.data.results[0])
+                    setUserAuthentications(res.data.results[0])      
+                    isInfoComplete(res.data.results[0])              
                   })
                   .catch(err => {
                       setUserAuthentications(null)
