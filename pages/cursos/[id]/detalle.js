@@ -12,6 +12,12 @@ import { useEffect, useState} from 'react';
 
 import { useRouter } from 'next/router'
 
+export const getServerSideProps = async ({ params, req,res }) => {
+  const locationParts = req.headers.host.split('.');
+  const subdomain = locationParts[0]
+    return { props: {subdomain:subdomain}}
+  }
+
 export default function CourseDetail(props) {
   props.onAuthenticationUser();
   props.isInfoComplete();
@@ -31,13 +37,12 @@ export default function CourseDetail(props) {
   useEffect(() => {
     if (router.asPath !== router.route) {
       const { id } = router.query
-      const urlCourses = `${process.env.API_URL}api/v1/ticourse/${id}`
+      const urlCourses = `${process.env.API_URL}api/v1/ticourse/${id}/?proyect_name=${props.subdomain}`
       axiosCourseObj(urlCourses);
     }
   }, [router])
 
   const courses_obj = CoursesObj;
-
   return (
     <div>
       <Head>
