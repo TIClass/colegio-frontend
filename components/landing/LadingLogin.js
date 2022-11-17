@@ -51,11 +51,12 @@ function LadingLogin(props) {
     })
       .then(res => {
         setData(res.data)
-        if (process.env.PRODUCTION) {
-            Cookies.set('cookie-usertoken', res.data.access_token, { domain: `${process.env.COOKIE_SITE_URL}` })
-        } else {
-            setCookie("cookie-usertoken", res.data.access_token);
-        }
+        // if (process.env.PRODUCTION) {
+        //     Cookies.set('cookie-usertoken', res.data.access_token, { domain: `${process.env.COOKIE_SITE_URL}` })
+        // } else {
+        //     setCookie("cookie-usertoken", res.data.access_token);
+        // }
+        setCookie("cookie-usertoken", res.data.access_token);
         Router.push('/mis-cursos')
 
       })
