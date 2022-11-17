@@ -20,6 +20,23 @@ function CardCustom(props) {
               {props.kind == 'description' ?
               <Markdown>{packcourse.course_data.description}</Markdown>
               : <div></div>}
+              {props.kind == 'contents' ?
+                <ul>
+                {packcourse.course_data.contents.map((item, index) => {
+                  return (
+                    <div>
+                      <li key={index}>{item.subject_name}</li>
+
+                      <ul>
+                      {item.temas.map((_item, _index) => {
+                        return (<li key={_index}>{_item.tema_name}</li>)
+                      })}
+                      </ul>
+                  </div>
+                  )
+                })}
+                </ul>
+              : <div></div>}
             </div>
             ))}
         </Card.Body>

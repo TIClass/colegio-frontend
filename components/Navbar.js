@@ -77,7 +77,7 @@ const TNavbar = (props) => {
         </Navbar.Collapse>
         :
         <Link href='/accounts/login'>
-          <Button variant="secondary" className={"m-1"+styles["roundedbtn"]} style={{background: variables.secondaryColor}}>Iniciar sesión</Button>
+          <Button variant="secondary" className={"m-1 "+styles["roundedbtn"]} style={{background: variables.secondaryColor}}>Iniciar sesión</Button>
         </Link>
         }
       </Container>

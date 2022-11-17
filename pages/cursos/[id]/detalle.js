@@ -104,6 +104,13 @@ export default function CourseDetail(props) {
                 packCourse={courses_obj.packcourse_set}
               />
             </Col>
+            <Col md="8" className='mb-4'>
+              <CardCustom color={variables.primaryColor}
+                kind='contents'
+                title='Contenido del curso'
+                packCourse={courses_obj.packcourse_set}
+              />
+            </Col>
           </Row>
         </Container>
       </section>
