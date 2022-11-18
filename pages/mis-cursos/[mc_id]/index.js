@@ -48,12 +48,12 @@ export default function MyCourseDetail(props) {
           .then(res => setTemasObj(res.data))
           .catch(err => err)
   }
-
+  
   const axiosWeekCourseObj= (url) => {
     axios.get(url, { headers: { Authorization: useToken } })
           .then(res => setTemasWeekObj(res.data))
           .catch(err => err)
-  }
+  }  
 
   const axioDatesCourseObj= (url) => {
     axios.get(url, { headers: { Authorization: useToken } })
@@ -172,7 +172,7 @@ export default function MyCourseDetail(props) {
     style={{ fontSize: 14,}}
     className="example-custom-input" onClick={onClick} ref={ref}
     />
-  ));
+  ));  
 
   return (
     <div>
@@ -243,7 +243,7 @@ export default function MyCourseDetail(props) {
               </Row>
             </Col>
             }
-            <Col md="12" className='my-4'>
+            <Col md="12" className='my-4'>              
               <div className='mb-2 d-flex'>
                 <span className='me-2'>Filtrar por Fecha</span>
                 <FontAwesomeIcon
@@ -270,7 +270,6 @@ export default function MyCourseDetail(props) {
                     includeDates={dateListObj ? [...dateListObj?.results?.map(res=> (new Date(res.dates_data)))] : null}
                   />
                 </div>
-
               </div>
               <Tab.Container id="left-tabs-example" defaultActiveKey="weekClass">
                 <Nav variant="pills" defaultActiveKey="weekClass">
@@ -350,23 +349,26 @@ export default function MyCourseDetail(props) {
                   {TemasWeekobj?.results?.map((item,index) => {
                     if(item.streaming_datetime) {
                         return (
+                          <Col md="4" className='mt-4'>
                           <Link href={`/mis-cursos/${item.packcourse.id}/clase/${item.id}`} key={index}>
-                            <Col md="4" className='mt-4'>
+                            
                               <LessonCard is_time={true} date_time={item?.tema_data.streaming_datetime_format} bg="bg-green" color={item?.tema_data.color_html}
                                 name={item?.tema_data.name} subject_name_abv={item?.tema_data.subject_name_abv}
                                 />
-                            </Col>
+                            
                           </Link>
+                          </Col>
                         )
                     } else {
                       return (
+                        <Col md="4" className='mt-4'>
                         <Link href={`/mis-cursos/${item.packcourse.id}/clase/${item.id}`} key={index}>
-                          <Col md="4" className='mt-4'>
+                          
                             <LessonCard is_time={false} date_time={null} bg="bg-green" color={item?.tema_data.color_html}
                               name={item?.tema_data.name} subject_name_abv={item?.tema_data.subject_name_abv}
-                              />
-                          </Col>
+                              />                          
                         </Link>
+                        </Col>
                       )
                     }
                   })}
