@@ -28,7 +28,7 @@ export const getServerSideProps = async ({ params, req,res }) => {
 }
 
 export default function MyCourseDetail(props) {
-  props.onAuthenticationUser();  
+  props.onAuthenticationUser();
 
   const router = useRouter();
   const [Temasobj, setTemasObj] = useState(null);
@@ -102,9 +102,9 @@ export default function MyCourseDetail(props) {
     const urlTemas = `${process.env.API_URL}api/v1/ticourse/my-courses/packcourse/?packcourse_pk=${mc_id}`
     //const urlTemas = `${process.env.API_URL}api/v1/ticourse/my-courses/packcourse/?packcourse_pk=${mc_id}`
     axiosCourseObj(urlTemas);
-  }  
+  }
 
-  const allWeek = () => { 
+  const allWeek = () => {
     const urlTemasWeek = `${process.env.API_URL}api/v1/ticourse/my-courses/packcourse/?packcourse_pk=${mc_id}&show_lessons=week`
     axiosWeekCourseObj(urlTemasWeek);
   }
@@ -112,7 +112,7 @@ export default function MyCourseDetail(props) {
   const attendence = (streaming_id) => {
     const urlStreamingLive = `${process.env.API_URL}api/v1/ticlassapps/streamings/streaming-attendence/?streaming_pk=${streaming_id}`
     axiosStreamingAttendence(urlStreamingLive)
-  }  
+  }
 
   const temas_obj = TemasWeekobj;
 
@@ -148,7 +148,7 @@ export default function MyCourseDetail(props) {
     }
   }
   const handleChange = (e) => {
-    setDatePickerVisibility(!isDatePickerVisible);    
+    setDatePickerVisibility(!isDatePickerVisible);
     setStartDate(e);
     getDateOne(e)
   };
@@ -164,16 +164,16 @@ export default function MyCourseDetail(props) {
       axiosCourseObj(urlTemas);
     }
     return date
-  }  
+  }
 
   const ExampleCustomInput = React.forwardRef(({ value, onClick }, ref) => (
     <FontAwesomeIcon
     icon={faSortDown}
-    style={{ fontSize: 14,}}                                
+    style={{ fontSize: 14,}}
     className="example-custom-input" onClick={onClick} ref={ref}
-    />            
+    />
   ));
-  
+
   return (
     <div>
       <Head>
@@ -251,7 +251,7 @@ export default function MyCourseDetail(props) {
                   className='me-1'
                   style={{ fontSize: 14,}}
                 />
-                {formatDate(startDate)}                
+                {formatDate(startDate)}
                 {/* {isDatePickerVisible && (
                   <DatePicker
                     locale="es" selected={startDate}
@@ -262,13 +262,13 @@ export default function MyCourseDetail(props) {
                 )} */}
 
                 <div className='me-2'>
-                  <DatePicker                  
-                    selected={startDate}                  
+                  <DatePicker
+                    selected={startDate}
                     onChange={handleChange}
-                    withPortal  
+                    withPortal
                     customInput={<ExampleCustomInput />}
                     includeDates={dateListObj ? [...dateListObj?.results?.map(res=> (new Date(res.dates_data)))] : null}
-                  />     
+                  />
                 </div>
 
               </div>
@@ -303,25 +303,25 @@ export default function MyCourseDetail(props) {
                     </div>
                   </div>
                   <Row>
-                    
+
                   {Temasobj?.results?.map((item,index) => {
                     if(item.streaming_datetime) {
                         return (
                           <Col md="4" className='mt-4'>
-                          <Link href={`/mis-cursos/${item.packcourse.id}/clase/${item.id}`} key={index}>                            
+                          <Link href={`/mis-cursos/${item.packcourse.id}/clase/${item.id}`} key={index}>
                               <LessonCard is_time={true} date_time={item?.tema_data.streaming_datetime_format} bg="bg-green" color={item?.tema_data.color_html}
                                 name={item?.tema_data.name} subject_name_abv={item?.tema_data.subject_name_abv}
-                                />                            
+                                />
                           </Link>
                           </Col>
                         )
                     } else {
                       return (
                         <Col md="4" className='mt-4'>
-                        <Link href={`/mis-cursos/${item.packcourse.id}/clase/${item.id}`} key={index}>                          
+                        <Link href={`/mis-cursos/${item.packcourse.id}/clase/${item.id}`} key={index}>
                             <LessonCard is_time={false} date_time={null} bg="bg-green" color={item?.tema_data.color_html}
                               name={item?.tema_data.name} subject_name_abv={item?.tema_data.subject_name_abv}
-                              />                          
+                              />
                         </Link>
                         </Col>
                       )
