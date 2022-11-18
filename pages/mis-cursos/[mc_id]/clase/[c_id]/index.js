@@ -66,7 +66,7 @@ function LessonDetail(props) {
           })
           .catch(err => err)
   }
-  console.log(startTema)
+
 
   const axiosCourseListObj= (url) => {
     axios.get(url, { headers: { Authorization: useToken } })
