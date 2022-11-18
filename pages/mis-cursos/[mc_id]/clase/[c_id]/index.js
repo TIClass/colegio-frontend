@@ -61,8 +61,8 @@ function LessonDetail(props) {
   const axiosCourseObj= (url) => {
     axios.get(url, { headers: { Authorization: useToken } })
           .then(res => {
-            setDataObj(res.data); 
-            setStartTema(res?.data?.tema_data?.start_tema.replace("T"," ").replace("Z"," "))            
+            setDataObj(res.data);
+            setStartTema(res?.data?.tema_data?.start_tema.replace("T"," ").replace("Z"," "))
           })
           .catch(err => err)
   }
@@ -265,7 +265,7 @@ function LessonDetail(props) {
 
     			});
   }
-  
+
   return (
     <section className='section' >
       <Container className='pt-4'>
@@ -473,25 +473,25 @@ function LessonDetail(props) {
                 </Tab.Pane>
                 <Tab.Pane eventKey="class">
                   <Row>
-                  {dataObjList?.results?.map((item,index) => {     
-                                   
+                  {dataObjList?.results?.map((item,index) => {
+
                     if(item.tema_data.streaming_datetime) {
                         return (
                           <Col md="4" className='mt-4' onClick={e => handleSelect('streaming')}>
-                            <Link href={`/mis-cursos/${packCourseID}/clase/${item.tema_data.id}`} key={index}>                            
+                            <Link href={`/mis-cursos/${packCourseID}/clase/${item.tema_data.id}`} key={index}>
                               <LessonCard  is_time={true} date_time={item.tema_data.streaming_datetime_format} bg="bg-green" color={item.tema_data.color_html}
                                 name={item.tema_data.name} subject_name_abv={item.tema_data.subject_name_abv}
-                                />                            
+                                />
                             </Link>
                           </Col>
                         )
                     } else {
                       return (
                         <Col md="4" className='mt-4' onClick={e => handleSelect('streaming')}>
-                          <Link href={`/mis-cursos/${packCourseID}/clase/${item.tema_data.id}`} key={index}>                          
+                          <Link href={`/mis-cursos/${packCourseID}/clase/${item.tema_data.id}`} key={index}>
                             <LessonCard  is_time={false} date_time={null} bg="bg-green" color={item.tema_data.color_html}
                               name={item.tema_data.name} subject_name_abv={item.tema_data.subject_name_abv}
-                              />                          
+                              />
                           </Link>
                         </Col>
                       )

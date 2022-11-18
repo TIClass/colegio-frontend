@@ -35,6 +35,7 @@ export default function MyCourseDetail(props) {
   const [TemasWeekobj, setTemasWeekObj] = useState(null);
   const [streamingLive, setstreamingLive] = useState(null);
   const [streamingAttendence, setStreamingAttendence] = useState(null);
+  const [defaultActiveKey, setDefaultActiveKey] = useState('weekClass');
   const [subjectsObj, setSubjectsObj] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [dateListObj, setDateListObj] = useState(null);
@@ -48,16 +49,18 @@ export default function MyCourseDetail(props) {
           .then(res => setTemasObj(res.data))
           .catch(err => err)
   }
-  
+
   const axiosWeekCourseObj= (url) => {
     axios.get(url, { headers: { Authorization: useToken } })
           .then(res => setTemasWeekObj(res.data))
           .catch(err => err)
-  }  
+  }
 
   const axioDatesCourseObj= (url) => {
     axios.get(url, { headers: { Authorization: useToken } })
-          .then(res => setDateListObj(res.data))
+          .then(res => {
+            setDateListObj(res.data)
+          })
           .catch(err => err)
   }
 
@@ -85,7 +88,7 @@ export default function MyCourseDetail(props) {
       const urlStreamingLive = `${process.env.API_URL}api/v1/ticourse/streamings-lives/?packcourse_pk=${mc_id}`
       const urlTemasWeek = `${process.env.API_URL}api/v1/ticourse/my-courses/packcourse/?packcourse_pk=${mc_id}&show_lessons=week`
       axiosWeekCourseObj(urlTemasWeek);
-      const urlTemasDates = `${process.env.API_URL}api/v1/ticourse/my-courses/packcourse/?packcourse_pk=${mc_id}&show_lessons=dates`
+      const urlTemasDates = `${process.env.API_URL}api/v1/ticourse/coursetema-dates/?packcourse_pk=${mc_id}`
 
       axioDatesCourseObj(urlTemasDates);
 
@@ -151,6 +154,7 @@ export default function MyCourseDetail(props) {
     setDatePickerVisibility(!isDatePickerVisible);
     setStartDate(e);
     getDateOne(e)
+    setDefaultActiveKey('allClass')
   };
 
   const padTo2Digits = (num) => {
@@ -172,7 +176,7 @@ export default function MyCourseDetail(props) {
     style={{ fontSize: 14,}}
     className="example-custom-input" onClick={onClick} ref={ref}
     />
-  ));  
+  ));
 
   return (
     <div>
@@ -243,7 +247,7 @@ export default function MyCourseDetail(props) {
               </Row>
             </Col>
             }
-            <Col md="12" className='my-4'>              
+            <Col md="12" className='my-4'>
               <div className='mb-2 d-flex'>
                 <span className='me-2'>Filtrar por Fecha</span>
                 <FontAwesomeIcon
@@ -267,12 +271,12 @@ export default function MyCourseDetail(props) {
                     onChange={handleChange}
                     withPortal
                     customInput={<ExampleCustomInput />}
-                    includeDates={dateListObj ? [...dateListObj?.results?.map(res=> (new Date(res.dates_data)))] : null}
+                    includeDates={dateListObj ? [...dateListObj?.map(res=> (new Date(res.date)))] : null}
                   />
                 </div>
               </div>
-              <Tab.Container id="left-tabs-example" defaultActiveKey="weekClass">
-                <Nav variant="pills" defaultActiveKey="weekClass">
+              <Tab.Container id="left-tabs-example" activeKey={defaultActiveKey}>
+                <Nav variant="pills" activeKey={defaultActiveKey} >
                   <Nav.Item>
                     <Nav.Link className="me-4" eventKey="allClass" onClick={allTemas}>
                       <FontAwesomeIcon
@@ -351,11 +355,11 @@ export default function MyCourseDetail(props) {
                         return (
                           <Col md="4" className='mt-4'>
                           <Link href={`/mis-cursos/${item.packcourse.id}/clase/${item.id}`} key={index}>
-                            
+
                               <LessonCard is_time={true} date_time={item?.tema_data.streaming_datetime_format} bg="bg-green" color={item?.tema_data.color_html}
                                 name={item?.tema_data.name} subject_name_abv={item?.tema_data.subject_name_abv}
                                 />
-                            
+
                           </Link>
                           </Col>
                         )
@@ -363,10 +367,10 @@ export default function MyCourseDetail(props) {
                       return (
                         <Col md="4" className='mt-4'>
                         <Link href={`/mis-cursos/${item.packcourse.id}/clase/${item.id}`} key={index}>
-                          
+
                             <LessonCard is_time={false} date_time={null} bg="bg-green" color={item?.tema_data.color_html}
                               name={item?.tema_data.name} subject_name_abv={item?.tema_data.subject_name_abv}
-                              />                          
+                              />
                         </Link>
                         </Col>
                       )
