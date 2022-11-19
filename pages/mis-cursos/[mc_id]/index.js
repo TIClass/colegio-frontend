@@ -43,6 +43,7 @@ export default function MyCourseDetail(props) {
   const [subjectsObj, setSubjectsObj] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [dateListObj, setDateListObj] = useState(null);
+  const [courseTeacherOwner, setCourseTeacherOwner] = useState(null);
 
   const token = getCookie('cookie-usertoken');
   const useToken = `Bearer ${token}`
@@ -60,10 +61,18 @@ export default function MyCourseDetail(props) {
           .catch(err => err)
   }
 
-  const axioDatesCourseObj= (url) => {
+  const axioDatesCourseObj = (url) => {
     axios.get(url, { headers: { Authorization: useToken } })
           .then(res => {
             setDateListObj(res.data)
+          })
+          .catch(err => err)
+  }
+
+  const axioCourseTeacherOwnerObj = (url) => {
+    axios.get(url, { headers: { Authorization: useToken } })
+          .then(res => {
+            setCourseTeacherOwner(res.data)
           })
           .catch(err => err)
   }
@@ -93,8 +102,10 @@ export default function MyCourseDetail(props) {
       const urlTemasWeek = `${process.env.API_URL}api/v1/ticourse/my-courses/packcourse/?packcourse_pk=${mc_id}&show_lessons=week`
       axiosWeekCourseObj(urlTemasWeek);
       const urlTemasDates = `${process.env.API_URL}api/v1/ticourse/coursetema-dates/?packcourse_pk=${mc_id}`
-
       axioDatesCourseObj(urlTemasDates);
+
+      const urlCourseTeacherOwner = `${process.env.API_URL}api/v1/ticourse/course-teacher-owner/?packcourse_pk=${mc_id}`
+      axioCourseTeacherOwnerObj(urlCourseTeacherOwner);
 
 
       axiosStreamingLiveObj(urlStreamingLive)
@@ -234,11 +245,14 @@ export default function MyCourseDetail(props) {
                 })}
               </div>
             </Col>
-            <Col md="12" className='mt-2'>
-              <Link href={mc_id+"/listado-alumnos"}>
-                <Button variant="outline-danger" className={'m-1 rounded roundedbtn '+styles['float-right']} type='submit'>Lista de alumnos</Button>
-              </Link>
-            </Col>
+            {courseTeacherOwner && courseTeacherOwner.success && courseTeacherOwner.permission_list_student
+              ?<Col md="12" className='mt-2'>
+                <Link href={`/mis-cursos/${mc_id}/listado-alumnos`}>
+                  <Button variant="outline-danger" className={'m-1 rounded roundedbtn '+styles['float-right']}>Lista de alumnos</Button>
+                </Link>
+              </Col>
+              :<div></div>
+            }
             {streamingLive && streamingLive.streamings != '' &&
             <Col>
               En vivo

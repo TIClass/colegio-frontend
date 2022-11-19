@@ -38,7 +38,6 @@ export const getServerSideProps = async ({ params, req,res }) => {
 
   const useTokenSeoA = `Token ${process.env.TOKEN_GENERIC_API}`
   const urlSeoA = `${process.env.API_SEO_URL}api/v1/ticourse/seo/?proyect_name=${subdomain}`
-  const customHeaders = {"Authorization": useTokenSeoA}
   const options = {
     method: 'GET',
     headers: {

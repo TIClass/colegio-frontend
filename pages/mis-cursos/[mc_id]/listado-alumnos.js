@@ -26,6 +26,26 @@ export const getServerSideProps = async ({ params, req,res }) => {
   if (cookieUserToken == undefined) {
     return { redirect: { permanent: false, destination: "/accounts/login/?from="+req.url}, props:{},};
   }
+
+  const useToken = `Bearer ${cookieUserToken}`
+
+  const urlCourseTeacherOwner = `${process.env.API_SEO_URL}api/v1/ticourse/course-teacher-owner/?packcourse_pk=${params.mc_id}`
+  const options = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': useToken
+    }
+  }
+  console.log(options)
+  console.log(urlCourseTeacherOwner)
+  const resDataTeacherOwner = await fetch(urlCourseTeacherOwner, options)
+  const dataTeacherOwner = await resDataTeacherOwner.json()
+  if (!dataTeacherOwner.success && !dataTeacherOwner.permission_list_student) {
+    return { redirect: { permanent: false, destination: `/mis-cursos/${params.mc_id}`}, props:{},};
+  }
+
   return { props: {}}
 }
 
@@ -170,6 +190,12 @@ export default function MyCourseDetail(props) {
       </Head>
       <section className='py-4'>
         <Container>
+        <Col md="12" className='mt-2'>
+          <Link href={`/mis-cursos/${mc_id}`}>
+            <Button variant="outline-danger" className={'m-1 rounded roundedbtn '+styles['float-right']}>Volver</Button>
+          </Link>
+        </Col>
+        <br/><br/>
         <Tab.Container id="left-tabs-example" defaultActiveKey="listStudents">
           <Nav fill variant="tabs">
             <Nav.Item><Nav.Link eventKey="listStudents">Listado de alumnos</Nav.Link></Nav.Item>
