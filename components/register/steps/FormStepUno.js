@@ -24,6 +24,8 @@ function FormStepUno(props) {
   const [startDate, setStartDate] = useState(new Date(moment(profielJson.birthdate)));
   const [zones, setZones]= useState('');
 
+  const [fieldEmpty, setFieldEmpty]= useState(null);
+
   useEffect(() => {
     const urlZones = `${process.env.API_URL}api/v1/user/getnationalitycomunne/`
     getZones(urlZones)
@@ -43,18 +45,60 @@ function FormStepUno(props) {
   }
 
   const onSave = () => {
-    props.setUserObj(profielJson)
-    props.setUserAuthentications(profielJson)
-    axios.put(profielJson.url, profielJson, {headers: { Authorization: useToken }})
-    .then(res => {
-      Swal.fire({
-        title: 'Listo!',
-        text: 'Datos guardados satisfactoriamente!',
-        icon: 'success',
-        confirmButtonText: 'Ok'
+    let txtvalidar = ''
+    if (!profielJson.first_name || !profielJson.last_name || !profielJson.email || !profielJson.rut
+      || !profielJson.birthdate || !profielJson.phone || profielJson.nationality == null  || profielJson.country == null
+      || profielJson.commune == null) {
+        if (!profielJson.first_name) {
+          txtvalidar = txtvalidar +'<li>Nombre es requerido</li>'
+        }
+        if (!profielJson.last_name) {
+          txtvalidar = txtvalidar +'<li>Apellido es requerido</li>'
+        }
+        if (!profielJson.email) {
+          txtvalidar = txtvalidar +'<li>Email es requerido</li>'
+        }
+        if (!profielJson.rut) {
+          txtvalidar = txtvalidar +'<li>RUT es requerido</li>'
+        }
+        if (!profielJson.birthdate) {
+          txtvalidar = txtvalidar +'<li>Fecha de nacimiento es requerido</li>'
+        }
+        if (!profielJson.phone) {
+          txtvalidar = txtvalidar +'<li>Teléfono es requerido</li>'
+        }
+        if (profielJson.nationality == null) {
+          txtvalidar = txtvalidar +'<li>Nacionalidad es requerido</li>'
+        }
+        if (profielJson.country == null) {
+          txtvalidar = txtvalidar +'<li>País es requerido</li>'
+        }
+        if (profielJson.commune == null) {
+          txtvalidar = txtvalidar +'<li>Comuna es requerido</li>'
+        }
+        setFieldEmpty(`<ul>${txtvalidar}</ul>`)
+    } else {
+      setFieldEmpty(null)
+
+
+      // console.log(profielJson.first_name, profielJson.last_name, profielJson.email)
+      // console.log(profielJson.rut, profielJson.birthdate, profielJson.phone, profielJson.nationality)
+      // console.log(profielJson.country, profielJson.commune)
+
+      props.setUserObj(profielJson)
+      props.setUserAuthentications(profielJson)
+      axios.put(profielJson.url, profielJson, {headers: { Authorization: useToken }})
+      .then(res => {
+        Swal.fire({
+          title: 'Listo!',
+          text: 'Datos guardados satisfactoriamente!',
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        })
       })
-    })
-    .catch(err => console.log(err))
+      .catch(err => console.log(err))
+
+    }
   }
 
   const checkedParent = (check) => {
@@ -70,6 +114,9 @@ function FormStepUno(props) {
   return (
     <div>
       <Container className='mt-4'>
+      { fieldEmpty ?
+        <Alert  variant='danger'><div dangerouslySetInnerHTML={{ __html: fieldEmpty }} /> </Alert>: <div></div>
+      }
       <Form className='mt-4'>
         <Row>
           <Col md="6">
@@ -162,7 +209,7 @@ function FormStepUno(props) {
               name='nationality'
               onChange={e => setProfielJson({...profielJson, [e.target.name]: e.target.value})}
               value={profielJson.nationality}>
-            <option value={-1}>Nacionalidades</option>
+            <option value={null}>Seleccionar</option>
               {zones?.nationality?.map((item,index) => {
                 return (
                   <option key={index} value={item?.id}>{item?.name}</option>
@@ -181,7 +228,7 @@ function FormStepUno(props) {
                 onChange={e => setProfielJson({...profielJson, [e.target.name]: e.target.value})}
                 value={profielJson.country}
               >
-              <option value={-1}>País</option>
+              <option value={null}>Seleccionar</option>
                 {zones?.countries?.map((item,index) => {
                   return (
                     <option key={index} value={item?.id}>{item.name}</option>
@@ -199,7 +246,7 @@ function FormStepUno(props) {
                 name='commune'
                 onChange={e => setProfielJson({...profielJson, [e.target.name]: e.target.value})}
                 value={profielJson.commune}>
-              <option value={-1}>Comuna</option>
+              <option value={null}>Seleccionar</option>
                 {zones?.comunne?.map((item,index) => {
                   return (
                     <option key={index} value={item?.id}>{item?.name}</option>
