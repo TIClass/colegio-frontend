@@ -80,7 +80,6 @@ export default function Home(props) {
     axiosLandingObj(urlLanding);
     axiosCourseObj(urlCourses+`?proyect_name=${props.subdomain}`);
   }, [])
-  console.log(props.dataSeo)
   return (
     <div>
       <Head>

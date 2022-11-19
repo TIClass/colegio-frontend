@@ -38,8 +38,6 @@ export const getServerSideProps = async ({ params, req,res }) => {
       'Authorization': useToken
     }
   }
-  console.log(options)
-  console.log(urlCourseTeacherOwner)
   const resDataTeacherOwner = await fetch(urlCourseTeacherOwner, options)
   const dataTeacherOwner = await resDataTeacherOwner.json()
   if (!dataTeacherOwner.success && !dataTeacherOwner.permission_list_student) {
