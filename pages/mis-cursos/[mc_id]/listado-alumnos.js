@@ -22,11 +22,15 @@ import Link from 'next/link'
 import MUIDataTable from "mui-datatables";
 
 export const getServerSideProps = async ({ params, req,res }) => {
-    return { props: {}}
+  const cookieUserToken = req.cookies['cookie-usertoken'];
+  if (cookieUserToken == undefined) {
+    return { redirect: { permanent: false, destination: "/accounts/login/?from="+req.url}, props:{},};
+  }
+  return { props: {}}
 }
 
 export default function MyCourseDetail(props) {
-  props.onAuthenticationUser();  
+  props.onAuthenticationUser();
 
   const router = useRouter();
   const token = getCookie('cookie-usertoken');

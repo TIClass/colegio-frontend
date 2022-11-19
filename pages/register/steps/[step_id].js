@@ -21,6 +21,14 @@ import FormStepDosParent from '../../../components/register/steps/FormStepDosPar
 import FormStepTres from '../../../components/register/steps/FormStepTres';
 import FormStepCuatro from '../../../components/register/steps/FormStepCuatro';
 
+export const getServerSideProps = async ({ params, req,res }) => {
+  const cookieUserToken = req.cookies['cookie-usertoken'];
+  if (cookieUserToken == undefined) {
+    return { redirect: { permanent: false, destination: "/accounts/login/?from="+req.url}, props:{},};
+  }
+  return { props: {}}
+}
+
 export default function Steps2(props) {
   props.onAuthenticationUser();
   const router = useRouter();

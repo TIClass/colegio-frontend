@@ -11,12 +11,16 @@ import axios from 'axios';
 import Link from 'next/link';
 
 export const getServerSideProps = async ({ params, req,res }) => {
-    return { props: {}}
+  const cookieUserToken = req.cookies['cookie-usertoken'];
+  if (cookieUserToken == undefined) {
+    return { redirect: { permanent: false, destination: "/accounts/login/?from="+req.url}, props:{},};
   }
+  return { props: {}}
+}
 
 export default function Feddback(props) {
-  props.onAuthenticationUser();  
-  
+  props.onAuthenticationUser();
+
   const router = useRouter();
   const token = getCookie('cookie-usertoken');
   const useToken = token ? `Bearer ${token}` : `Token ${process.env.TOKEN_GENERIC_API}`

@@ -8,6 +8,14 @@ import axios from 'axios';
 import Link from 'next/link'
 import Router from 'next/router'
 
+export const getServerSideProps = async ({ params, req,res }) => {
+  const cookieUserToken = req.cookies['cookie-usertoken'];
+  if (cookieUserToken == undefined) {
+    return { redirect: { permanent: false, destination: "/accounts/login/?from="+req.url}, props:{},};
+  }
+  return { props: {}}
+}
+
 export default function MyCourses(props) {
   props.onAuthenticationUser();
 

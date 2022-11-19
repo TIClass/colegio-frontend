@@ -33,25 +33,25 @@ function fetchFact(url, useToken) {
 
 
 export const getServerSideProps = async ({ params, req,res }) => {
-      const locationParts = req.headers.host.split('.');
-      const subdomain = locationParts[0]
+  const locationParts = req.headers.host.split('.');
+  const subdomain = locationParts[0]
 
-      const useTokenSeoA = `Token ${process.env.TOKEN_GENERIC_API}`
-      const urlSeoA = `${process.env.API_SEO_URL}api/v1/ticourse/seo/?proyect_name=${subdomain}`
-      const customHeaders = {"Authorization": useTokenSeoA}
-      const options = {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': useTokenSeoA
-        }
-      }
-
-      const resSeo = await fetch(urlSeoA, options)
-      const dataSeo = await resSeo.json()
-      return { props: {subdomain:subdomain, dataSeo:dataSeo}}
+  const useTokenSeoA = `Token ${process.env.TOKEN_GENERIC_API}`
+  const urlSeoA = `${process.env.API_SEO_URL}api/v1/ticourse/seo/?proyect_name=${subdomain}`
+  const customHeaders = {"Authorization": useTokenSeoA}
+  const options = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': useTokenSeoA
+    }
   }
+
+  const resSeo = await fetch(urlSeoA, options)
+  const dataSeo = await resSeo.json()
+  return { props: {subdomain:subdomain, dataSeo:dataSeo}}
+}
 
 export default function Home(props) {
   props.onAuthenticationUser();
