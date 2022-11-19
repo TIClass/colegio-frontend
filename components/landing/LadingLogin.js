@@ -7,6 +7,7 @@ import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 
 import Avatar from 'react-avatar';
 
+import { useRouter } from 'next/router'
 import Router from 'next/router'
 import Link from 'next/link'
 
@@ -25,6 +26,9 @@ function LadingLogin(props) {
   const [data, setData] = useState('');
   const [error, setError] = useState('');
 
+  const router = useRouter();
+  const { from } = router.query
+
   const userAuthentications = props.userAuthentications;
 
   const handleUsername= ({target}) => {
@@ -35,7 +39,7 @@ function LadingLogin(props) {
     setPassword(target.value)
   }
 
-  const logueo = () => {
+  const logueo = (from) => {
     let CLIENT_ID = `${process.env.CLIENT_ID}`;
     let CLIENT_SECRET = `${process.env.CLIENT_SECRET}`;
 
@@ -57,11 +61,16 @@ function LadingLogin(props) {
         //     setCookie("cookie-usertoken", res.data.access_token);
         // }
         setCookie("cookie-usertoken", res.data.access_token);
-        Router.push('/mis-cursos')
+        if (from) {
+          Router.push(from)
+        } else {
+          Router.push('/mis-cursos')
+        }
+
 
       })
       .catch(err => setError(err));
-  }  
+  }
 
   return (
     <div className="login-container">
@@ -70,11 +79,11 @@ function LadingLogin(props) {
         style={{padding: "30px"}}>
           {userAuthentications ?
             <Card.Body className="text-center">
-              
-              <Avatar name={userAuthentications.first_name} size="150" 
+
+              <Avatar name={userAuthentications.first_name} size="150"
                 round={true}
                 src={userAuthentications.avatar_url}/>
-            
+
               <br></br>
               <br></br>
               <Link href="/mis-cursos">
@@ -141,7 +150,7 @@ function LadingLogin(props) {
                 </label>
                 <div className="d-grid gap-2 mt-2">
                   <Button variant="outline-danger" className="m-1 rounded" type='submit'
-                  onClick={logueo}
+                  onClick={e => logueo(from)}
                   >Ingresar</Button>
                 </div>
                 <small className='text-center'>Powered by TIClass ©2023</small>

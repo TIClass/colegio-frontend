@@ -24,7 +24,7 @@ import FormStepCuatro from '../../../components/register/steps/FormStepCuatro';
 export const getServerSideProps = async ({ params, req,res }) => {
   const cookieUserToken = req.cookies['cookie-usertoken'];
   if (cookieUserToken == undefined) {
-    return { redirect: { permanent: false, destination: "/accounts/login/?from="+req.url}, props:{},};
+    return { redirect: { permanent: true, destination: "/accounts/login/?from="+req.url}, props:{},};
   }
   return { props: {}}
 }
