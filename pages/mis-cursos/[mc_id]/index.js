@@ -157,6 +157,10 @@ export default function MyCourseDetail(props) {
     setDefaultActiveKey('allClass')
   };
 
+  const handleSelect = (eventKey) => {
+    setDefaultActiveKey(eventKey)
+  };
+
   const padTo2Digits = (num) => {
     return num.toString().padStart(2, '0');
   }
@@ -276,7 +280,7 @@ export default function MyCourseDetail(props) {
                 </div>
               </div>
               <Tab.Container id="left-tabs-example" activeKey={defaultActiveKey}>
-                <Nav variant="pills" activeKey={defaultActiveKey} >
+                <Nav variant="pills" activeKey={defaultActiveKey} onSelect={handleSelect}>
                   <Nav.Item>
                     <Nav.Link className="me-4" eventKey="allClass" onClick={allTemas}>
                       <FontAwesomeIcon
