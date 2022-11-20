@@ -12,19 +12,38 @@ import { useEffect, useState} from 'react';
 
 import { useRouter } from 'next/router'
 
-export const getServerSideProps = async ({ params, req,res }) => {
+export const getServerSideProps = async ({ params, req, res, query }) => {
   const locationParts = req.headers.host.split('.');
   const subdomain = locationParts[0]
-    return { props: {subdomain:subdomain}}
+  const { id } = query
+  const useTokenSeoA = `Token ${process.env.TOKEN_GENERIC_API}`
+  const urlSeoA = `${process.env.API_SEO_URL}api/v1/ticourse/seo/?proyect_name=${subdomain}`
+  const urlCourses = `${process.env.API_SEO_URL}api/v1/ticourse/${id}/?proyect_name=${subdomain}`
+  const options = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': useTokenSeoA
+    }
   }
+
+  const resSeo = await fetch(urlSeoA, options)
+  const dataSeo = await resSeo.json()
+
+  const resCourses = await fetch(urlCourses, options)
+  const dataCourses = await resCourses.json()
+  const urlReferer = req.headers.referer
+  const urlHost = req.headers.host
+  return { props: {subdomain:subdomain, dataSeo:dataSeo, dataCourses:dataCourses, urlReferer:urlReferer, urlHost:urlHost}}
+}
 
 export default function CourseDetail(props) {
   props.onAuthenticationUser();
-  props.isInfoComplete();
 
   const router = useRouter();
 
-  const [CoursesObj, setCoursesObj] = useState([]);
+  const [coursesObj, setCoursesObj] = useState([]);
   const token = getCookie('cookie-usertoken');
   const useToken = token ? `Bearer ${token}` : `Token ${process.env.TOKEN_GENERIC_API}`
 
@@ -35,37 +54,37 @@ export default function CourseDetail(props) {
   }
 
   useEffect(() => {
-    if (router.asPath !== router.route) {
-      const { id } = router.query
-      const urlCourses = `${process.env.API_URL}api/v1/ticourse/${id}/?proyect_name=${props.subdomain}`
-      axiosCourseObj(urlCourses);
-    }
+    // if (router.asPath !== router.route) {
+    //   const { id } = router.query
+    //   const urlCourses = `${process.env.API_URL}api/v1/ticourse/${id}/?proyect_name=${props.subdomain}`
+    //   axiosCourseObj(urlCourses);
+    // }
   }, [router])
 
-  const courses_obj = CoursesObj;
+  const courses_obj = props.dataCourses;
   return (
     <div>
       <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-          <title>Home | Colegio</title>
-          <meta name="description" content="description de my Colegio" />
-          <meta property="og:site_name" content="Colegio.com" />
-          <meta property="og:title" content="My Colegio" key="title" />
-          <meta property="og:description" content="description de my Colegio" />
+          <title>{props.dataSeo.title} | {courses_obj.name}</title>
+          <meta name="description" content={courses_obj.description} />
+          <meta property="og:site_name" content={props.urlHost} />
+          <meta property="og:title" content={props.dataSeo.title +' | '+ courses_obj.name} key="title" />
+          <meta property="og:description" content={courses_obj.description} />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://www.Colegio.com" />
-          <meta property="og:image" content="img.jpeg" />
+          <meta property="og:url" content={props.urlReferer}/>
+          <meta property="og:image" content={courses_obj.image}/>
 
           <meta property="fb:app_id" content="111111111" />
           <meta property="twitter:card" content="summary_large_image" />
-          <meta property="twitter:title" content="My Colegio" />
-          <meta property="twitter:site" content="@Colegio" />
-          <meta property="twitter:creator" content="@Colegio" />
-          <meta property="twitter:description" content="my Colegio" />
-          <meta property="twitter:image" content="img.jpeg" />
+          <meta property="twitter:title" content={props.dataSeo.title +' | '+ courses_obj.name} />
+          <meta property="twitter:site" content={'@'+props.dataSeo.title} />
+          <meta property="twitter:creator" content={'@ticlasscom'} />
+          <meta property="twitter:description" content={courses_obj.description} />
+          <meta property="twitter:image" content={courses_obj.image} />
 
-          <link rel="canonical" href="https://www.colegio.com/" />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="canonical" href={props.urlReferer} />
+          <link rel="icon" href={props.dataSeo.favicon} />
       </Head>
       <section className='py-4'>
         <Container>

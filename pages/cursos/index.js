@@ -5,11 +5,29 @@ import { useEffect, useState} from 'react';
 import axios from 'axios';
 import CourseCard from '../../components/landing/CourseCard';
 
-export const getServerSideProps = async ({ params, req,res }) => {
+export const getServerSideProps = async ({ params, req, res, query }) => {
   const locationParts = req.headers.host.split('.');
   const subdomain = locationParts[0]
-    return { props: {subdomain:subdomain}}
+
+  const useTokenSeoA = `Token ${process.env.TOKEN_GENERIC_API}`
+  const urlSeoA = `${process.env.API_SEO_URL}api/v1/ticourse/seo/?proyect_name=${subdomain}`
+  const options = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': useTokenSeoA
+    }
   }
+
+  const resSeo = await fetch(urlSeoA, options)
+  const dataSeo = await resSeo.json()
+
+  const urlReferer = req.headers.referer
+  const urlHost = req.headers.host
+
+  return { props: {subdomain:subdomain, dataSeo:dataSeo, urlReferer:urlReferer, urlHost:urlHost}}
+}
 
 export default function Courses(props) {
   props.onAuthenticationUser();
@@ -32,27 +50,27 @@ export default function Courses(props) {
 
   return (
     <div>
-      <Head>
+     <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <title>Home | Colegio</title>
-        <meta name="description" content="description de my Colegio" />
-        <meta property="og:site_name" content="Colegio.com" />
-        <meta property="og:title" content="My Colegio" key="title" />
-        <meta property="og:description" content="description de my Colegio" />
+        <title>{props.dataSeo.title} | Encontrarás cursos para preparar los exámenes libres</title>
+        <meta name="description" content={props.dataSeo.description} />
+        <meta property="og:site_name" content={props.dataSeo.site} />
+        <meta property="og:title" content={props.dataSeo.title +' | Encontrarás cursos para preparar los exámenes libres'} key="title" />
+        <meta property="og:description" content={props.dataSeo.description} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.Colegio.com" />
-        <meta property="og:image" content="img.jpeg" />
+        <meta property="og:url" content={props.urlReferer}/>
+        <meta property="og:image" content={props.dataSeo.image}/>
 
         <meta property="fb:app_id" content="111111111" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:title" content="My Colegio" />
-        <meta property="twitter:site" content="@Colegio" />
-        <meta property="twitter:creator" content="@Colegio" />
-        <meta property="twitter:description" content="my Colegio" />
-        <meta property="twitter:image" content="img.jpeg" />
+        <meta property="twitter:title" content={props.dataSeo.title +' | Encontrarás cursos para preparar los exámenes libres'} />
+        <meta property="twitter:site" content={'@'+props.dataSeo.title} />
+        <meta property="twitter:creator" content={'@ticlasscom'} />
+        <meta property="twitter:description" content={props.dataSeo.description} />
+        <meta property="twitter:image" content={props.dataSeo.image} />
 
-        <link rel="canonical" href="https://www.colegio.com/" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="canonical" href={props.urlReferer} />
+        <link rel="icon" href={props.dataSeo.favicon} />
       </Head>
       <section style={{ background: "#f8f7ff"}}>
         <Container>
@@ -68,6 +86,7 @@ export default function Courses(props) {
                 desc={pack.description}
                 subscription_set={pack.subscription_set}
                 pack_id={pack.id}
+                image={pack.image}
                 />
              </Col>
             ))}
