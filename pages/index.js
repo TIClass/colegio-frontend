@@ -144,7 +144,7 @@ export default function Home(props) {
         </Container>
       </section>
 
-      
+
 
       <style global jsx>{`
         .slide {
