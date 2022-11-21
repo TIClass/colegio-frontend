@@ -70,7 +70,6 @@ export default function MyCourses(props) {
             <Link href="/cursos">
               <Button variant="outline-danger float-right" className={"m-1 "+styles["float-right"]}>Otros cursos</Button>
             </Link>
-
             </Col>
             <div className='m-0 p-0'>
               <Row className='pt-5'>
@@ -81,7 +80,7 @@ export default function MyCourses(props) {
                     image={pack.course_data.image} />
                 </Col>
               ))}
-              </Row>
+              </Row>              
             </div>
           </Row>
         </Container>
