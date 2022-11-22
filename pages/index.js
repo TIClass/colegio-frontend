@@ -6,12 +6,14 @@ import Image from 'next/image'
 import CourseCard from '../components/landing/CourseCard';
 import LadingLogin from '../components/landing/LadingLogin'
 import { Container, Row, Col, Carousel, Button, Card} from 'react-bootstrap';
-
+import Collapse from 'react-bootstrap/Collapse';
 
 import axios from 'axios';
 import { getCookie} from 'cookies-next';
 import { useEffect, useState} from 'react';
 import TestimonialCard from '../components/landing/TestimonialCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 function fetchFactAxios(url, useToken) {
     return axios
@@ -37,10 +39,10 @@ function fetchFact(url, useToken) {
 
 export const getServerSideProps = async ({ params, req,res }) => {
   const locationParts = req.headers.host.split('.');
-  const subdomain = locationParts[0]
+  const subdomain = locationParts[0]  
 
   const useTokenSeoA = `Token ${process.env.TOKEN_GENERIC_API}`
-  const urlSeoA = `${process.env.API_SEO_URL}api/v1/ticourse/seo/?proyect_name=${subdomain}`
+  const urlSeoA = `${process.env.API_SEO_URL}api/v1/ticourse/seo/?proyect_name=${subdomain}`  
   const options = {
     method: 'GET',
     headers: {
@@ -59,9 +61,16 @@ export default function Home(props) {
   props.onAuthenticationUser();
   const [LandingObj, setLandingObj] = useState([]);
   const [CoursesObj, setCoursesObj] = useState([]);
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [open3, setOpen3] = useState(false);
+  const [open4, setOpen4] = useState(false);
+  const [open5, setOpen5] = useState(false);
+  const [open6, setOpen6] = useState(false);
 
   const [seoObj, setSeoObj] = useState(null);
   const token = getCookie('cookie-usertoken');
+  
   const useToken = token ? `Bearer ${token}` : `Token ${process.env.TOKEN_GENERIC_API}`
   //const useToken = `Token ${process.env.TOKEN_GENERIC_API}`
   const urlCourses = `${process.env.API_URL}api/v1/ticourse/`
@@ -83,6 +92,7 @@ export default function Home(props) {
     axiosLandingObj(urlLanding);
     axiosCourseObj(urlCourses+`?proyect_name=${props.subdomain}`);
   }, [])
+  
   return (
     <div>
       <Head>
@@ -109,7 +119,7 @@ export default function Home(props) {
       </Head>
       <section id="myCarousel" className="landing-home slide p-0">
         <Row className='m-0'>
-          <Col lg="7" xs="12">
+          <Col lg="7" md="12" xs="12">
             <Carousel variant="dark">
             {LandingObj.proyect_landing_slides?.map(pls => (
             <Carousel.Item key={pls.id}>
@@ -127,7 +137,7 @@ export default function Home(props) {
           </Col>
         </Row>
       </section>
-      <section className='pt-2' style={{ background: "#f8f7ff"}}>
+      <section id="section_2" className='pt-2' style={{ background: "#f8f7ff"}}>
         <Container>
           <h2 className="text-center">Cursos</h2>
           <Row>
@@ -147,24 +157,25 @@ export default function Home(props) {
         </Container>
         <section style={{background:'white'}}>
           <Container>
-            <Row>
-              <Col md="12" >
-                <div className='text-center mt-4'>
-                  <h2>Testimonios</h2>
-                  <span>Nuestros estudiantes</span>
-                </div>   
-                <Row className='mt-4'>
-                  <Col md='4'>                    
-                    <TestimonialCard></TestimonialCard>
-                  </Col>
-                  <Col md='4'>
-                    <TestimonialCard></TestimonialCard>
-                  </Col>                                    
-                </Row>   
-                <div className='d-flex justify-content-center'>
-                  <Button className={ 'mb-4 btn ' + styles["roundedbtn"]} style={{background: '#00cac9', border:'1px solid #00cac9'}}>Más Testimonios</Button>                                   
-                </div>                
-              </Col>
+            <Row>              
+              <div className='text-center mt-4'>
+                <h2>Testimonios</h2>
+                <span>Nuestros estudiantes</span>
+              </div>   
+              <Row className='mt-4'>
+                <Col lg="4" md='6' xs="12">                    
+                  <TestimonialCard></TestimonialCard>
+                </Col>
+                <Col lg="4" md='6' xs="12">
+                  <TestimonialCard></TestimonialCard>
+                </Col>            
+                <Col lg="4" md='6' xs="12">
+                  <TestimonialCard></TestimonialCard>
+                </Col>                                    
+              </Row>   
+              <div className='d-flex justify-content-center'>
+                <Button className={ 'mb-4 btn ' + styles["roundedbtn"]} style={{background: '#00cac9', border:'1px solid #00cac9'}}>Más Testimonios</Button>                                   
+              </div>                              
             </Row>
           </Container>        
         </section>     
@@ -177,7 +188,7 @@ export default function Home(props) {
                   <span>Así hacemos las cosas</span>
                 </div>
                 <Row className='mb-4'>
-                  <Col md="3">
+                  <Col lg="3" md="6" className='mb-2'>
                     <Card className={styles["roundedbtn"]}>
                       <Card.Body>
                         <Image src="/logos/img/flip.svg" alt="Flip" width={110} height={110} className={styles["logo-login"]} />
@@ -191,7 +202,7 @@ export default function Home(props) {
                       </Card.Body>
                     </Card>                  
                   </Col>
-                  <Col md="3">
+                  <Col lg="3" md="6" className='mb-2'>
                   <Card className={styles["roundedbtn"]}>
                       <Card.Body>
                         <Image src="/logos/img/autonomo.svg" alt="Autonomo" width={110} height={110} className={styles["logo-login"]} />
@@ -204,7 +215,7 @@ export default function Home(props) {
                       </Card.Body>
                     </Card>  
                   </Col>
-                  <Col md="3">
+                  <Col lg="3" md="6" className='mb-2'>
                   <Card className={styles["roundedbtn"]}>
                       <Card.Body>
                         <Image src="/logos/img/comunidad.svg" alt="Comunidad" width={110} height={110} className={styles["logo-login"]} />
@@ -217,7 +228,7 @@ export default function Home(props) {
                       </Card.Body>
                     </Card>  
                   </Col>
-                  <Col md="3">
+                  <Col lg="3" md="6" className='mb-2'>
                   <Card className={styles["roundedbtn"]}>
                       <Card.Body>
                         <Image src="/logos/img/pensamiento.svg" alt="Pensamiento" width={110} height={110} className={styles["logo-login"]} />
@@ -233,9 +244,720 @@ export default function Home(props) {
                 </Row>
               </Col>
             </Row>
+          </Container>          
+        </section>  
+        <section style={{background:'white'}}>
+          <Container>
+            <Row>
+              <Col md="12">
+                <div className='mt-4 mb-4 text-center'>
+                  <h2 style={{color:'#ed3b46'}}>Hablan de nosotros</h2>
+                  <span>Lo que dicen los medios de nosotros</span>
+                </div>
+                <Row>
+                  <Col md="4">
+                    <Card style={{border: "0"}}>
+                      <Card.Body className='text-center'>
+                      <a href='https://www.youtube.com/watch?v=vLjYGykPb3s' target='_blank'>
+                        <Image src="/landing/img/chv.png" alt="" width={102} height={84} />                        
+                      </a>
+                      <h5 className='my-4'>Chilevisión Noticias</h5>
+                      </Card.Body>                    
+                    </Card>
+                  </Col>
+                  <Col md="4">
+                    <Card style={{border: "0"}}>
+                      <Card.Body className='text-center'>
+                      <a href="http://www.lun.com:9999/lunmobile//pages/NewsDetailMobile.aspx?IsNPHR=1&dt=2021-02-21&NewsID=0&BodyId=0&PaginaID=11&Name=11&PagNum=1&SupplementId=0&Anchor=20210221_11_0_0" target="_blank">
+                        <Image src="/landing/img/lun.jpg" alt="" width={103} height={103} />                                                
+                      </a>
+                      <h5 className='my-4'>Las Últimas Noticias</h5>
+                      </Card.Body>                    
+                    </Card>
+                  </Col>
+                  <Col md="4">
+                    <Card style={{border: "0"}}>
+                      <Card.Body className='text-center'>
+                      <a href="https://www.lanacion.cl/estoy-a-tiempo-de-preparar-una-buena-psu/" target="_blank">                        
+                        <Image src="/landing/img/la-nacion.png" alt="" width={103} height={11} />                                                
+                      </a>
+                      <h5 className='my-4'>La Nación</h5>
+                      </Card.Body>                    
+                    </Card>
+                  </Col>
+                  <Col md="4">
+                    <Card style={{border: "0"}}>
+                      <Card.Body className='text-center'>
+                      <a href="https://portal.nexnews.cl/showN?valor=MTU2NVQ0NTY1STQ0NTgwNjk4MzY3ODI3Mzg0NjU0NTQ5NTc1NDUwNTQ1NTUwNTE0NTY2NzE0NTQ4VTQ0NDQ0NDQ0NDQ0NDQ=" target="_blank">
+                        <Image src="/landing/img/el-mercurio.png" alt="" width={103} height={37} />                                                
+                      </a>
+                      <h5 className='my-4'>El Mercurio</h5>
+                      </Card.Body>                    
+                    </Card>
+                  </Col>
+                  <Col md="4">
+                    <Card style={{border: "0"}}>
+                      <Card.Body className='text-center'>
+                      <a href="https://www.publimetro.cl/cl/noticias/2017/08/07/ti-class.html?outputType=amp" target="_blank">
+                        <Image src="/landing/img/publimetro.png" alt="" width={103} height={62} />                                                
+                      </a>
+                      <h5 className='my-4'>Publimetro</h5>
+                      </Card.Body>                    
+                    </Card>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Container>          
+        </section> 
+        <section style={{background:'white'}}>
+          <Container>
+            <Row >
+              <Col md="12" className='mt-4'>
+                <div className='mt-4 mb-4 text-center'>
+                  <h2 style={{color:'#ed3b46'}}>Confían en nosotros</h2>
+                  <span><b>Instituciones educativas</b></span>
+                </div>
+                <Row>
+                  <Col md="3"> 
+                    <Card style={{border: "0"}}>
+                      <Card.Body className='text-center'>
+                      <a href="https://www.publimetro.cl/cl/noticias/2017/08/07/ti-class.html?outputType=amp" target="_blank">
+                        <Image src="/landing/img/ucen.png" alt="" width={96} height={32}/>
+                      </a>                      
+                      </Card.Body>                    
+                    </Card>                     
+                  </Col>
+                  <Col md="3">
+                    <Card style={{border: "0"}}>
+                      <Card.Body className='text-center'>
+                      <a href="https://www.publimetro.cl/cl/noticias/2017/08/07/ti-class.html?outputType=amp" target="_blank">
+                        <Image src="/landing/img/tesla.png" alt="" width={96} height={43}/>
+                      </a>                      
+                      </Card.Body>                    
+                    </Card>   
+                  </Col>
+                  <Col md="3">
+                    <Card style={{border: "0"}}>
+                      <Card.Body className='text-center'>
+                      <a href="https://www.publimetro.cl/cl/noticias/2017/08/07/ti-class.html?outputType=amp" target="_blank">
+                        <Image src="/landing/img/oci.png" alt="" width={96} height={22}/>
+                      </a>                      
+                      </Card.Body>                    
+                    </Card>   
+                  </Col>
+                  <Col md="3">
+                    <Card style={{border: "0"}}>
+                      <Card.Body className='text-center'>
+                      <a href="https://www.publimetro.cl/cl/noticias/2017/08/07/ti-class.html?outputType=amp" target="_blank">
+                        <Image src="/landing/img/servlet.png" alt="" width={96} height={46}/>
+                      </a>                      
+                      </Card.Body>                    
+                    </Card>   
+                  </Col>
+                  <Col md="3">
+                    <Card style={{border: "0"}}>
+                      <Card.Body className='text-center'>
+                      <a href="https://www.publimetro.cl/cl/noticias/2017/08/07/ti-class.html?outputType=amp" target="_blank">
+                        <Image src="/landing/img/cole-abs.png" alt="" width={96} height={116}/>
+                      </a>                      
+                      </Card.Body>                    
+                    </Card>   
+                  </Col>
+                  <Col md="3">
+                    <Card style={{border: "0"}}>
+                      <Card.Body className='text-center'>
+                      <a href="https://www.publimetro.cl/cl/noticias/2017/08/07/ti-class.html?outputType=amp" target="_blank">
+                        <Image src="/landing/img/coleg01.png" alt="" width={96} height={96}/>
+                      </a>                      
+                      </Card.Body>                    
+                    </Card>                       
+                  </Col>
+                </Row>
+                <div className='mt-4 text-center'>
+                  <span><b>Nos apoyan</b></span>
+                  <Row className='pb-4'>
+                    <Col md="3">
+                      <Card style={{border: "0"}}>
+                        <Card.Body className='text-center'>
+                        <a href="https://www.publimetro.cl/cl/noticias/2017/08/07/ti-class.html?outputType=amp" target="_blank">
+                          <Image src="/landing/img/corfo.png" alt="" width={96} height={37}/>
+                        </a>                      
+                        </Card.Body>                    
+                      </Card>                       
+                    </Col>
+                    <Col md="3">
+                      <Card style={{border: "0"}}>
+                        <Card.Body className='text-center'>
+                        <a href="https://www.publimetro.cl/cl/noticias/2017/08/07/ti-class.html?outputType=amp" target="_blank">
+                          <Image src="/landing/img/gob-b.png" alt="" width={96} height={96}/>
+                        </a>                      
+                        </Card.Body>                    
+                      </Card>                       
+                    </Col>
+                    <Col md="3">
+                      <Card style={{border: "0"}}>
+                        <Card.Body className='text-center'>
+                        <a href="https://www.publimetro.cl/cl/noticias/2017/08/07/ti-class.html?outputType=amp" target="_blank">
+                          <Image src="/landing/img/microsoft.png" alt="" width={96} height={20}/>
+                        </a>                      
+                        </Card.Body>                    
+                      </Card>                       
+                    </Col>
+                    <Col md="3">
+                      <Card style={{border: "0"}}>
+                        <Card.Body className='text-center'>
+                        <a href="https://www.publimetro.cl/cl/noticias/2017/08/07/ti-class.html?outputType=amp" target="_blank">
+                          <Image src="/landing/img/imaginelab.png" alt="" width={96} height={56}/>
+                        </a>                      
+                        </Card.Body>                    
+                      </Card>                       
+                    </Col>
+                    <Col md="3">
+                      <Card style={{border: "0"}}>
+                        <Card.Body className='text-center'>
+                        <a href="https://www.publimetro.cl/cl/noticias/2017/08/07/ti-class.html?outputType=amp" target="_blank">
+                          <Image src="/landing/img/socialab.png" alt="" width={96} height={19}/>
+                        </a>                      
+                        </Card.Body>                    
+                      </Card>                       
+                    </Col>
+                    <Col md="3">
+                      <Card style={{border: "0"}}>
+                        <Card.Body className='text-center'>
+                        <a href="https://www.publimetro.cl/cl/noticias/2017/08/07/ti-class.html?outputType=amp" target="_blank">
+                          <Image src="/landing/img/samsung.png" alt="" width={96} height={34}/>
+                        </a>                      
+                        </Card.Body>                    
+                      </Card>                       
+                    </Col>
+                  </Row>
+                </div>                
+              </Col>
+            </Row>
           </Container>
-          
-        </section>   
+        </section>
+        <section style={{background:'#eef4f9'}} id="equipo" >
+          <Container>
+            <Row className='d-flex justify-content-center'>
+              <Col md="8">                                  
+                  <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                    <Card.Body className='text-center'>
+                      <h2 style={{color:'#ed3b46'}}>TIClass nació en el 2016</h2>
+                      <br></br>
+                      <p className='mb-5'>
+                      con el propósito de disminuir la deserción universitaria y generar oportunidades a las personas que quieren entrar a la universidad mediante educación de alta calidad y bajo costo. Para esto mezclamos lo mejor de la tecnología
+                      existente (TIC) con innovadoras metodologías de aprendizaje (CLASS). TIClass es tecnología y educación al servicio del aprendizaje de las personas. ¡Somos TIClass, el puente entre la escuela y la universidad!.
+                      </p>                        
+                    </Card.Body>
+                  </Card>                            
+              </Col>
+              <Col md="12" className='mt-4 mb-4 pb-4'>
+                <Row>
+                  <Col lg="3" md="6" className='p-0'>
+                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                      <Card.Body>
+                        <div className='text-center'>
+                          <Image src="/landing/equipo/profe-1.svg" alt="VERÓNICA SALDAÑA" width={110} height={110} />                        
+                        </div>
+                        <div >
+                          <ul className='d-flex justify-content-center' style={{listStyleType: 'none', marginRight:'40px'}}>
+                            <li>
+                              <a href="https://www.instagram.com/ticlasscom" target="_blank">
+                              <FontAwesomeIcon
+                                icon={faInstagram}    
+                                className='me-2'                        
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.facebook.com/ticlasscom/"  target="_blank">
+                              <FontAwesomeIcon
+                                icon={faFacebook}    
+                                className='me-2'                                               
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.twitter.com/ticlasscom/" target="_blank">
+                              <FontAwesomeIcon
+                                icon={faTwitter}   
+                                className='me-2'                                                
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>                          
+                          </ul>
+                          <div className='text-center'>
+                          <strong>VERÓNICA SALDAÑA</strong>
+                            <br></br>
+                            Profesora de matemática y física de la Universidad de Chile. Diplomada en currículum y evaluación. Profesora de programación en Desafío Latam.
+                          </div>                        
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col lg="3" md="6" className='p-0'>
+                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                      <Card.Body>
+                        <div className='text-center'>
+                          <Image src="/landing/equipo/profe-2.svg" alt="FRANCISCA MELGAREJO" width={110} height={110} />                        
+                        </div>
+                        <div >
+                          <ul className='d-flex justify-content-center' style={{listStyleType: 'none', marginRight:'40px'}}>
+                            <li>
+                              <a href="https://www.instagram.com/ticlasscom" target="_blank">
+                              <FontAwesomeIcon
+                                icon={faInstagram}    
+                                className='me-2'                        
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.facebook.com/ticlasscom/"  target="_blank">
+                              <FontAwesomeIcon
+                                icon={faFacebook}    
+                                className='me-2'                                               
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.twitter.com/ticlasscom/" target="_blank">
+                              <FontAwesomeIcon
+                                icon={faTwitter}   
+                                className='me-2'                                                
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>                          
+                          </ul>
+                          <div className='text-center'>
+                          <strong>FRANCISCA MELGAREJO</strong>
+                            <br></br>
+                            Profesora de Lengua y Literatura de la Universidad Alberto Hurtado. Cuenta con más de 5 años de experiencia en preuniversitario online TIClass y en escuelas.
+                          </div>                        
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>                
+                  <Col lg="3" md="6" className='p-0'>
+                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                      <Card.Body>
+                        <div className='text-center'>
+                          <Image src="/landing/equipo/profe-3.svg" alt="MELISSA MONDACA" width={110} height={110} />                        
+                        </div>
+                        <div >
+                          <ul className='d-flex justify-content-center' style={{listStyleType: 'none', marginRight:'40px'}}>
+                            <li>
+                              <a href="https://www.instagram.com/ticlasscom" target="_blank">
+                              <FontAwesomeIcon
+                                icon={faInstagram}    
+                                className='me-2'                        
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.facebook.com/ticlasscom/"  target="_blank">
+                              <FontAwesomeIcon
+                                icon={faFacebook}    
+                                className='me-2'                                               
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.twitter.com/ticlasscom/" target="_blank">
+                              <FontAwesomeIcon
+                                icon={faTwitter}   
+                                className='me-2'                                                
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>                          
+                          </ul>
+                          <div className='text-center'>
+                          <strong>MELISSA MONDACA</strong>
+                            <br></br>
+                            Profesora de Historia y Geografía de la Universidad Cardenal Silva Henriquez. Cuenta con más de 4 años de experiencia en preuniversitario online TIClass, y más de 10 en preparación PSU. Es Magister en educación.            
+                          </div>                        
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col lg="3" md="6" className='p-0'>
+                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                      <Card.Body>
+                        <div className='text-center'>
+                          <Image src="/landing/equipo/profe-5.svg" alt="IGNACIA ROCUANT" width={110} height={110} />                        
+                        </div>
+                        <div >
+                          <ul className='d-flex justify-content-center' style={{listStyleType: 'none', marginRight:'40px'}}>
+                            <li>
+                              <a href="https://www.instagram.com/ticlasscom" target="_blank">
+                              <FontAwesomeIcon
+                                icon={faInstagram}    
+                                className='me-2'                        
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.facebook.com/ticlasscom/"  target="_blank">
+                              <FontAwesomeIcon
+                                icon={faFacebook}    
+                                className='me-2'                                               
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.twitter.com/ticlasscom/" target="_blank">
+                              <FontAwesomeIcon
+                                icon={faTwitter}   
+                                className='me-2'                                                
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>                          
+                          </ul>
+                          <div className='text-center'>
+                          <strong>IGNACIA ROCUANT</strong>
+                            <br></br>
+                            Profesora de Biología de la UAH y bióloga de la Pontificia Universidad Católica. Destacada participante de EducarChile. Cuenta con más de 5 años de experiencia en educación online.            
+                          </div>                        
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>                        
+                  <Col lg="3" md="6" className='p-0'>
+                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                      <Card.Body>
+                        <div className='text-center'>
+                          <Image src="/landing/equipo/nico.svg" alt="NICOLÁS MELGAREJO" width={110} height={110} />                        
+                        </div>
+                        <div >
+                          <ul className='d-flex justify-content-center' style={{listStyleType: 'none', marginRight:'40px'}}>
+                            <li>
+                              <a href="https://www.instagram.com/naseroc" target="_blank">
+                              <FontAwesomeIcon
+                                icon={faInstagram}    
+                                className='me-2'                        
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.facebook.com/ProfeNicoMelgarejo/"   target="_blank">
+                              <FontAwesomeIcon
+                                icon={faFacebook}    
+                                className='me-2'                                               
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.twitter.com/naseroc/" target="_blank">
+                              <FontAwesomeIcon
+                                icon={faTwitter}   
+                                className='me-2'                                                
+                                style={{ fontSize: 14, color:'#999'}}
+                              />
+                              </a>
+                            </li>                          
+                          </ul>
+                          <div className='text-center'>
+                          <strong>NICOLÁS MELGAREJO</strong>
+                            <br></br>
+                            Profesor de Matemática y Física de la Universidad de Chile. Diplomado en emprendimiento e innovación educativa de la UDP. Cofundador de TIClass, el preuniversitario online.
+                          </div>                        
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>        
+                  <Col lg="3" md="6" className='p-0'>
+                  <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                    <Card.Body>
+                      <div className='text-center'>
+                        <Image src="/landing/equipo/profe-4.svg" alt="PATRICIO ROMÁN" width={110} height={110} />                        
+                      </div>
+                      <div >
+                        <ul className='d-flex justify-content-center' style={{listStyleType: 'none', marginRight:'40px'}}>
+                          <li>
+                            <a href="https://www.instagram.com/ticlasscom" target="_blank">
+                            <FontAwesomeIcon
+                              icon={faInstagram}    
+                              className='me-2'                        
+                              style={{ fontSize: 14, color:'#999'}}
+                            />
+                            </a>
+                          </li>
+                          <li>
+                            <a href="https://www.facebook.com/ticlasscom/"  target="_blank">
+                            <FontAwesomeIcon
+                              icon={faFacebook}    
+                              className='me-2'                                               
+                              style={{ fontSize: 14, color:'#999'}}
+                            />
+                            </a>
+                          </li>
+                          <li>
+                            <a href="https://www.twitter.com/ticlasscom/" target="_blank">
+                            <FontAwesomeIcon
+                              icon={faTwitter}   
+                              className='me-2'                                                
+                              style={{ fontSize: 14, color:'#999'}}
+                            />
+                            </a>
+                          </li>                          
+                        </ul>
+                        <div className='text-center'>
+                        <strong>PATRICIO ROMÁN</strong>
+                          <br></br>
+                          Licenciado en Ciencias mención biología de la Universidad de Chile. Cuenta con más de 4 años de experiencia en preuniversitario online TIClass, además de clases particulares de preparación PSU.
+                        </div>                        
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>                
+                </Row>                                
+              </Col>
+            </Row>
+          </Container>
+        </section>
+        <section style={{background:'#ffc200'}}>
+          <Container className='pb-4'>
+            <Row>
+              <Col md="12" className='mt-4'>
+                <div className='mt-4 mb-4 text-center'>
+                  <h2 className='text-white'>Preguntas Frecuentes</h2>                  
+                </div>
+                <Card>
+                  <Card.Body>
+                  <div className="d-grid gap-2">
+                    <Button
+                      onClick={() => setOpen1(!open1)}  
+                      aria-controls="collapse1"                    
+                      aria-expanded={open1}  
+                      variant="outline-light"
+                      size="lg"
+                      style={{fontSize:'16px',color:'black', border:'none'}}                     
+                      >
+                     <p className='text-start m-1'>¿Cuándo comienzan las clases del Preuniversitario?</p> 
+                    </Button>
+                  </div>                  
+                    <Collapse in={open1}>
+                      <div id="collapse1">
+                        <p className="pt-4 px-4">El Preuniversitario comienza en marzo con las clases en vivo exclusivas del programa.</p>                        
+                      </div>
+                    </Collapse>
+                  </Card.Body>
+                </Card>                
+              </Col>
+              <Col md="12">                
+                <Card>
+                  <Card.Body>
+                    <div className="d-grid gap-2">
+                      <Button
+                        onClick={() => setOpen2(!open2)}  
+                        aria-controls="collapse2"                    
+                        aria-expanded={open2}
+                        variant="outline-light"
+                        size="lg"
+                        style={{fontSize:'16px',color:'black', border:'none'}}                                                                 
+                      >
+                        <p className='text-start m-1'>¿Qué asignaturas incluye?</p>                         
+                      </Button>
+                    </div>                  
+                    <Collapse in={open2}>
+                      <div id="collapse2">
+                        <p className="pt-4 px-4">
+                          En el Full están todas incluidas: Matemática, Comprensión Lectora, Ciencias Naturales, Historia y Cs. Sociales. También puedes personalizar tu programa eligiendo solo las asignaturas que quieres.
+                        </p>                        
+                      </div>
+                    </Collapse>
+                  </Card.Body>
+                </Card>                
+              </Col>
+              <Col md="12">                
+                <Card>
+                  <Card.Body>
+                    <div className="d-grid gap-2">
+                      <Button
+                        onClick={() => setOpen3(!open3)}  
+                        aria-controls="collapse3"                    
+                        aria-expanded={open3}   
+                        variant="outline-light"
+                        size="lg"
+                        style={{fontSize:'16px',color:'black', border:'none'}}                                                                 
+                      >
+                        <p className='text-start m-1'>¿Las clases en vivo quedan grabadas?</p>                        
+                      </Button>
+                    </div>                  
+                    <Collapse in={open3}>
+                      <div id="collapse3">
+                        <p className="pt-4 px-4">
+                          ¡Sí! Grabamos y guardamos todas las clases en la plataforma para que puedas volver a revisar el contenido las veces que quieras y en tus propios tiempos.
+                        </p>                        
+                      </div>
+                    </Collapse>
+                  </Card.Body>
+                </Card>                
+              </Col>
+              <Col md="12">                
+                <Card>
+                  <Card.Body>
+                    <div className="d-grid gap-2">
+                      <Button
+                        onClick={() => setOpen4(!open4)}  
+                        aria-controls="collapse4"                    
+                        aria-expanded={open4}   
+                        variant="outline-light"
+                        size="lg"
+                        style={{fontSize:'16px',color:'black', border:'none'}}                                                                  
+                      >
+                        <p className='text-start m-1'>¿Hay ensayos para PDT?</p>                           
+                      </Button>
+                    </div>                  
+                    <Collapse in={open4}>
+                      <div id="collapse4">
+                        <p className="pt-4 px-4">
+                          Sí. Realizaremos jornadas de ensayos online para la PDT
+                        </p>                        
+                      </div>
+                    </Collapse>
+                  </Card.Body>
+                </Card>                
+              </Col>
+              <Col md="12">                
+                <Card>
+                  <Card.Body>
+                    <div className="d-grid gap-2">
+                      <Button
+                        onClick={() => setOpen5(!open5)}  
+                        aria-controls="collapse5"                    
+                        aria-expanded={open5}   
+                        variant="outline-light"
+                        size="lg"
+                        style={{fontSize:'16px',color:'black', border:'none'}}                                                                  
+                      >
+                        <p className='text-start m-1'>¿Se puede pagar en cuotas?</p>                        
+                      </Button>
+                    </div>                  
+                    <Collapse in={open5}>
+                      <div id="collapse5">
+                        <p className="pt-4 px-4">
+                        ¡Sí! El valor promocional se puede pagar en cuotas mensuales consecutivas. Comunícate con nosotros haciendo click aquí
+                        </p>                        
+                      </div>
+                    </Collapse>
+                  </Card.Body>
+                </Card>                
+              </Col>
+              <Col md="12" className='mb-4'>                
+                <Card >
+                  <Card.Body>
+                    <div className="d-grid gap-2">
+                      <Button
+                        onClick={() => setOpen6(!open6)}  
+                        aria-controls="collapse6"                    
+                        aria-expanded={open6}  
+                        variant="outline-light"
+                        size="lg"
+                        style={{fontSize:'16px',color:'black', border:'none'}}                                                                 
+                      >
+                        <p className='text-start m-1'>¿Qué métodos de pago existen?</p>                         
+                      </Button>
+                    </div>                  
+                    <Collapse in={open6}>
+                      <div id="collapse6">
+                        <p className="pt-4 px-4">
+                        Los métodos de pago son los siguientes:
+                      - Tarjeta de Crédito
+                      - Tarjeta de Débito a través de Webpay
+                      - Transferencia Bancaria
+                      - Efectivo (Vía Servipag)
+                        </p>                        
+                      </div>
+                    </Collapse>
+                  </Card.Body>
+                </Card>                
+              </Col>
+            </Row>
+          </Container>
+        </section>
+
+        <footer style={{background:'white'}}>
+          <Container>
+            <Row className='p-4'>
+              <Col md="4" >
+                <Image src="/logos/img/logo-ticlass.svg" alt="PATRICIO ROMÁN" width={200} height={110} />    
+                <hr></hr>
+                <ul className='d-flex justify-content-start p-0' style={{listStyleType: 'none'}}>
+                  <li>
+                    <a href="https://www.youtube.com/channel/UCzXXYamApODD2VFlJzyRiuQ" target="_blank">
+                      <FontAwesomeIcon
+                        icon={faYoutube}    
+                        className='me-2'                        
+                        style={{ fontSize: '2em', color:'#999'}}
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.instagram.com/ticlasscom/" target="_blank">
+                      <FontAwesomeIcon
+                        icon={faInstagram}    
+                        className='me-2'                        
+                        style={{ fontSize: '2em', color:'#999'}}
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.facebook.com/ticlasscom" target="_blank">
+                      <FontAwesomeIcon
+                        icon={faFacebook}    
+                        className='me-2'                        
+                        style={{ fontSize: '2em', color:'#999'}}
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.linkedin.com/company/ticlass" target="_blank">
+                      <FontAwesomeIcon
+                        icon={faLinkedin}    
+                        className='me-2'                        
+                        style={{ fontSize: '2em', color:'#999'}}
+                      />
+                    </a>
+                  </li>
+                </ul>
+              </Col>
+              <Col md="4">
+              <ul className=' p-0' style={{listStyleType: 'none'}}>              
+                  <li>
+                    <a href="#equipo">                                   
+                      ¿Qué es TIClass?
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#section_2">
+                      ¿Qué ofrecemos?                  
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.linkedin.com/company/ticlass" target="_blank">                 
+                      Contacto
+                    </a>
+                  </li>
+                </ul>
+              </Col>              
+            </Row>        
+          </Container>      
+        </footer>
       </section>    
       <style global jsx>{`
         .slide {
