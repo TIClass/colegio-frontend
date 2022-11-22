@@ -62,7 +62,7 @@ export const getServerSideProps = async ({ params, req,res }) => {
 
   if(subdomain === 'cursos') {
     classLanding = 'landing-home-cursos'
-    imgLogo = ''
+    imgLogo = '/logos/img/logo-cursos-ticlass.svg'
   }
 
   const resSeo = await fetch(urlSeoA, options)
