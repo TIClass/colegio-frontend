@@ -70,7 +70,7 @@ export default function Courses(props) {
         <meta property="twitter:image" content={props.dataSeo.image} />
 
         <link rel="canonical" href={props.urlReferer} />
-        <link rel="icon" href={props.dataSeo.favicon} />
+        <link rel="icon" href="/logos/img/favicon.png" />
       </Head>
       <section style={{ background: "#f8f7ff"}}>
         <Container>

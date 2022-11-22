@@ -50,13 +50,27 @@ export const getServerSideProps = async ({ params, req,res }) => {
     }
   }
 
+  let classLanding = ''
+  let imgLogo = ''
+
+  if(subdomain === 'colegio') {
+    classLanding = 'landing-home-colegio'
+    imgLogo = '/logos/img/logo-colegio-ticlass.svg'
+  }
+
+  if(subdomain === 'cursos') {
+    classLanding = 'landing-home-cursos'
+    imgLogo = ''
+  }
+
   const resSeo = await fetch(urlSeoA, options)
   const dataSeo = await resSeo.json()
-  return { props: {subdomain:subdomain, dataSeo:dataSeo}}
+  return { props: {subdomain:subdomain, dataSeo:dataSeo, classLanding:classLanding, imgLogo:imgLogo}}
 }
 
 export default function Home(props) {
   props.onAuthenticationUser();
+  props.onImgLogo(props.imgLogo);
   const [LandingObj, setLandingObj] = useState([]);
   const [CoursesObj, setCoursesObj] = useState([]);
 
@@ -73,6 +87,7 @@ export default function Home(props) {
   }
 
   const userAuthentications = props.userAuthentications
+  const imgLogo = props.imgLogo
   const axiosCourseObj= (url) => {
     axios.get(url, { headers: { Authorization: useToken } })
           .then(res => setCoursesObj(res.data))
@@ -105,9 +120,9 @@ export default function Home(props) {
           <meta property="twitter:image" content={props.dataSeo.image} />
 
           <link rel="canonical" href={props.dataSeo.url} />
-          <link rel="icon" href={props.dataSeo.favicon} />
+          <link rel="icon" href="/logos/img/favicon.png" />
       </Head>
-      <section id="myCarousel" className="landing-home slide p-0">
+      <section id="myCarousel" className={`landing-home ${props.classLanding} slide p-0`}>
         <Row className='m-0'>
           <Col lg="7" xs="12">
             <Carousel variant="dark">
@@ -142,7 +157,7 @@ export default function Home(props) {
                 image={pack.image}
                 />
               </Col>
-            ))}            
+            ))}
           </Row>
         </Container>
         <section style={{background:'white'}}>
@@ -152,22 +167,22 @@ export default function Home(props) {
                 <div className='text-center mt-4'>
                   <h2>Testimonios</h2>
                   <span>Nuestros estudiantes</span>
-                </div>   
+                </div>
                 <Row className='mt-4'>
-                  <Col md='4'>                    
+                  <Col md='4'>
                     <TestimonialCard></TestimonialCard>
                   </Col>
                   <Col md='4'>
                     <TestimonialCard></TestimonialCard>
-                  </Col>                                    
-                </Row>   
+                  </Col>
+                </Row>
                 <div className='d-flex justify-content-center'>
-                  <Button className={ 'mb-4 btn ' + styles["roundedbtn"]} style={{background: '#00cac9', border:'1px solid #00cac9'}}>Más Testimonios</Button>                                   
-                </div>                
+                  <Button className={ 'mb-4 btn ' + styles["roundedbtn"]} style={{background: '#00cac9', border:'1px solid #00cac9'}}>Más Testimonios</Button>
+                </div>
               </Col>
             </Row>
-          </Container>        
-        </section>     
+          </Container>
+        </section>
         <section className='p-4' style={{background:'#eb4856'}}>
           <Container>
             <Row>
@@ -189,7 +204,7 @@ export default function Home(props) {
                           </p>
                         </div>
                       </Card.Body>
-                    </Card>                  
+                    </Card>
                   </Col>
                   <Col md="3">
                   <Card className={styles["roundedbtn"]}>
@@ -202,7 +217,7 @@ export default function Home(props) {
                           </p>
                         </div>
                       </Card.Body>
-                    </Card>  
+                    </Card>
                   </Col>
                   <Col md="3">
                   <Card className={styles["roundedbtn"]}>
@@ -215,7 +230,7 @@ export default function Home(props) {
                           </p>
                         </div>
                       </Card.Body>
-                    </Card>  
+                    </Card>
                   </Col>
                   <Col md="3">
                   <Card className={styles["roundedbtn"]}>
@@ -228,22 +243,29 @@ export default function Home(props) {
                           </p>
                         </div>
                       </Card.Body>
-                    </Card>  
+                    </Card>
                   </Col>
                 </Row>
               </Col>
             </Row>
           </Container>
-          
-        </section>   
-      </section>    
+
+        </section>
+      </section>
       <style global jsx>{`
         .slide {
           height: 500px;
         }
-        .landing-home {
+        .landing-home-colegio {
           background-color: #fff;
-          background-image: url(/landing/img/fondo_slide.svg);
+          background-image: url(/landing/img/fondo_slide_colegio.svg);
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position-y: -200px;
+        }
+        .landing-home-cursos {
+          background-color: #fff;
+          background-image: url(/landing/img/fondo_slide_cursos.png);
           background-repeat: no-repeat;
           background-size: cover;
           background-position-y: -200px;
@@ -259,7 +281,7 @@ export default function Home(props) {
         }
         .carousel-dark .carousel-indicators [data-bs-target] {
           display: none;
-        }        
+        }
       `}</style>
     </div>
   )

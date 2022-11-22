@@ -219,7 +219,7 @@ export default function MyCourseDetail(props) {
           <meta property="twitter:image" content="img.jpeg" />
 
           <link rel="canonical" href="https://www.colegio.com/" />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/logos/img/favicon.png" />
       </Head>
       <section className='py-4'>
         <Container>

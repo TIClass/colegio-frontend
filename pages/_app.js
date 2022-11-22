@@ -15,19 +15,20 @@ import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
   const [userAuthentications, setUserAuthentications] = useState('');
+  const [imgLogoObj, setImgLogo] = useState('');
 
   const isInfoComplete = (user) => {
     // const variable = userAuthentications?.results
-    const variable = user    
+    const variable = user
     if (variable) {
-      if (variable.info1_complete_colegio == false) {        
-        return(Router.push('/register/steps/1'))        
+      if (variable.info1_complete_colegio == false) {
+        return(Router.push('/register/steps/1'))
       }
       if (variable.info2_complete_colegio == false) {
-        return(Router.push('/register/steps/2'))        
+        return(Router.push('/register/steps/2'))
       }
       if (variable.info3_complete_colegio == false) {
-        return(Router.push('/register/steps/3'))        
+        return(Router.push('/register/steps/3'))
       }
     }
   }
@@ -52,8 +53,8 @@ function MyApp({ Component, pageProps }) {
                       // 'rut':res.data.results[0].rut
                     }
                     setCookie("user-info-basic", users);
-                    setUserAuthentications(res.data.results[0])      
-                    isInfoComplete(res.data.results[0])              
+                    setUserAuthentications(res.data.results[0])
+                    isInfoComplete(res.data.results[0])
                   })
                   .catch(err => {
                       setUserAuthentications(null)
@@ -69,7 +70,17 @@ function MyApp({ Component, pageProps }) {
 
   }
 
-  return (<Layout userAuthentications={userAuthentications}><Component {...pageProps} onAuthenticationUser={handleAuthenticationUser} userAuthentications={userAuthentications} isInfoComplete={isInfoComplete} setUserAuthentications={setUserAuthentications}/></Layout>);
+  function handleImgLogo(img) {
+    const defineImgLog = async(img) => {
+      setImgLogo(img)
+    }
+    useEffect(() => {
+      defineImgLog(img)
+    }, [])
+
+  }
+
+  return (<Layout userAuthentications={userAuthentications} imgLogoObj={imgLogoObj} ><Component {...pageProps} onImgLogo={handleImgLogo} onAuthenticationUser={handleAuthenticationUser} userAuthentications={userAuthentications} isInfoComplete={isInfoComplete} imgLogoObj={imgLogoObj} setUserAuthentications={setUserAuthentications} setImgLogo={setImgLogo}/></Layout>);
 }
 
 export default MyApp
