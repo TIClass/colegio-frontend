@@ -8,11 +8,11 @@ import axios from 'axios';
 const Layout = (props) => {
   return (
     <div>
-      <Navbar userAuthentications={props.userAuthentications}/>
+      <Navbar userAuthentications={props.userAuthentications} imgLogoObj={props.imgLogoObj}/>
         { props.children }
       <Footer />
     </div>
   );
 }
- 
+
 export default Layout;

@@ -84,7 +84,7 @@ export default function CourseDetail(props) {
           <meta property="twitter:image" content={courses_obj.image} />
 
           <link rel="canonical" href={props.urlReferer} />
-          <link rel="icon" href={props.dataSeo.favicon} />
+          <link rel="icon" href="/logos/img/favicon.png" />
       </Head>
       <section className='py-4'>
         <Container>

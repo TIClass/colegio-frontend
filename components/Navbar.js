@@ -16,7 +16,11 @@ import { setCookies, getCookie, deleteCookie } from 'cookies-next';
 import axios from 'axios';
 
 const TNavbar = (props) => {
+  console.log(props)
+  const imgLogoObj = props.imgLogoObj;
   const userAuthentications = props.userAuthentications;
+
+
   const logout = (e) => {
     let resp = null;
     let _token = getCookie('cookie-usertoken');
@@ -47,7 +51,7 @@ const TNavbar = (props) => {
       <Container>
         <Link href="/">
           <Navbar.Brand >
-            <Image src="/logos/img/logo-natiboo-by-ticlass.svg" alt="Colegio Natiboo" width={150} height={43} className={styles["logo-login"]+ ' logo-login'} />
+            <Image src={imgLogoObj} alt="Colegio Natiboo" width={150} height={55} className={styles["logo-login"]+ ' logo-login'} />
           </Navbar.Brand>
         </Link>
         {userAuthentications?

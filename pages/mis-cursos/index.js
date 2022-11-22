@@ -58,7 +58,7 @@ export default function MyCourses(props) {
           <meta property="twitter:image" content="img.jpeg" />
 
           <link rel="canonical" href="https://www.colegio.com/" />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/logos/img/favicon.png" />
       </Head>
       <section>
         <Container>
@@ -70,7 +70,6 @@ export default function MyCourses(props) {
             <Link href="/cursos">
               <Button variant="outline-danger float-right" className={"m-1 "+styles["float-right"]}>Otros cursos</Button>
             </Link>
-
             </Col>
             <div className='m-0 p-0'>
               <Row className='pt-5'>
