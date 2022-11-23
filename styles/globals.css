@@ -42,3 +42,8 @@ h4{
 .roundedbtn{
   border-radius: 20px !important;
 }
+
+.card-img-top {
+  border-top-left-radius: 30px!important;
+  border-top-right-radius: 30px!important;
+}
