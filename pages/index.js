@@ -68,6 +68,7 @@ export default function Home(props) {
   props.onImgLogo(props.imgLogo);
   const [LandingObj, setLandingObj] = useState([]);
   const [CoursesObj, setCoursesObj] = useState([]);
+  const [landingTestimoniosObj, setLandingTestimoniosObj] = useState([]);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [open3, setOpen3] = useState(false);
@@ -80,11 +81,18 @@ export default function Home(props) {
 
   const useToken = token ? `Bearer ${token}` : `Token ${process.env.TOKEN_GENERIC_API}`
   //const useToken = `Token ${process.env.TOKEN_GENERIC_API}`
-  const urlCourses = `${process.env.API_URL}api/v1/ticourse/`
-  const urlLanding = `${process.env.API_URL}api/v1/tiproyects/landing/`
+  const urlCourses = `${process.env.API_URL}api/v1/ticourse/?proyect_name=${props.subdomain}`
+  const urlLanding = `${process.env.API_URL}api/v1/tiproyects/landing/?proyect_name=${props.subdomain}`
+  const urlLandingTestimonios = `${process.env.API_URL}api/v1/tiproyects/landing/?proyect_name=${props.subdomain}&kind=testimonials`
   const axiosLandingObj = (url) => {
     axios.get(url, { headers: { Authorization: useToken } })
           .then(res => setLandingObj(res.data))
+          .catch(err => err)
+  }
+
+  const axiosLandingTestimoniosObj = (url) => {
+    axios.get(url, { headers: { Authorization: useToken } })
+          .then(res => setLandingTestimoniosObj(res.data))
           .catch(err => err)
   }
 
@@ -98,8 +106,11 @@ export default function Home(props) {
 
   useEffect(() => {
     axiosLandingObj(urlLanding);
-    axiosCourseObj(urlCourses+`?proyect_name=${props.subdomain}`);
+    axiosLandingTestimoniosObj(urlLandingTestimonios);
+    axiosCourseObj(urlCourses);
   }, [])
+
+  console.log(landingTestimoniosObj)
 
   return (
     <div>
@@ -171,15 +182,9 @@ export default function Home(props) {
                 <span>Nuestros estudiantes</span>
               </div>
               <Row className='mt-4'>
-                <Col lg="4" md='6' xs="12">
-                  <TestimonialCard></TestimonialCard>
-                </Col>
-                <Col lg="4" md='6' xs="12">
-                  <TestimonialCard></TestimonialCard>
-                </Col>
-                <Col lg="4" md='6' xs="12">
-                  <TestimonialCard></TestimonialCard>
-                </Col>
+              {landingTestimoniosObj?.testimonials?.map((item,index)=>{
+                return(<Col lg="4" md='6' xs="12" key={index}><TestimonialCard item={item}></TestimonialCard></Col>)
+              })}
               </Row>
               <div className='d-flex justify-content-center'>
                 <Button className={ 'mb-4 btn ' + styles["roundedbtn"]} style={{background: '#00cac9', border:'1px solid #00cac9'}}>Más Testimonios</Button>
