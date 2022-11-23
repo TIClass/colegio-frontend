@@ -1,7 +1,10 @@
+import Head from 'next/head'
 import variables from '../../../../../../../../styles/variables.module.scss';
 
 import { Badge, Card, Col, Container, Row, Button, Tab, Tabs, Nav} from "react-bootstrap";
 import Feedback from '../../../../../../../../components/resources/Feedback';
+
+import { getLogo, getClassLanding } from '../../../../../../../../methods/getLogoClass';
 
 import { useRouter } from 'next/router'
 import { useEffect, useState} from 'react';
@@ -15,11 +18,32 @@ export const getServerSideProps = async ({ params, req,res }) => {
   if (cookieUserToken == undefined) {
     return { redirect: { permanent: false, destination: "/accounts/login/?from="+req.url}, props:{},};
   }
-  return { props: {}}
+  const locationParts = req.headers.host.split('.');
+  const subdomain = locationParts[0]
+
+  const useTokenSeoA = `Token ${process.env.TOKEN_GENERIC_API}`
+  const urlSeoA = `${process.env.API_SEO_URL}api/v1/ticourse/seo/?proyect_name=${subdomain}`
+  const options = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': useTokenSeoA
+    }
+  }
+
+  const resSeo = await fetch(urlSeoA, options)
+  const dataSeo = await resSeo.json()
+
+  const urlReferer = `https://${req.headers.host}${req.url}`
+  const urlHost = req.headers.host
+  return { props: {subdomain:subdomain, dataSeo:dataSeo, urlReferer:urlReferer, urlHost:urlHost,
+      classLanding:getClassLanding(subdomain), imgLogo:getLogo(subdomain)}}
 }
 
 export default function Feddback(props) {
   props.onAuthenticationUser();
+  props.onImgLogo(props.imgLogo);
 
   const router = useRouter();
   const token = getCookie('cookie-usertoken');
@@ -56,6 +80,28 @@ export default function Feddback(props) {
 
   return (
     <div>
+    <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>{props.dataSeo.title} | Feedback</title>
+        <meta name="description" content={props.dataSeo.description} />
+        <meta property="og:site_name" content={props.dataSeo.site} />
+        <meta property="og:title" content={props.dataSeo.title +' | Feedback'} key="title" />
+        <meta property="og:description" content={props.dataSeo.description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={props.urlReferer}/>
+        <meta property="og:image" content={props.dataSeo.image}/>
+
+        <meta property="fb:app_id" content="111111111" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content={props.dataSeo.title +' | Feedback'} />
+        <meta property="twitter:site" content={'@'+props.dataSeo.title} />
+        <meta property="twitter:creator" content={'@ticlasscom'} />
+        <meta property="twitter:description" content={props.dataSeo.description} />
+        <meta property="twitter:image" content={props.dataSeo.image} />
+
+        <link rel="canonical" href={props.urlReferer} />
+        <link rel="icon" href="/logos/img/favicon.png" />
+    </Head>
       <h6 className="text-center text-white p-1" style={{background:variables.purpleColor}}>Feddback</h6>
       <Container>
         <Row>

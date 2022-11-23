@@ -8,16 +8,40 @@ import axios from 'axios';
 import Link from 'next/link'
 import Router from 'next/router'
 
+import { getLogo, getClassLanding } from '../../methods/getLogoClass';
+
 export const getServerSideProps = async ({ params, req,res }) => {
+  const locationParts = req.headers.host.split('.');
+  const subdomain = locationParts[0]
+
   const cookieUserToken = req.cookies['cookie-usertoken'];
   if (cookieUserToken == undefined) {
     return { redirect: { permanent: false, destination: "/accounts/login/?from="+req.url}, props:{},};
   }
-  return { props: {}}
+
+  const useTokenSeoA = `Token ${process.env.TOKEN_GENERIC_API}`
+  const urlSeoA = `${process.env.API_SEO_URL}api/v1/ticourse/seo/?proyect_name=${subdomain}`
+  const options = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': useTokenSeoA
+    }
+  }
+
+  const resSeo = await fetch(urlSeoA, options)
+  const dataSeo = await resSeo.json()
+  const urlReferer = `https://${req.headers.host}${req.url}`
+  const urlHost = req.headers.host
+
+  return { props: {subdomain:subdomain, dataSeo:dataSeo, urlReferer:urlReferer, urlHost:urlHost,
+      classLanding:getClassLanding(subdomain), imgLogo:getLogo(subdomain)}}
 }
 
 export default function MyCourses(props) {
   props.onAuthenticationUser();
+  props.onImgLogo(props.imgLogo);
 
   const [CoursesObj, setCoursesObj] = useState([]);
   const token = getCookie('cookie-usertoken');
@@ -40,24 +64,24 @@ export default function MyCourses(props) {
     <div>
       <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-          <title>Home | Colegio</title>
-          <meta name="description" content="description de my Colegio" />
-          <meta property="og:site_name" content="Colegio.com" />
-          <meta property="og:title" content="My Colegio" key="title" />
-          <meta property="og:description" content="description de my Colegio" />
+          <title>{props.dataSeo.title} | Mis Cursos</title>
+          <meta name="description" content={props.dataSeo.description} />
+          <meta property="og:site_name" content={props.dataSeo.site} />
+          <meta property="og:title" content={props.dataSeo.title +' | Mis Cursos'} key="title" />
+          <meta property="og:description" content={props.dataSeo.description} />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://www.Colegio.com" />
-          <meta property="og:image" content="img.jpeg" />
+          <meta property="og:url" content={props.urlReferer}/>
+          <meta property="og:image" content={props.dataSeo.image}/>
 
           <meta property="fb:app_id" content="111111111" />
           <meta property="twitter:card" content="summary_large_image" />
-          <meta property="twitter:title" content="My Colegio" />
-          <meta property="twitter:site" content="@Colegio" />
-          <meta property="twitter:creator" content="@Colegio" />
-          <meta property="twitter:description" content="my Colegio" />
-          <meta property="twitter:image" content="img.jpeg" />
+          <meta property="twitter:title" content={props.dataSeo.title +' | Mis Cursos'} />
+          <meta property="twitter:site" content={'@'+props.dataSeo.title} />
+          <meta property="twitter:creator" content={'@ticlasscom'} />
+          <meta property="twitter:description" content={props.dataSeo.description} />
+          <meta property="twitter:image" content={props.dataSeo.image} />
 
-          <link rel="canonical" href="https://www.colegio.com/" />
+          <link rel="canonical" href={props.urlReferer} />
           <link rel="icon" href="/logos/img/favicon.png" />
       </Head>
       <section>
