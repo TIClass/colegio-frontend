@@ -128,7 +128,7 @@ function QuizResource(props) {
 
 
   const checkFeedback = (resource) => {
-    const alternative = null
+    var alternative = null
     const questionquiz_respuesta = document.querySelector('input[name="questionquiz_respuesta"]:checked');
     if (resource.msg_feedback == true){
       //Para pregunta omitida
@@ -187,8 +187,8 @@ function QuizResource(props) {
   const getAlertFeedBack = (msg_feedback) => {
     if (msg_feedback) {
       if (showAlertFacebook) {
-        const variant = null
-        const msg = null
+        var variant = null
+        var msg = null
         if (isCorrectObj?.qss?.id) {
             variant = isCorrectObj?.qss?.correct_answer ? `success` : `danger`
             msg = isCorrectObj?.qss?.correct_answer ? `Correcto, sigue así!` : `Pucha no, pero a la otra sí!`
