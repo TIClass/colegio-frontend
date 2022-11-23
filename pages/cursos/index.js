@@ -1,9 +1,11 @@
 import Head from 'next/head'
-import { Container, Row, Col} from 'react-bootstrap';
+import { Container, Row, Col, Alert} from 'react-bootstrap';
 import { getCookie } from 'cookies-next';
 import { useEffect, useState} from 'react';
 import axios from 'axios';
 import CourseCard from '../../components/landing/CourseCard';
+
+import { getLogo, getClassLanding } from '../../methods/getLogoClass';
 
 export const getServerSideProps = async ({ params, req, res, query }) => {
   const locationParts = req.headers.host.split('.');
@@ -23,15 +25,17 @@ export const getServerSideProps = async ({ params, req, res, query }) => {
   const resSeo = await fetch(urlSeoA, options)
   const dataSeo = await resSeo.json()
 
-  const urlReferer = req.headers.referer
+  const urlReferer = `https://${req.headers.host}${req.url}`
   const urlHost = req.headers.host
 
-  return { props: {subdomain:subdomain, dataSeo:dataSeo, urlReferer:urlReferer, urlHost:urlHost}}
+  return { props: {subdomain:subdomain, dataSeo:dataSeo, urlReferer:urlReferer, urlHost:urlHost,
+    classLanding:getClassLanding(subdomain), imgLogo:getLogo(subdomain)}}
 }
 
 export default function Courses(props) {
   props.onAuthenticationUser();
   props.isInfoComplete();
+  props.onImgLogo(props.imgLogo);
 
   const [CoursesObj, setCoursesObj] = useState([]);
   const token = getCookie('cookie-usertoken');
@@ -76,8 +80,15 @@ export default function Courses(props) {
         <Container>
           <Row className='pt-5'>
             <Col md="12">
-              <h2 className='text-center'>Cursos</h2>
+              <h1 className='text-center'>Mira nuestros cursos</h1>
             </Col>
+            <Col md={{ span: 6, offset: 3 }}>
+              <Alert  variant={'success'} className="text-center pt-2 pb-2">
+                Selecciona el curso que mejor se acomode a tus necesidades y logra tus objetivos y metas con TIClass Colegio!
+              </Alert>
+            </Col>
+          </Row>
+          <Row className='pt-5'>
             {courses_obj.results?.map(pack => (
               <Col lg="4" md="6" sm="12" xs="12" key={pack.id}>
               <CourseCard

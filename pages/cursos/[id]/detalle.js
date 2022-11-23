@@ -35,7 +35,7 @@ export const getServerSideProps = async ({ params, req, res, query }) => {
 
   const resCourses = await fetch(urlCourses, options)
   const dataCourses = await resCourses.json()
-  const urlReferer = req.headers.referer
+  const urlReferer = `https://${req.headers.host}${req.url}`
   const urlHost = req.headers.host
   return { props: {subdomain:subdomain, dataSeo:dataSeo, dataCourses:dataCourses,
                     urlReferer:urlReferer, urlHost:urlHost, classLanding:getClassLanding(subdomain), imgLogo:getLogo(subdomain)

@@ -56,7 +56,11 @@ export const getServerSideProps = async ({ params, req,res }) => {
 
   const resSeo = await fetch(urlSeoA, options)
   const dataSeo = await resSeo.json()
-  return { props: {subdomain:subdomain, dataSeo:dataSeo, classLanding:getClassLanding(subdomain), imgLogo:getLogo(subdomain)}}
+
+  const urlReferer = `https://${req.headers.host}${req.url}`
+  const urlHost = req.headers.host
+  return { props: {subdomain:subdomain, dataSeo:dataSeo, urlReferer:urlReferer, urlHost:urlHost,
+      classLanding:getClassLanding(subdomain), imgLogo:getLogo(subdomain)}}
 }
 
 export default function Home(props) {
@@ -107,7 +111,7 @@ export default function Home(props) {
           <meta property="og:title" content={props.dataSeo.title +' | '+ props.dataSeo.slogan} key="title" />
           <meta property="og:description" content={props.dataSeo.description} />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content={props.dataSeo.url}/>
+          <meta property="og:url" content={props.urlReferer}/>
           <meta property="og:image" content={props.dataSeo.image}/>
 
           <meta property="fb:app_id" content="111111111" />
@@ -118,7 +122,7 @@ export default function Home(props) {
           <meta property="twitter:description" content={props.dataSeo.description} />
           <meta property="twitter:image" content={props.dataSeo.image} />
 
-          <link rel="canonical" href={props.dataSeo.url} />
+          <link rel="canonical" href={props.urlReferer} />
           <link rel="icon" href="/logos/img/favicon.png" />
       </Head>
       <section id="myCarousel" className={`landing-home ${props.classLanding} slide p-0`}>
