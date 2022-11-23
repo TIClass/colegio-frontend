@@ -25,8 +25,8 @@ function BuyCard(props) {
         if(item.offer_price == '0.0000') {
             return (
                 <div key={index}>
-                <h4 style={{color: variables.primaryColor}}>{formatPrice(item.price)}</h4>
-                <div className="d-grid gap-2">
+                <span style={{color: variables.primaryColor, fontSize: '1.8rem'}}>{formatPrice(item.price)}</span>
+                <div className="d-grid gap-2 pt-2">
                   <Button size="lg" variant="danger" className={"text-white "+styles["roundedbtn"]}>Comprar ahora</Button>
                 </div>
                 </div>)
@@ -34,7 +34,7 @@ function BuyCard(props) {
           return (
               <div key={index}>
               <span className={styles["offer"]}>{formatPrice(item.price)}</span>
-              <h4 style={{color: variables.primaryColor}}>{formatPrice(item.offer_price)}</h4>
+              <span style={{color: variables.primaryColor}}>{formatPrice(item.offer_price)}</span>
               <div className="d-grid gap-2">
                 <Button size="lg" variant="danger" className={"text-white "+styles["roundedbtn"]}>Comprar ahora</Button>
               </div>

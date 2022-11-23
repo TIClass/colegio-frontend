@@ -15,7 +15,7 @@ function CourseCardDetail(props) {
         <Card className={'mb-4 ' +styles["shadow-md"]+' '+styles["roundedbtn"]}>
           <Card.Img variant="top" src={props.image} />
           <Card.Body className='body-card'>
-            <h4 style={{color:variables.primaryColor}}>{props.namePack}</h4>
+            <h1 style={{color:variables.primaryColor, fontSize: '1.8rem'}}>{props.namePack}</h1>
             <p className='mb-0'>{props.desc}</p>
             <br></br>
 
@@ -30,7 +30,7 @@ function CourseCardDetail(props) {
             <br></br>
             <br></br>
             <hr></hr>
-            <h6 className='pt-4'>Este curso incluye:</h6>
+            <h2 className='pt-4' style={{color:variables.primaryColor, fontSize: '1.3rem'}}>Este curso incluye:</h2>
             {props.packCourse?.map(packcourse => (
               <p key={packcourse.id}>{packcourse.course_data.include}</p>
             ))}

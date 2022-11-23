@@ -16,7 +16,6 @@ import { setCookies, getCookie, deleteCookie } from 'cookies-next';
 import axios from 'axios';
 
 const TNavbar = (props) => {
-  console.log(props)
   const imgLogoObj = props.imgLogoObj;
   const userAuthentications = props.userAuthentications;
 

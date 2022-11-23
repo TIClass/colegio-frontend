@@ -4,7 +4,7 @@ import variables from '../styles/variables.module.scss';
 
 import Image from 'next/image'
 import CourseCard from '../components/landing/CourseCard';
-import LadingLogin from '../components/landing/LadingLogin'
+import LadingLogin from '../components/landing/LadingLogin';
 import { Container, Row, Col, Carousel, Button, Card} from 'react-bootstrap';
 import Collapse from 'react-bootstrap/Collapse';
 
@@ -14,6 +14,8 @@ import { useEffect, useState} from 'react';
 import TestimonialCard from '../components/landing/TestimonialCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
+
+import { getLogo, getClassLanding } from '../methods/getLogoClass';
 
 function fetchFactAxios(url, useToken) {
     return axios
@@ -52,22 +54,9 @@ export const getServerSideProps = async ({ params, req,res }) => {
     }
   }
 
-  let classLanding = ''
-  let imgLogo = ''
-
-  if(subdomain === 'colegio') {
-    classLanding = 'landing-home-colegio'
-    imgLogo = '/logos/img/logo-colegio-ticlass.svg'
-  }
-
-  if(subdomain === 'cursos') {
-    classLanding = 'landing-home-cursos'
-    imgLogo = '/logos/img/logo-cursos-ticlass.svg'
-  }
-
   const resSeo = await fetch(urlSeoA, options)
   const dataSeo = await resSeo.json()
-  return { props: {subdomain:subdomain, dataSeo:dataSeo, classLanding:classLanding, imgLogo:imgLogo}}
+  return { props: {subdomain:subdomain, dataSeo:dataSeo, classLanding:getClassLanding(subdomain), imgLogo:getLogo(subdomain)}}
 }
 
 export default function Home(props) {

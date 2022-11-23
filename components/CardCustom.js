@@ -8,7 +8,7 @@ function CardCustom(props) {
     <div>
       <Card className={styles["shadow-sm"] +' '+ styles["roundedbtn"]}>
         <Card.Body>
-          <h4 style={{color: props.color}}>{props.title}</h4>
+          <h2 style={{color:props.color, fontSize: '1.4rem'}}>{props.title}</h2>
           {props.packCourse?.map(packcourse => (
             <div key={packcourse.id}>
               {props.kind == 'learning' ?

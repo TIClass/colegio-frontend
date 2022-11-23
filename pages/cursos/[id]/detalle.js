@@ -12,6 +12,8 @@ import { useEffect, useState} from 'react';
 
 import { useRouter } from 'next/router'
 
+import { getLogo, getClassLanding } from '../../../methods/getLogoClass';
+
 export const getServerSideProps = async ({ params, req, res, query }) => {
   const locationParts = req.headers.host.split('.');
   const subdomain = locationParts[0]
@@ -35,11 +37,15 @@ export const getServerSideProps = async ({ params, req, res, query }) => {
   const dataCourses = await resCourses.json()
   const urlReferer = req.headers.referer
   const urlHost = req.headers.host
-  return { props: {subdomain:subdomain, dataSeo:dataSeo, dataCourses:dataCourses, urlReferer:urlReferer, urlHost:urlHost}}
+  return { props: {subdomain:subdomain, dataSeo:dataSeo, dataCourses:dataCourses,
+                    urlReferer:urlReferer, urlHost:urlHost, classLanding:getClassLanding(subdomain), imgLogo:getLogo(subdomain)
+                  }
+          }
 }
 
 export default function CourseDetail(props) {
   props.onAuthenticationUser();
+  props.onImgLogo(props.imgLogo);
 
   const router = useRouter();
 
