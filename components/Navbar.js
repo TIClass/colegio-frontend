@@ -44,7 +44,7 @@ const TNavbar = (props) => {
       window.location.replace("/");
     }
   }
-
+  
   return (
     <Navbar collapseOnSelect expand="lg" bg="white" variant="white" className={styles["shadow-sm"]}>
       <Container>
