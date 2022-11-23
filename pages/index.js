@@ -449,7 +449,7 @@ export default function Home(props) {
           <Container>
             <Row className='d-flex justify-content-center'>
               <Col md="8">
-                  <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                  <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#fff'}}>
                     <Card.Body className='text-center'>
                       <h2 style={{color:'#ed3b46'}}>TIClass nació en el 2016</h2>
                       <br></br>
@@ -462,8 +462,8 @@ export default function Home(props) {
               </Col>
               <Col md="12" className='mt-4 mb-4 pb-4'>
                 <Row>
-                  <Col lg="3" md="6" className='p-0'>
-                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                  <Col lg="4" md="6" className='p-2'>
+                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#fff'}}>
                       <Card.Body>
                         <div className='text-center'>
                           <Image src="/landing/equipo/profe-1.svg" alt="VERÓNICA SALDAÑA" width={110} height={110} />
@@ -507,8 +507,8 @@ export default function Home(props) {
                       </Card.Body>
                     </Card>
                   </Col>
-                  <Col lg="3" md="6" className='p-0'>
-                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                  <Col lg="4" md="6" className='p-2'>
+                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#fff'}}>
                       <Card.Body>
                         <div className='text-center'>
                           <Image src="/landing/equipo/profe-2.svg" alt="FRANCISCA MELGAREJO" width={110} height={110} />
@@ -552,8 +552,8 @@ export default function Home(props) {
                       </Card.Body>
                     </Card>
                   </Col>
-                  <Col lg="3" md="6" className='p-0'>
-                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                  <Col lg="4" md="6" className='p-2'>
+                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#fff'}}>
                       <Card.Body>
                         <div className='text-center'>
                           <Image src="/landing/equipo/profe-3.svg" alt="MELISSA MONDACA" width={110} height={110} />
@@ -597,8 +597,8 @@ export default function Home(props) {
                       </Card.Body>
                     </Card>
                   </Col>
-                  <Col lg="3" md="6" className='p-0'>
-                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                  <Col lg="4" md="6" className='p-2'>
+                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#fff'}}>
                       <Card.Body>
                         <div className='text-center'>
                           <Image src="/landing/equipo/profe-5.svg" alt="IGNACIA ROCUANT" width={110} height={110} />
@@ -642,8 +642,8 @@ export default function Home(props) {
                       </Card.Body>
                     </Card>
                   </Col>
-                  <Col lg="3" md="6" className='p-0'>
-                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                  <Col lg="4" md="6" className='p-2'>
+                    <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#fff'}}>
                       <Card.Body>
                         <div className='text-center'>
                           <Image src="/landing/equipo/nico.svg" alt="NICOLÁS MELGAREJO" width={110} height={110} />
@@ -687,8 +687,8 @@ export default function Home(props) {
                       </Card.Body>
                     </Card>
                   </Col>
-                  <Col lg="3" md="6" className='p-0'>
-                  <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#eef4f9'}}>
+                  <Col lg="4" md="6" className='p-2'>
+                  <Card className={'mt-5 border-0 '+ styles["shadow-sm"]+' '+ styles["roundedbtn"]} style={{background: '#fff'}}>
                     <Card.Body>
                       <div className='text-center'>
                         <Image src="/landing/equipo/profe-4.svg" alt="PATRICIO ROMÁN" width={110} height={110} />
@@ -903,7 +903,7 @@ export default function Home(props) {
           <Container>
             <Row className='p-4'>
               <Col md="4" >
-                <Image src="/logos/img/logo-ticlass.svg" alt="PATRICIO ROMÁN" width={200} height={110} />
+                <Image src={props.imgLogo} alt="PATRICIO ROMÁN" width={200} height={110} />
                 <hr></hr>
                 <ul className='d-flex justify-content-start p-0' style={{listStyleType: 'none'}}>
                   <li>
