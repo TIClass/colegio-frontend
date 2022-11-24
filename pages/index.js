@@ -5,7 +5,7 @@ import variables from '../styles/variables.module.scss';
 import Image from 'next/image'
 import CourseCard from '../components/landing/CourseCard';
 import LadingLogin from '../components/landing/LadingLogin';
-import { Container, Row, Col, Carousel, Button, Card} from 'react-bootstrap';
+import { Container, Row, Col, Carousel, Button, Card, Accordion} from 'react-bootstrap';
 import Collapse from 'react-bootstrap/Collapse';
 
 import axios from 'axios';
@@ -69,6 +69,7 @@ export default function Home(props) {
   const [LandingObj, setLandingObj] = useState([]);
   const [CoursesObj, setCoursesObj] = useState([]);
   const [landingTestimoniosObj, setLandingTestimoniosObj] = useState([]);
+  const [pregFrecObj, setPregFrecObj] = useState([]);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [open3, setOpen3] = useState(false);
@@ -103,6 +104,51 @@ export default function Home(props) {
           .then(res => setCoursesObj(res.data))
           .catch(err => err)
   }
+
+  const pregFrecJson = [
+    {
+      title: "Cómo me inscribo a los exámenes libres",
+      description:`
+      <ul>
+        <li>Si eres mayor de 18 años puedes inscribirte <a target="_blank" class="m-1 rounded btn btn-danger" href="https://www.chileatiende.gob.cl/fichas/2230-examenes-libres-para-mayores-de-18-anos">aquí</a></li>
+        <li>Si eres menor de 18 años puedes inscribirte <a target="_blank" class="m-1 rounded btn btn-danger" href="https://www.chileatiende.gob.cl/fichas/11088-examenes-libres-para-menores-de-18-anos">aquí</a></li>
+      </ul>`
+    },
+    {
+      title: "¿Cuáles son las fechas para realizar la inscripción y la rendición de los exámenes libres?",
+      description:"<ul><li>Inscripción (todos los cursos): desde Abril hasta Mayo.</li> <li>Rendición de exámenes (todos los cursos): Junio.</li></ul>"
+    },
+    {
+      title: "¿Pagando el curso online me aseguro la aprobación del examen?",
+      description:"falta info"
+    },
+    {
+      title: "¿La rendición del examen es online o presencial?",
+      description:"falta info"
+    },
+    {
+      title: "¿Cuándo comienzan las clases?",
+      description:"falta info"
+    },
+    {
+      title: "¿El curso cubre el temario del MINEDUC?",
+      description:"falta info"
+    }
+    ,
+    {
+      title: "¿Puedo pagar en cuotas?",
+      description:"falta info"
+    },
+    {
+      title: "¿Cómo funcionan los exámenes libres?",
+      description:"falta info"
+    }
+    ,
+    {
+      title: "¿Es un colegio reconocido por el MINEDUC?",
+      description:"falta info"
+    }
+  ]
 
   useEffect(() => {
     axiosLandingObj(urlLanding);
@@ -744,163 +790,20 @@ export default function Home(props) {
         </section>
         <section style={{background:'#ffc200'}}>
           <Container className='pb-4'>
-            <Row>
-              <Col md="12" className='mt-4'>
-                <div className='mt-4 mb-4 text-center'>
-                  <h2 className='text-white'>Preguntas Frecuentes</h2>
-                </div>
-                <Card>
-                  <Card.Body>
-                  <div className="d-grid gap-2">
-                    <Button
-                      onClick={() => setOpen1(!open1)}
-                      aria-controls="collapse1"
-                      aria-expanded={open1}
-                      variant="outline-light"
-                      size="lg"
-                      style={{fontSize:'16px',color:'black', border:'none'}}
-                      >
-                     <p className='text-start m-1'>¿Cuándo comienzan las clases del Preuniversitario?</p>
-                    </Button>
-                  </div>
-                    <Collapse in={open1}>
-                      <div id="collapse1">
-                        <p className="pt-4 px-4">El Preuniversitario comienza en marzo con las clases en vivo exclusivas del programa.</p>
-                      </div>
-                    </Collapse>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md="12">
-                <Card>
-                  <Card.Body>
-                    <div className="d-grid gap-2">
-                      <Button
-                        onClick={() => setOpen2(!open2)}
-                        aria-controls="collapse2"
-                        aria-expanded={open2}
-                        variant="outline-light"
-                        size="lg"
-                        style={{fontSize:'16px',color:'black', border:'none'}}
-                      >
-                        <p className='text-start m-1'>¿Qué asignaturas incluye?</p>
-                      </Button>
-                    </div>
-                    <Collapse in={open2}>
-                      <div id="collapse2">
-                        <p className="pt-4 px-4">
-                          En el Full están todas incluidas: Matemática, Comprensión Lectora, Ciencias Naturales, Historia y Cs. Sociales. También puedes personalizar tu programa eligiendo solo las asignaturas que quieres.
-                        </p>
-                      </div>
-                    </Collapse>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md="12">
-                <Card>
-                  <Card.Body>
-                    <div className="d-grid gap-2">
-                      <Button
-                        onClick={() => setOpen3(!open3)}
-                        aria-controls="collapse3"
-                        aria-expanded={open3}
-                        variant="outline-light"
-                        size="lg"
-                        style={{fontSize:'16px',color:'black', border:'none'}}
-                      >
-                        <p className='text-start m-1'>¿Las clases en vivo quedan grabadas?</p>
-                      </Button>
-                    </div>
-                    <Collapse in={open3}>
-                      <div id="collapse3">
-                        <p className="pt-4 px-4">
-                          ¡Sí! Grabamos y guardamos todas las clases en la plataforma para que puedas volver a revisar el contenido las veces que quieras y en tus propios tiempos.
-                        </p>
-                      </div>
-                    </Collapse>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md="12">
-                <Card>
-                  <Card.Body>
-                    <div className="d-grid gap-2">
-                      <Button
-                        onClick={() => setOpen4(!open4)}
-                        aria-controls="collapse4"
-                        aria-expanded={open4}
-                        variant="outline-light"
-                        size="lg"
-                        style={{fontSize:'16px',color:'black', border:'none'}}
-                      >
-                        <p className='text-start m-1'>¿Hay ensayos para PDT?</p>
-                      </Button>
-                    </div>
-                    <Collapse in={open4}>
-                      <div id="collapse4">
-                        <p className="pt-4 px-4">
-                          Sí. Realizaremos jornadas de ensayos online para la PDT
-                        </p>
-                      </div>
-                    </Collapse>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md="12">
-                <Card>
-                  <Card.Body>
-                    <div className="d-grid gap-2">
-                      <Button
-                        onClick={() => setOpen5(!open5)}
-                        aria-controls="collapse5"
-                        aria-expanded={open5}
-                        variant="outline-light"
-                        size="lg"
-                        style={{fontSize:'16px',color:'black', border:'none'}}
-                      >
-                        <p className='text-start m-1'>¿Se puede pagar en cuotas?</p>
-                      </Button>
-                    </div>
-                    <Collapse in={open5}>
-                      <div id="collapse5">
-                        <p className="pt-4 px-4">
-                        ¡Sí! El valor promocional se puede pagar en cuotas mensuales consecutivas. Comunícate con nosotros haciendo click aquí
-                        </p>
-                      </div>
-                    </Collapse>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md="12" className='mb-4'>
-                <Card >
-                  <Card.Body>
-                    <div className="d-grid gap-2">
-                      <Button
-                        onClick={() => setOpen6(!open6)}
-                        aria-controls="collapse6"
-                        aria-expanded={open6}
-                        variant="outline-light"
-                        size="lg"
-                        style={{fontSize:'16px',color:'black', border:'none'}}
-                      >
-                        <p className='text-start m-1'>¿Qué métodos de pago existen?</p>
-                      </Button>
-                    </div>
-                    <Collapse in={open6}>
-                      <div id="collapse6">
-                        <p className="pt-4 px-4">
-                        Los métodos de pago son los siguientes:
-                      - Tarjeta de Crédito
-                      - Tarjeta de Débito a través de Webpay
-                      - Transferencia Bancaria
-                      - Efectivo (Vía Servipag)
-                        </p>
-                      </div>
-                    </Collapse>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
+            <div className='mt-4 mb-4 text-center'>
+              <h2 className='text-white pt-4'>Preguntas Frecuentes</h2>
+            </div>
+            <Accordion defaultActiveKey="0">
+            {pregFrecJson.map((item,index)=>{
+              return(<Accordion.Item eventKey={index}>
+                <Accordion.Header>{item.title}</Accordion.Header>
+                <Accordion.Body>
+                  <div dangerouslySetInnerHTML={{ __html: item.description }} />
+                </Accordion.Body>
+              </Accordion.Item>)
+            })}
+            </Accordion>
+
           </Container>
         </section>
 
