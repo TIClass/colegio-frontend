@@ -44,13 +44,13 @@ const TNavbar = (props) => {
       window.location.replace("/");
     }
   }
-  
+
   return (
     <Navbar collapseOnSelect expand="lg" bg="white" variant="white" className={styles["shadow-sm"]}>
       <Container>
         <Link href="/">
           <Navbar.Brand >
-            <Image src={imgLogoObj} alt="Colegio Natiboo" width={150} height={55} className={styles["logo-login"]+ ' logo-login'} />
+            <Image src={imgLogoObj} alt="logo TIClass" width={150} height={55} className={styles["logo-login"]+ ' logo-login'} />
           </Navbar.Brand>
         </Link>
         {userAuthentications?

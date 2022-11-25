@@ -16,6 +16,7 @@ import '../styles/globals.css'
 function MyApp({ Component, pageProps }) {
   const [userAuthentications, setUserAuthentications] = useState('');
   const [imgLogoObj, setImgLogo] = useState('');
+  const [pageNavValue, setPageNavValue] = useState('');
 
   const isInfoComplete = (user) => {
     // const variable = userAuthentications?.results
@@ -80,7 +81,17 @@ function MyApp({ Component, pageProps }) {
 
   }
 
-  return (<Layout userAuthentications={userAuthentications} imgLogoObj={imgLogoObj} ><Component {...pageProps} onImgLogo={handleImgLogo} onAuthenticationUser={handleAuthenticationUser} userAuthentications={userAuthentications} isInfoComplete={isInfoComplete} imgLogoObj={imgLogoObj} setUserAuthentications={setUserAuthentications} setImgLogo={setImgLogo}/></Layout>);
+  function handleOnPageNav(value) {
+    const definePageNav = async(value) => {
+      setPageNavValue(value)
+    }
+    useEffect(() => {
+      definePageNav(value)
+    }, [])
+
+  }
+
+  return (<Layout userAuthentications={userAuthentications} imgLogoObj={imgLogoObj} pageNavValue={pageNavValue}><Component {...pageProps} onImgLogo={handleImgLogo} onPageNav={handleOnPageNav} onAuthenticationUser={handleAuthenticationUser} userAuthentications={userAuthentications} isInfoComplete={isInfoComplete} imgLogoObj={imgLogoObj} setUserAuthentications={setUserAuthentications} setImgLogo={setImgLogo}/></Layout>);
 }
 
 export default MyApp
