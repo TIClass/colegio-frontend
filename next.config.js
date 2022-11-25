@@ -18,6 +18,7 @@ const nextConfig = {
     API_SEO_URL: process.env.API_URL || 'http://127.0.0.1:8000/',
   	SITE_URL: process.env.SITE_URL || 'https://www.ticlass.com',
   	SITE_NAME: process.env.SITE_NAME || 'TIClass.com',
+    COOKIE_SITE_URL: process.env.COOKIE_SITE_URL || 'localhost'
   },
 }
 
