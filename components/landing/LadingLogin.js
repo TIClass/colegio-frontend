@@ -60,7 +60,8 @@ function LadingLogin(props) {
         // } else {
         //     setCookie("cookie-usertoken", res.data.access_token);
         // }
-        setCookie("cookie-usertoken", res.data.access_token);
+        Cookies.set('cookie-usertoken', res.data.access_token, { domain: `${process.env.COOKIE_SITE_URL}` })
+        //setCookie("cookie-usertoken", res.data.access_token);
         if (from) {
           Router.push(from)
         } else {
