@@ -33,7 +33,6 @@ function fetchFact(url, useToken) {
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
         });
 }
 
@@ -155,8 +154,6 @@ export default function Home(props) {
     axiosLandingTestimoniosObj(urlLandingTestimonios);
     axiosCourseObj(urlCourses);
   }, [])
-
-  console.log(landingTestimoniosObj)
 
   return (
     <div>
