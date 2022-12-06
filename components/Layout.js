@@ -6,9 +6,15 @@ import { setCookie, getCookie } from 'cookies-next';
 import axios from 'axios';
 
 const Layout = (props) => {
+  console.log(props.pageNavValue)
+  console.log("kkkksss")
   return (
     <div>
-      <Navbar userAuthentications={props.userAuthentications} imgLogoObj={props.imgLogoObj}/>
+      {props.pageNavValue == 'login'
+      ? <></>
+      : <Navbar userAuthentications={props.userAuthentications} imgLogoObj={props.imgLogoObj}/>
+      }
+
         { props.children }
       <Footer />
     </div>
