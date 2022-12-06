@@ -5,11 +5,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUnlock } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 
+import Swal from 'sweetalert2'
 import {Row, Col, Card, InputGroup, Form, Button} from 'react-bootstrap';
 
 import { useState } from 'react';
 import Link from 'next/link'
 import axios from 'axios';
+import Router from 'next/router'
+import { setCookie, getCookie, deleteCookie } from 'cookies-next';
+import Cookies from 'js-cookie'
 
 function Register(props) {
   const [email, setEmail] = useState('');
@@ -26,7 +30,7 @@ function Register(props) {
 
   const handlePasswordConfirm = ({target}) => {
     setPasswordConfirm(target.value)    
-  }
+  }  
 
   const handleSubmit = () => {
     var param_data = "email="+email+"&password1="+password+"&password2="+password_confirm     
@@ -54,7 +58,7 @@ function Register(props) {
                     'user_id':this.user_id
                    }
               }
-            });
+            });            
             //this.getResourceDetail(this.historyPath);
           })
           .catch(e => {
@@ -66,12 +70,21 @@ function Register(props) {
           console.log(e)
         }
         console.log("work")
+        Swal.fire({
+          title: 'Listo!',
+          text: 'Se ha creado tu usuario correctamente!',
+          icon: 'success',          
+          timer: 1000
+        }).then(()=>{    
+                        
+        })        
         // setTimeout( () => this.$router.push({ path: '/login'}), 5000);
       })
       .catch(error => {
         console.log("error")        
     });
   }
+
 
   return ( 
     <div className="login-container">      

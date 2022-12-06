@@ -67,8 +67,6 @@ function LadingLogin(props) {
         } else {
           Router.push('/mis-cursos')
         }
-
-
       })
       .catch(err => setError(err));
   }
