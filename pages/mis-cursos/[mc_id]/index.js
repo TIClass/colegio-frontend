@@ -64,7 +64,7 @@ export default function MyCourseDetail(props) {
   const [defaultActiveKey, setDefaultActiveKey] = useState('weekClass');
   const [subjectsObj, setSubjectsObj] = useState(null);
   const [startDate, setStartDate] = useState(null);
-  const [dateListObj, setDateListObj] = useState(null);
+  const [dateListObj, setDateListObj] = useState({});
   const [courseTeacherOwner, setCourseTeacherOwner] = useState(null);
 
   const token = getCookie('cookie-usertoken');
@@ -219,6 +219,7 @@ export default function MyCourseDetail(props) {
     />
   ));
 
+
   return (
     <div>
       <Head>
@@ -315,7 +316,7 @@ export default function MyCourseDetail(props) {
                     onChange={handleChange}
                     withPortal
                     customInput={<ExampleCustomInput />}
-                    includeDates={dateListObj ? [...dateListObj?.map(res=> (new Date(res.date)))] : null}
+                    includeDates={Object.keys(dateListObj).length != 0 ? [...dateListObj?.map(res=> (new Date(res.date)))] : null}
                   />
                 </div>
               </div>
