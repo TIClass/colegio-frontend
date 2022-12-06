@@ -51,7 +51,7 @@ export default function SignUp(props) {
                 </div>
               </Col>
               <Col md="12" className='mt-4'>
-                <Register size="12" shadow={true}  />
+                <Register size="12" shadow={true} subdomain={props.subdomain} />
               </Col>
             </Col>
           </div>

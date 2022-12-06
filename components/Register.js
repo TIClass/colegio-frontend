@@ -35,13 +35,15 @@ function Register(props) {
   const handleSubmit = () => {
     var param_data = "email="+email+"&password1="+password+"&password2="+password_confirm
 
-    axios.post(`${process.env.API_URL}rest-auth/registration/`,param_data)
+    axios.post(`${process.env.API_URL}rest-auth/registration/?proyect_name=${props.subdomain}`,param_data)
+
     .then(response => {
       // this.signup = response.data;
       // this.isLoading = false;
       // this.isAbejita = true;
       // this.msgRegister = "¡Felicidades! te haz registrado satisfactoriamente, hemos enviado un correo electrónico para su verificación. Siga el enlace proporcionado para finalizar el proceso de registro. Por favor contáctenos si no lo recibe en unos minutos."
 
+      /*
       try {
         axios.get(`${process.env.API_URL}api/v1/user/getuseremail/?email=`+email,{
           headers: { 'Authorization': 'Token ' + this.tokenGeneric }
@@ -49,17 +51,17 @@ function Register(props) {
           .then(response => {
             this.user_id = response.data.user_id;
 
-            this.$gtm.push({
-               event: "signup_success",
-               ecommerce: {
-                'impressions':{
-                    'form_id':"001",
-                    'email_address':email,
-                    'user_id':this.user_id
-                   }
-              }
-            });
-            //this.getResourceDetail(this.historyPath);
+            // this.$gtm.push({
+            //    event: "signup_success",
+            //    ecommerce: {
+            //     'impressions':{
+            //         'form_id':"001",
+            //         'email_address':email,
+            //         'user_id':this.user_id
+            //        }
+            //   }
+            // });
+            // this.getResourceDetail(this.historyPath);
           })
           .catch(e => {
             console.log("error path user signup_success")
@@ -69,16 +71,8 @@ function Register(props) {
           console.log("error: signup_success")
           console.log(e)
         }
+        */
         console.log("work")
-        Swal.fire({
-          title: 'Listo!',
-          text: 'Se ha creado tu usuario correctamente!',
-          icon: 'success',
-          timer: 1000
-        }).then(()=>{
-
-        })
-        // setTimeout( () => this.$router.push({ path: '/login'}), 5000);
       })
       .catch(error => {
         console.log("error")
@@ -150,7 +144,7 @@ function Register(props) {
               <Button variant="outline-danger" className="m-1 rounded" type='submit'
               onClick={handleSubmit}>Registrarme</Button>
             </div>
-            <small className='text-center'>Powered by <a></a> ©2021</small>
+            <small className='text-center'>Powered by <a></a> ©2023</small>
           </Card.Body>
         </Card>
       </Col>
