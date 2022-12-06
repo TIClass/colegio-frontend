@@ -18,37 +18,37 @@ import Cookies from 'js-cookie'
 function Register(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [password_confirm, setPasswordConfirm] = useState(''); 
-  
+  const [password_confirm, setPasswordConfirm] = useState('');
+
   const handleEmail= ({target}) => {
-    setEmail(target.value)    
+    setEmail(target.value)
   }
 
   const handlePassword = ({target}) => {
-    setPassword(target.value)    
+    setPassword(target.value)
   }
 
   const handlePasswordConfirm = ({target}) => {
-    setPasswordConfirm(target.value)    
-  }  
+    setPasswordConfirm(target.value)
+  }
 
   const handleSubmit = () => {
-    var param_data = "email="+email+"&password1="+password+"&password2="+password_confirm     
+    var param_data = "email="+email+"&password1="+password+"&password2="+password_confirm
 
     axios.post(`${process.env.API_URL}rest-auth/registration/`,param_data)
-    .then(response => {      
+    .then(response => {
       // this.signup = response.data;
       // this.isLoading = false;
       // this.isAbejita = true;
       // this.msgRegister = "¡Felicidades! te haz registrado satisfactoriamente, hemos enviado un correo electrónico para su verificación. Siga el enlace proporcionado para finalizar el proceso de registro. Por favor contáctenos si no lo recibe en unos minutos."
-      
+
       try {
         axios.get(`${process.env.API_URL}api/v1/user/getuseremail/?email=`+email,{
           headers: { 'Authorization': 'Token ' + this.tokenGeneric }
         })
           .then(response => {
             this.user_id = response.data.user_id;
-            
+
             this.$gtm.push({
                event: "signup_success",
                ecommerce: {
@@ -58,7 +58,7 @@ function Register(props) {
                     'user_id':this.user_id
                    }
               }
-            });            
+            });
             //this.getResourceDetail(this.historyPath);
           })
           .catch(e => {
@@ -73,29 +73,29 @@ function Register(props) {
         Swal.fire({
           title: 'Listo!',
           text: 'Se ha creado tu usuario correctamente!',
-          icon: 'success',          
+          icon: 'success',
           timer: 1000
-        }).then(()=>{    
-                        
-        })        
+        }).then(()=>{
+
+        })
         // setTimeout( () => this.$router.push({ path: '/login'}), 5000);
       })
       .catch(error => {
-        console.log("error")        
+        console.log("error")
     });
   }
 
 
-  return ( 
-    <div className="login-container">      
+  return (
+    <div className="login-container">
       <Col lg={props.size} className="login m-0">
-        <Card className={ props.shadow ? styles["shadow-sm"]+' '+styles["roundedbtn"] : styles["roundedbtn"]} 
+        <Card className={ props.shadow ? styles["shadow-sm"]+' '+styles["roundedbtn"] : styles["roundedbtn"]}
         style={{padding: "30px"}}>
-          <Card.Body>                                      
+          <Card.Body>
             <h1 className="title-slide">Regístrate</h1>
             <small>Ya tengo mi cuenta
-              <Link href="login" style={{color: variables.tertiaryColor}}>Iniciar sesión</Link>
-            </small>                        
+              <Link href="login" style={{color: variables.tertiaryColor}}> Iniciar sesión</Link>
+            </small>
 
             <InputGroup className="mb-3">
               <InputGroup.Text id="basic-addon1">
@@ -108,7 +108,7 @@ function Register(props) {
                 placeholder="Correo electrónico"
                 aria-label="Email"
                 aria-describedby="basic-addon1"
-                type="text" 
+                type="text"
                 value={email}
                 onChange={handleEmail}
               />
@@ -124,9 +124,9 @@ function Register(props) {
                 placeholder="Contraseña"
                 aria-label="Password"
                 aria-describedby="basic-addon1"
-                type="password" 
+                type="password"
                 value={password}
-                onChange={handlePassword}  
+                onChange={handlePassword}
               />
             </InputGroup>
             <InputGroup className="mb-3">
@@ -140,17 +140,17 @@ function Register(props) {
                 placeholder="Contraseña (de nuevo)"
                 aria-label="Password"
                 aria-describedby="basic-addon1"
-                type="password" 
+                type="password"
                 value={password_confirm}
-                onChange={handlePasswordConfirm}  
+                onChange={handlePasswordConfirm}
               />
             </InputGroup>
 
             <div className="d-grid gap-2 mt-2">
               <Button variant="outline-danger" className="m-1 rounded" type='submit'
-              onClick={handleSubmit}>Registrarme</Button>                
-            </div>                    
-            <small className='text-center'>Powered by <a></a> ©2021</small>  
+              onClick={handleSubmit}>Registrarme</Button>
+            </div>
+            <small className='text-center'>Powered by <a></a> ©2021</small>
           </Card.Body>
         </Card>
       </Col>
@@ -159,10 +159,10 @@ function Register(props) {
           border-radius: 30px !important;
         }
         .login-container .title-slide {
-          font-size: 24px;          
+          font-size: 24px;
         }
         .login-container .title-slide {
-          font-size: 24px;          
+          font-size: 24px;
         }
         .login-container .login {
           margin-top: 100px;

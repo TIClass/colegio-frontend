@@ -32,9 +32,11 @@ export const getServerSideProps = async ({ params, req,res }) => {
 }
 
 export default function SignUp(props) {
+  props.onAuthenticationUser();
   props.onImgLogo(props.imgLogo);
-  console.log(props.subdomain,"ppppppppppppppppppp")
-  
+  props.onPageNav('login');
+  const imgLogoObj = props.imgLogo;
+
   return (
     <div style={{ background: "#f8f7ff"}} className='login'>
       <section>
@@ -44,7 +46,7 @@ export default function SignUp(props) {
               <Col md="12">
                 <div className='d-flex justify-content-center align-items-center'>
                   <Link href="/">
-                    <Image src="/logos/img/logo-natiboo-by-ticlass.svg" alt="Colegio Natiboo" width={220} height={100} className={styles["logo-login"]+ ' logo-login'} />
+                    <Image src={imgLogoObj} alt="logo TIClass" width={220} height={100} className={styles["logo-login"]+ ' logo-login'} />
                   </Link>
                 </div>
               </Col>
