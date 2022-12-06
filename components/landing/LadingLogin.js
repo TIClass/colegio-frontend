@@ -18,7 +18,6 @@ import { setCookie, getCookie, deleteCookie } from 'cookies-next';
 import Cookies from 'js-cookie'
 import axios from 'axios';
 
-
 function LadingLogin(props) {
 
   const [username, setUsername] = useState('');
@@ -63,7 +62,8 @@ function LadingLogin(props) {
         //Cookies.set('cookie-usertoken', res.data.access_token, { domain: `${process.env.COOKIE_SITE_URL}` })
         setCookie("cookie-usertoken", res.data.access_token);
         if (from) {
-          Router.push(from)
+          // Router.push(from)
+          Router.push('/mis-cursos')
         } else {
           Router.push('/mis-cursos')
         }
