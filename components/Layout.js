@@ -6,8 +6,6 @@ import { setCookie, getCookie } from 'cookies-next';
 import axios from 'axios';
 
 const Layout = (props) => {
-  console.log(props.pageNavValue)
-  console.log("kkkksss")
   return (
     <div>
       {props.pageNavValue == 'login'

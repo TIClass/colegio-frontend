@@ -35,6 +35,7 @@ function MyApp({ Component, pageProps }) {
   }
 
   function handleAuthenticationUser(event) {
+    handleOnPageNav('')
     const cookie_usertoken = getCookie('cookie-usertoken');
     const token = cookie_usertoken;
     const useToken = `Bearer ${token}`
