@@ -17,11 +17,20 @@ import Cookies from 'js-cookie'
 
 function Register(props) {
   const [email, setEmail] = useState('');
+  const [msg, setMsg] = useState('');
+  const [invalidEmail, setInvalidEmail] = useState('');
+  const [invalidPasswords, setInvalidPasswords] = useState('');
   const [password, setPassword] = useState('');
   const [password_confirm, setPasswordConfirm] = useState(''); 
   
   const handleEmail= ({target}) => {
     setEmail(target.value)    
+    if (!isValidEmail(email)){
+      setInvalidEmail("Email inválido.")
+    }
+    else{
+      setInvalidEmail("")
+    }
   }
 
   const handlePassword = ({target}) => {
@@ -29,66 +38,93 @@ function Register(props) {
   }
 
   const handlePasswordConfirm = ({target}) => {
-    setPasswordConfirm(target.value)    
+    setPasswordConfirm(target.value)      
+    if (!passwords(password,target.value)){
+      setInvalidPasswords("Las contraseñas no coinciden.")
+    }
+    else{
+      setInvalidPasswords("")
+    }
   }  
 
   const handleSubmit = () => {
-    var param_data = "email="+email+"&password1="+password+"&password2="+password_confirm     
+    if (isValidEmail(email) && passwords(password,password_confirm)){
+      var param_data = "email="+email+"&password1="+password+"&password2="+password_confirm     
 
-    axios.post(`${process.env.API_URL}rest-auth/registration/`,param_data)
-    .then(response => {      
-      // this.signup = response.data;
-      // this.isLoading = false;
-      // this.isAbejita = true;
-      // this.msgRegister = "¡Felicidades! te haz registrado satisfactoriamente, hemos enviado un correo electrónico para su verificación. Siga el enlace proporcionado para finalizar el proceso de registro. Por favor contáctenos si no lo recibe en unos minutos."
-      
-      try {
-        axios.get(`${process.env.API_URL}api/v1/user/getuseremail/?email=`+email,{
-          headers: { 'Authorization': 'Token ' + this.tokenGeneric }
+      axios.post(`${process.env.API_URL}rest-auth/registration/`,param_data)
+      .then(response => {      
+        // this.signup = response.data;
+        // this.isLoading = false;
+        // this.isAbejita = true;
+        setMsg("¡Felicidades! te haz registrado satisfactoriamente, hemos enviado un correo electrónico para su verificación. Siga el enlace proporcionado para finalizar el proceso de registro. Por favor contáctenos si no lo recibe en unos minutos.")
+        // this.msgRegister = "¡Felicidades! te haz registrado satisfactoriamente, hemos enviado un correo electrónico para su verificación. Siga el enlace proporcionado para finalizar el proceso de registro. Por favor contáctenos si no lo recibe en unos minutos."
+        
+        try {
+          axios.get(`${process.env.API_URL}api/v1/user/getuseremail/?email=`+email,{
+            headers: { 'Authorization': 'Token ' + this.tokenGeneric }
+          })
+            .then(response => {
+              this.user_id = response.data.user_id;
+              
+              this.$gtm.push({
+                 event: "signup_success",
+                 ecommerce: {
+                  'impressions':{
+                      'form_id':"001",
+                      'email_address':email,
+                      'user_id':this.user_id
+                     }
+                }
+              });            
+              //this.getResourceDetail(this.historyPath);
+            })
+            .catch(e => {
+              console.log("error path user signup_success")
+            })
+          }
+          catch (e) {
+            console.log("error: signup_success")
+            console.log(e)
+          }          
+          Swal.fire({
+            title: 'Listo!',
+            text: 'Se ha creado tu usuario correctamente!',
+            icon: 'success',          
+            timer: 1000
+          }).then(()=>{    
+                          
+          })        
+          // setTimeout( () => this.$router.push({ path: '/login'}), 5000);
         })
-          .then(response => {
-            this.user_id = response.data.user_id;
-            
-            this.$gtm.push({
-               event: "signup_success",
-               ecommerce: {
-                'impressions':{
-                    'form_id':"001",
-                    'email_address':email,
-                    'user_id':this.user_id
-                   }
-              }
-            });            
-            //this.getResourceDetail(this.historyPath);
-          })
-          .catch(e => {
-            console.log("error path user signup_success")
-          })
-        }
-        catch (e) {
-          console.log("error: signup_success")
-          console.log(e)
-        }
-        console.log("work")
-        Swal.fire({
-          title: 'Listo!',
-          text: 'Se ha creado tu usuario correctamente!',
-          icon: 'success',          
-          timer: 1000
-        }).then(()=>{    
-                        
-        })        
-        // setTimeout( () => this.$router.push({ path: '/login'}), 5000);
-      })
-      .catch(error => {
-        console.log("error")        
-    });
-  }
+        .catch(error => {
+          console.log("error")        
+      }); 
+    }        
+  }  
 
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  } 
+  
+  function passwords(password1,password2){    
+    if (password1===password2){      
+      return true;
+    }
+    else{
+      return false
+    }
+  }  
 
   return ( 
     <div className="login-container">      
-      <Col lg={props.size} className="login m-0">
+    {msg? 
+    <Card>
+      <Card.Body className='text-center m-2'>
+        {msg}
+      </Card.Body>
+    </Card>  :
+    <div>
+      <Col lg={props.size} className={"login m-0 "+msg? ' d-block ':' d-none ' }>        
         <Card className={ props.shadow ? styles["shadow-sm"]+' '+styles["roundedbtn"] : styles["roundedbtn"]} 
         style={{padding: "30px"}}>
           <Card.Body>                                      
@@ -96,8 +132,7 @@ function Register(props) {
             <small>Ya tengo mi cuenta
               <Link href="login" style={{color: variables.tertiaryColor}}>Iniciar sesión</Link>
             </small>                        
-
-            <InputGroup className="mb-3">
+            <InputGroup>
               <InputGroup.Text id="basic-addon1">
                 <FontAwesomeIcon
                   icon={faEnvelope}
@@ -111,8 +146,11 @@ function Register(props) {
                 type="text" 
                 value={email}
                 onChange={handleEmail}
-              />
+              />                       
             </InputGroup>
+            <div className="mb-3" style={{color:'red'}}>
+              <small>{invalidEmail}</small>
+            </div>     
             <InputGroup className="mb-3">
               <InputGroup.Text id="basic-addon1">
                 <FontAwesomeIcon
@@ -144,8 +182,10 @@ function Register(props) {
                 value={password_confirm}
                 onChange={handlePasswordConfirm}  
               />
-            </InputGroup>
-
+            </InputGroup>            
+            <div className="mb-3" style={{color:'red'}}>
+              <small>{invalidPasswords}</small>
+            </div>     
             <div className="d-grid gap-2 mt-2">
               <Button variant="outline-danger" className="m-1 rounded" type='submit'
               onClick={handleSubmit}>Registrarme</Button>                
@@ -153,7 +193,10 @@ function Register(props) {
             <small className='text-center'>Powered by <a></a> ©2021</small>  
           </Card.Body>
         </Card>
-      </Col>
+      </Col>  
+    </div>
+    }    
+          
       <style global jsx>{`
         .login-container .rounded {
           border-radius: 30px !important;

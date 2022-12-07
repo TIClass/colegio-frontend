@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 import Router from 'next/router'
 import Link from 'next/link'
 
-import {Row, Col, Card, InputGroup, Form, Button} from 'react-bootstrap';
+import {Row, Col, Card, InputGroup, Form, Button, Alert} from 'react-bootstrap';
 
 import { useEffect, useState} from 'react';
 import { setCookie, getCookie, deleteCookie } from 'cookies-next';
@@ -22,6 +22,7 @@ function LadingLogin(props) {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [alert, setAlert] = useState('');
   const [data, setData] = useState('');
   const [error, setError] = useState('');
 
@@ -68,7 +69,12 @@ function LadingLogin(props) {
           Router.push('/mis-cursos')
         }
       })
-      .catch(err => setError(err));
+      .catch(err => 
+        {
+          setError(err)     
+          setAlert("Tu usuario y/o contraseña no son válidos, inténtelo de nuevo.")     
+        }
+        );
   }
 
   return (
@@ -78,11 +84,9 @@ function LadingLogin(props) {
         style={{padding: "30px"}}>
           {userAuthentications ?
             <Card.Body className="text-center">
-
               <Avatar name={userAuthentications.first_name} size="150"
                 round={true}
                 src={userAuthentications.avatar_url}/>
-
               <br></br>
               <br></br>
               <Link href="/mis-cursos">
@@ -135,6 +139,11 @@ function LadingLogin(props) {
                 onChange={handlePassword}
               />
             </InputGroup>
+            {alert ?
+            <Alert variant='danger'>
+              {alert}
+            </Alert>:<div></div>
+            }            
             </Form>
             { props.shadow ?
               <div className="text-left" style={{color: variables.primaryColor}}>
