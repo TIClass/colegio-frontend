@@ -100,7 +100,7 @@ function LadingLogin(props) {
               <div className='mb-2'>
                 <h1 className="title-slide" style={{color: variables.secondaryColor}}>Iniciar sesión</h1>
                 <small>¿Aun no te haz registrado en TIClass?
-                  <Link href={"signup"} style={{color: variables.tertiaryColor}}>Regístrate</Link>
+                  <Link href={"signup"} style={{color: variables.tertiaryColor}}> Regístrate</Link>
                 </small>
               </div>
             }
