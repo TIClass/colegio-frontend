@@ -10,6 +10,8 @@ import { getCookie} from 'cookies-next';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import { validate as validateRut, format as formatRut } from 'rut.js'
+
 import es from 'date-fns/locale/es';
 registerLocale('es', es)
 
@@ -23,7 +25,8 @@ function FormStepUno(props) {
   const [profielJson, setProfielJson] = useState(props?.userObj);
   const [startDate, setStartDate] = useState(new Date(moment(profielJson.birthdate)));
   const [zones, setZones]= useState('');
-  const [invalidEmail, setInvalidEmail] = useState('');
+  const [invalidEmail, setInvalidEmail] = useState('');  
+  const [invalidRut, setInvalidRut] = useState('');  
 
   const [fieldEmpty, setFieldEmpty]= useState(null);
 
@@ -116,6 +119,10 @@ function FormStepUno(props) {
     return /\S+@\S+\.\S+/.test(email)    
   } 
 
+  function isRut(rut) {
+    return validateRut(formatRut(rut))
+  }
+
   return (
     <div>
       <Container className='mt-4'>
@@ -168,12 +175,12 @@ function FormStepUno(props) {
             </Form.Group>
             {invalidEmail ? 
             <div className="mb-3 text-center" style={{color:'red'}}>
-            <small>{invalidEmail}</small>
-          </div>     : <div></div>
+              <small>{invalidEmail}</small>
+            </div> : <div></div>
             }         
           </Col>
           <Col md="6">
-            <Form.Group className="mb-3 d-flex align-items-center" controlId="userRut">
+            <Form.Group className=" d-flex align-items-center" controlId="userRut">
               <Form.Label className='me-4'>
                 <strong>RUT</strong>
               </Form.Label>
@@ -181,9 +188,16 @@ function FormStepUno(props) {
               type="text"
               name='rut'
               defaultValue={profielJson.rut}
-              onChange={e => setProfielJson({...profielJson, [e.target.name]: e.target.value})}
+              onChange={e => {setInvalidRut(!isRut(e.target.value)? 'Rut inválido.':'')
+                setProfielJson({...profielJson, [e.target.name]: e.target.value})}
+              }
               />
             </Form.Group>
+            {invalidRut ? 
+            <div className="mb-3 text-center" style={{color:'red'}}>
+              <small>{invalidRut}</small>
+            </div> : <div></div>
+            }      
           </Col>
           <Col md="6">
             <Form.Group className="mb-3 d-flex align-items-center" controlId="userBirthday">
