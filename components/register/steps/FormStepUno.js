@@ -23,6 +23,7 @@ function FormStepUno(props) {
   const [profielJson, setProfielJson] = useState(props?.userObj);
   const [startDate, setStartDate] = useState(new Date(moment(profielJson.birthdate)));
   const [zones, setZones]= useState('');
+  const [invalidEmail, setInvalidEmail] = useState('');
 
   const [fieldEmpty, setFieldEmpty]= useState(null);
 
@@ -111,6 +112,10 @@ function FormStepUno(props) {
     }
   }
 
+  function isValidEmail(email) {       
+    return /\S+@\S+\.\S+/.test(email)    
+  } 
+
   return (
     <div>
       <Container className='mt-4'>
@@ -146,7 +151,7 @@ function FormStepUno(props) {
             </Form.Group>
           </Col>
           <Col md="6">
-            <Form.Group className="mb-3 d-flex align-items-center" controlId="userEmail">
+            <Form.Group className="d-flex align-items-center" controlId="userEmail">
               <Form.Label className='me-4'>
                 <strong>Correo electrónico</strong>
               </Form.Label>
@@ -154,9 +159,18 @@ function FormStepUno(props) {
               type="text"
               name='email'
               defaultValue={profielJson.email}
-              onChange={e => setProfielJson({...profielJson, [e.target.name]: e.target.value})}
+              onChange={e => {
+                setInvalidEmail(!isValidEmail(e.target.value)? 'Email inválido.':'')
+                setProfielJson({...profielJson, [e.target.name]: e.target.value})
+              }
+                }
               />
             </Form.Group>
+            {invalidEmail ? 
+            <div className="mb-3 text-center" style={{color:'red'}}>
+            <small>{invalidEmail}</small>
+          </div>     : <div></div>
+            }         
           </Col>
           <Col md="6">
             <Form.Group className="mb-3 d-flex align-items-center" controlId="userRut">
