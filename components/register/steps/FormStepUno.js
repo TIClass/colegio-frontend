@@ -23,7 +23,7 @@ function FormStepUno(props) {
   const useToken = token ? `Bearer ${token}` : `Token ${process.env.TOKEN_GENERIC_API}`
 
   const [profielJson, setProfielJson] = useState(props?.userObj);
-  const [startDate, setStartDate] = useState(new Date(moment(profielJson.birthdate)));
+  const [startDate, setStartDate] = useState(profielJson.birthdate? new Date(moment(profielJson.birthdate)) : Date.now());    
   const [zones, setZones]= useState('');
   const [invalidEmail, setInvalidEmail] = useState('');  
   const [invalidRut, setInvalidRut] = useState('');  
@@ -209,7 +209,7 @@ function FormStepUno(props) {
                 selected={startDate}
                 name='birthdate'
                 dateFormat="dd/MM/yyyy"
-                className="form-control"
+                className="form-control"                
                 onChange={e => setStartDateClone(e)}
               />
             </Form.Group>
