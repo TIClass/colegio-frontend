@@ -88,8 +88,7 @@ function FormStepUno(props) {
       // console.log(profielJson.country, profielJson.commune)
 
       props.setUserObj(profielJson)
-      props.setUserAuthentications(profielJson)
-      console.log(profielJson.birthdate,"ppppppp")
+      props.setUserAuthentications(profielJson)      
       axios.put(profielJson.url, profielJson, {headers: { Authorization: useToken }})
       .then(res => {
         Swal.fire({
