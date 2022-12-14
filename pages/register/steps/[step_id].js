@@ -154,7 +154,7 @@ export default function Steps2(props) {
             <Card.Body>
               <Alert variant='info'>
                 <h3>¡No tan rápido pequeñín!</h3>
-                Antes de partir usando Natiboo, necesitamos saber unos pequeños datos que nos permitiran guiarte a conseguir tu objetivo de manera efectiva.
+                Antes de partir usando TIClass, necesitamos saber unos pequeños datos que nos permitiran guiarte a conseguir tu objetivo de manera efectiva.
               </Alert>
 
               {stepNav(userObj?.is_parent)}

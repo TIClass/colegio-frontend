@@ -44,7 +44,7 @@ function FormStepUno(props) {
   }
 
   const setStartDateClone = (e) => {
-    setProfielJson({...profielJson, ['birthdate']: e})
+    setProfielJson({...profielJson, ['birthdate']: e.toISOString().split('T')[0]})
     setStartDate(e)
   }
 
@@ -83,14 +83,13 @@ function FormStepUno(props) {
         setFieldEmpty(`<ul>${txtvalidar}</ul>`)
     } else {
       setFieldEmpty(null)
-
-
       // console.log(profielJson.first_name, profielJson.last_name, profielJson.email)
       // console.log(profielJson.rut, profielJson.birthdate, profielJson.phone, profielJson.nationality)
       // console.log(profielJson.country, profielJson.commune)
 
       props.setUserObj(profielJson)
       props.setUserAuthentications(profielJson)
+      console.log(profielJson.birthdate,"ppppppp")
       axios.put(profielJson.url, profielJson, {headers: { Authorization: useToken }})
       .then(res => {
         Swal.fire({

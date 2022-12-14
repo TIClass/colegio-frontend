@@ -55,7 +55,7 @@ function FormStepTres() {
   return (
     <div>
       <Container className='mt-4'>
-          <h2 className='text-center mb-2' style={{marginBottom:'2px'}}>Como utilizar Natiboo</h2>
+          <h2 className='text-center mb-2' style={{marginBottom:'2px'}}>Como utilizar TIClass</h2>
           <iframe className='mb-4' src="https://player.vimeo.com/video/721091998?autoplay=1&amp;h=81ffeb04c6" width="100%" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
       </Container>
     </div>

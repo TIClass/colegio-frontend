@@ -56,7 +56,7 @@ export default function ChangePassword(props) {
         <Modal show={show} onHide={handleClose} centered>        
           <Modal.Body>
             <h5 className='m-2 text-center'>¡Felicidades!</h5>
-            <h5 className='m-2 text-center'>Ya puedes ingresar a Natiboo</h5>          
+            <h5 className='m-2 text-center'>Ya puedes ingresar a TIClass</h5>          
           </Modal.Body>        
         </Modal>        
         <Col md="6">
