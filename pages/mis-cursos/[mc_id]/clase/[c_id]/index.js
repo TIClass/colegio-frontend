@@ -182,16 +182,17 @@ function LessonDetail(props) {
         return (parse(''+streaming?.iframe_video))
       } else {
         return (
-          <div className="text-center">
-            <Spinner animation="grow" variant="primary" />
-            <Spinner animation="grow" variant="secondary" />
-            <Spinner animation="grow" variant="success" />
-            <Spinner animation="grow" variant="danger" />
-            <Spinner animation="grow" variant="warning" />
-            <Spinner animation="grow" variant="info" />
-            <Spinner animation="grow" variant="light" />
-            <Spinner animation="grow" variant="dark" />
-          </div>
+          <div></div>
+          // <div className="text-center">
+          //   <Spinner animation="grow" variant="primary" />
+          //   <Spinner animation="grow" variant="secondary" />
+          //   <Spinner animation="grow" variant="success" />
+          //   <Spinner animation="grow" variant="danger" />
+          //   <Spinner animation="grow" variant="warning" />
+          //   <Spinner animation="grow" variant="info" />
+          //   <Spinner animation="grow" variant="light" />
+          //   <Spinner animation="grow" variant="dark" />
+          // </div>
         )
       }
 
@@ -525,6 +526,7 @@ function LessonDetail(props) {
                 <Tab.Pane eventKey="class">
                   <Row>
                   {dataObjList?.results?.map((item,index) => {
+                    console.log(dataObjList?.results)
 
                     if(item.tema_data.streaming_datetime) {
                         return (
@@ -539,7 +541,7 @@ function LessonDetail(props) {
                     } else {
                       return (
                         <Col md="4" className='mt-4' onClick={e => handleSelect('streaming')}>
-                          <Link href={`/mis-cursos/${packCourseID}/clase/${item.tema_data.id}`} key={index}>
+                          <Link href={`/mis-cursos/${packCourseID}/clase/${item.id}`} key={index}>
                             <LessonCard  is_time={false} date_time={null} bg="bg-green" color={item.tema_data.color_html}
                               name={item.tema_data.name} subject_name_abv={item.tema_data.subject_name_abv}
                               />
