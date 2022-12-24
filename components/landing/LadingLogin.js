@@ -39,6 +39,14 @@ function LadingLogin(props) {
     setPassword(target.value)
   }
 
+  const handleChangePass = (e) => { 
+    if(e.target.checked) {
+      document.getElementById('form-password').type = 'text';
+    } else {
+      document.getElementById('form-password').type = 'password';
+    }    
+  };
+
   const logueo = (from) => {
     let CLIENT_ID = `${process.env.CLIENT_ID}`;
     let CLIENT_SECRET = `${process.env.CLIENT_SECRET}`;
@@ -130,6 +138,7 @@ function LadingLogin(props) {
                 />
               </InputGroup.Text>
               <Form.Control
+                id="form-password"
                 name='password'
                 placeholder="Contraseña"
                 aria-label="Password"
@@ -137,6 +146,14 @@ function LadingLogin(props) {
                 type="password"
                 value={password}
                 onChange={handlePassword}
+              />            
+            </InputGroup>
+            <InputGroup className="mb-3">
+              <Form.Check 
+                type='checkbox'
+                label={`Mostrar contraseña`}
+                id={`disabled-default-checkbox`}
+                onChange={handleChangePass}
               />
             </InputGroup>
             {alert ?
