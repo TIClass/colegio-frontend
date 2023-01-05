@@ -52,7 +52,8 @@ function LadingLogin(props) {
     let CLIENT_SECRET = `${process.env.CLIENT_SECRET}`;
 
     let urlLogueo = `${process.env.API_URL}o/token/`;
-    var param_data = "username="+username.toLowerCase()+"&password="+password+"&grant_type=password"
+        
+    var param_data = "username="+username.toLowerCase().trim()+"&password="+password+"&grant_type=password"
 
     axios.post(urlLogueo, param_data, {
       headers: {
@@ -86,7 +87,7 @@ function LadingLogin(props) {
   }
 
   return (
-    <div className="login-container">
+    <div className="login-container">      
       <Col lg={props.size} className="login m-0">
         <Card className={ props.shadow ? styles["shadow-lg"]+' '+styles["roundedbtn"] : styles["roundedbtn"]}
         style={{padding: "30px"}}>
